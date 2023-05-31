@@ -8,14 +8,7 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": [
-    "*.ts",
-    "*.tsx",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
+  "include": ["*.ts", "*.tsx", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
   "extends": "expo/tsconfig.base"
 }

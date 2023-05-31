@@ -1,0 +1,35 @@
+---
+default:
+  image: node:18-alpine
+
+lint:
+  stage: test
+  script:
+    - npm ci
+    - script/lint
+
+deploy_preview:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+  script:
+    - npm ci
+    - script/deploy preview
+  artifacts:
+    reports:
+      dotenv: deploy.env
+  environment:
+    name: preview-$CI_COMMIT_REF_SLUG/$CI_COMMIT_SHORT_SHA
+    url: $DEPLOYMENT_URL
+
+deploy_production:
+  stage: deploy
+  resource_group: production
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - npm ci
+    - script/deploy production
+  environment:
+    name: production
+    url: $DEPLOYMENT_URL

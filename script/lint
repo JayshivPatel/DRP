@@ -1,0 +1,7 @@
+#!/bin/sh -eux
+
+ret=0
+npx prettier --check . || ret=$?
+npx next lint || ret=$?
+
+exit $ret
