@@ -6,7 +6,7 @@ lint:
   stage: test
   script:
     - npm ci
-    - script/lint
+    - npm run lint
 
 deploy_preview:
   stage: deploy
@@ -14,7 +14,7 @@ deploy_preview:
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
   script:
     - npm ci
-    - script/deploy preview
+    - npx gulp deploy:preview
   artifacts:
     reports:
       dotenv: deploy.env
@@ -29,7 +29,7 @@ deploy_production:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script:
     - npm ci
-    - script/deploy production
+    - npx gulp deploy:production
   environment:
     name: production
-    url: $DEPLOYMENT_URL
+    url: $PRODUCTION_URL

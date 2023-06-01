@@ -6,7 +6,13 @@
     "incremental": true,
     "module": "esnext",
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "skipLibCheck": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true
   },
   "include": ["*.ts", "*.tsx", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
