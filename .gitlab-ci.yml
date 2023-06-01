@@ -10,8 +10,17 @@ lint:
 
 test:
   stage: test
+  variables:
+    POSTGRES_USER: gitlab-ci
+    POSTGRES_PASSWORD: password
+    POSTGRES_DB: testdb
+  services:
+    - postgres:15-alpine
   script:
+    - export POSTGRES_URL_NON_POOLING="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
+    - export POSTGRES_PRISMA_URL="$POSTGRES_URL_NON_POOLING"
     - npm ci
+    - npx prisma migrate deploy
     - npx gulp test
   artifacts:
     when: always
