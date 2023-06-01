@@ -4,11 +4,13 @@
   "scripts": {
     "lint": "prettier --check . && next lint",
     "build": "gulp build",
-    "dev": "next dev"
+    "dev": "next dev",
+    "test": "jest"
   },
   "dependencies": {
     "@prisma/client": "^4.15.0",
     "expo": "^48.0.18",
+    "expo-constants": "~14.2.1",
     "expo-status-bar": "^1.4.4",
     "gulp": "^4.0.2",
     "next": "^13.4.4",
@@ -17,8 +19,7 @@
     "react-native": "^0.71.8",
     "react-native-web": "^0.19.4",
     "ts-node": "^10.9.1",
-    "twilio": "^4.11.2",
-    "expo-constants": "~14.2.1"
+    "twilio": "^4.11.2"
   },
   "devDependencies": {
     "@babel/core": "^7.22.1",

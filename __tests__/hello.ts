@@ -1,6 +1,6 @@
-import request from "supertest";
+import { createAgent } from "../server/tests";
 
-const agent = request(process.env.API_URL);
+const agent = createAgent("../pages/api/hello");
 
 describe("GET /api/hello", () => {
   it("responds with Hello World", async () => {
