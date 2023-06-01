@@ -84,7 +84,6 @@ gulp.task(
         delay: 1000,
         timeout: 5000,
         validateStatus: () => true,
-        verbose: true,
       });
 
       await npx("jest", [], {
