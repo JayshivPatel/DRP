@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
 import Button from "./components/Button";
-import { sendText } from "./pages/api/text";
 
 export default function App() {
   return (
@@ -8,11 +7,12 @@ export default function App() {
       <Button
         border="dashed"
         color="C0C0C0"
-        height = "50px"
-        onClick={() => sendText()}
-        radius = "0%"
-        width = "200px"
-        children = "Send text to patient"/>
+        height="50px"
+        onClick={() => alert("Text message sent")}
+        radius="0%"
+        width="200px"
+        children="Send text to patient"
+      />
     </View>
   );
 }
