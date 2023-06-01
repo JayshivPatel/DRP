@@ -7,6 +7,9 @@ describe("GET /api/hello", () => {
     const response = await agent.get("/api/hello");
 
     expect(response.status).toEqual(200);
-    expect(response.text).toEqual("Hello, World");
+
+    for (const item of response.body) {
+      expect(item.name).toMatch(/^Hello, World:/);
+    }
   });
 });
