@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import 'dotenv/config'
+import "dotenv/config";
 
 require("dotenv").config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
