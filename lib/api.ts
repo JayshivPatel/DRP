@@ -7,7 +7,10 @@ export async function notifySMS(recipient: string, lateness: number) {
     `${apiUrl}/api/send?${new URLSearchParams({
       recipient,
       lateness: lateness.toString(),
-    })}`
+    })}`,
+    {
+      method: "POST",
+    }
   );
 
   if (response.status !== 200) {
