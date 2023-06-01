@@ -41,3 +41,6 @@ yarn-error.log*
 *.orig.*
 web-build/
 .metro-health-check*
+
+# jest
+junit.xml

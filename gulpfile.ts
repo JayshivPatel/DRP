@@ -1,19 +1,18 @@
 const gulp = require("gulp");
+
 const execa = require("execa");
 const fs = require("fs/promises");
+const waitOn = require("wait-on");
 
-async function npx(
-  command: string,
-  args: String[],
-  options?: any
-): Promise<any> {
-  return await execa(
+function npx(command: string, args: String[], options?: any): any {
+  return execa(
     command,
     args,
     Object.assign(
       {
         preferLocal: true,
         stderr: "inherit",
+        stdout: "inherit",
       },
       options
     )
@@ -25,7 +24,9 @@ async function vercel(...args: string[]): Promise<string> {
     ? [`--token=${process.env.VERCEL_TOKEN}`]
     : [];
 
-  const { stdout } = await npx("vercel", [...maybeToken, ...args]);
+  const { stdout } = await npx("vercel", [...maybeToken, ...args], {
+    stdout: "pipe",
+  });
   return stdout;
 }
 
@@ -62,3 +63,30 @@ async function deploy(production: boolean) {
 
 gulp.task("deploy:preview", () => deploy(false));
 gulp.task("deploy:production", () => deploy(true));
+
+gulp.task(
+  "test",
+  gulp.series("build:next", async () => {
+    const port = 3000;
+    const server = npx("next", ["start", "--port", `${port}`]);
+    const url = `http://localhost:${port}`;
+
+    try {
+      await waitOn({
+        resources: [url],
+        delay: 1000,
+        timeout: 5000,
+        validateStatus: () => true,
+        verbose: true,
+      });
+
+      await npx("jest", [], {
+        env: {
+          API_URL: url,
+        },
+      });
+    } finally {
+      server.kill();
+    }
+  })
+);

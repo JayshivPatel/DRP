@@ -8,6 +8,16 @@ lint:
     - npm ci
     - npm run lint
 
+test:
+  stage: test
+  script:
+    - npm ci
+    - npx gulp test
+  artifacts:
+    when: always
+    reports:
+      junit: junit.xml
+
 deploy_preview:
   stage: deploy
   rules:
