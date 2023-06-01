@@ -8,7 +8,7 @@ export default function App() {
         border="dashed"
         color="C0C0C0"
         height="50px"
-        onClick={() => alert("Text message sent")}
+        onClick={() => alert("Text message pipeline not implemented yet")}
         radius="0%"
         width="200px"
         children="Send text to patient"
