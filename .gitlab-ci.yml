@@ -21,7 +21,7 @@ test:
     - export POSTGRES_PRISMA_URL="$POSTGRES_URL_NON_POOLING"
     - npm ci
     - npx prisma migrate deploy
-    - npx gulp test
+    - npm test
   artifacts:
     when: always
     reports:

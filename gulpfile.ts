@@ -70,29 +70,3 @@ async function deploy(production: boolean) {
 
 gulp.task("deploy:preview", () => deploy(false));
 gulp.task("deploy:production", () => deploy(true));
-
-gulp.task(
-  "test",
-  gulp.series("build:next", async () => {
-    const port = 3000;
-    const server = npx("next", ["start", "--port", `${port}`]);
-    const url = `http://localhost:${port}`;
-
-    try {
-      await waitOn({
-        resources: [url],
-        delay: 1000,
-        timeout: 5000,
-        validateStatus: () => true,
-      });
-
-      await npx("jest", [], {
-        env: {
-          API_URL: url,
-        },
-      });
-    } finally {
-      server.kill();
-    }
-  })
-);
