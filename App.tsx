@@ -23,7 +23,7 @@ export default function App() {
             <Text>{item.message}</Text>
             <Button
               border="dashed"
-              color="C0C0C0"
+              color="FF0000"
               height="50px"
               onClick={async () => {
                 await api.deleteNotification(item.id);
