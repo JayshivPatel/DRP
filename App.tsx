@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   notification: {
-    backgroundColor: "#f9c2ff",
+    backgroundColor: "#ff0000",
     marginVertical: 16,
     padding: 20,
   },
