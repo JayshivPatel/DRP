@@ -3,13 +3,19 @@ import Clinic from "./components/Clinic";
 import { PaperProvider } from "react-native-paper";
 import { Calendar } from "@fullcalendar/core";
 import { Calendar as FullCalendar } from "react-native-calendars";
+import Patient from "./components/Patient";
 
 export default function App() {
   return (
     <PaperProvider>
       <View style={styles.container}>
-        <View style={styles.calendarContainer}>
-          <FullCalendar />
+        <View>
+          <View>
+            <Patient />
+          </View>
+          <View style={styles.calendarContainer}>
+            <FullCalendar />
+          </View>
         </View>
         <View style={styles.clinicContainer}>
           <Clinic></Clinic>
