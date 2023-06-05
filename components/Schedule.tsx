@@ -19,9 +19,9 @@ export default class Schedule extends React.Component {
   };
 
   openBookingScreen = (payload: DateClickArg) => {
-    this.setState({selectedEvent: payload.date});
-    this.setState({showModalTwo: true});
-  }
+    this.setState({ selectedEvent: payload.date });
+    this.setState({ showModalTwo: true });
+  };
 
   render() {
     const { showModalOne, showModalTwo, selectedEvent } = this.state;
@@ -35,7 +35,7 @@ export default class Schedule extends React.Component {
 
     const modalViewStyle = {
       paddingVertical: 50,
-    }
+    };
 
     return (
       <PaperProvider>
@@ -59,7 +59,9 @@ export default class Schedule extends React.Component {
             contentContainerStyle={containerStyle}
           >
             <View style={modalViewStyle}>
-              <Text style={{marginBottom: 30}}>Random stuff here More stuff even more stuff waffling</Text>
+              <Text style={{ marginBottom: 30 }}>
+                Random stuff here More stuff even more stuff waffling
+              </Text>
               <Button
                 title="Cancel appointment"
                 onPress={() => alert("Appointment Cancelled")}
@@ -71,16 +73,12 @@ export default class Schedule extends React.Component {
         <Portal>
           <Modal
             visible={showModalTwo}
-            onDismiss={() => this.setState({showModalTwo: false})}
+            onDismiss={() => this.setState({ showModalTwo: false })}
             contentContainerStyle={containerStyle}
           >
             <View>
-              <Text>
-                random stuff
-              </Text>
+              <Text>random stuff</Text>
             </View>
-            
-
           </Modal>
         </Portal>
       </PaperProvider>
