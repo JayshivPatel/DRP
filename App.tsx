@@ -9,7 +9,7 @@ export default function App() {
     <PaperProvider>
       <View style={styles.container}>
         <View style={styles.calendarContainer}>
-          <FullCalendar/>
+          <FullCalendar />
         </View>
 
         <View style={styles.clinicContainer}>
@@ -18,7 +18,6 @@ export default function App() {
           <Clinic></Clinic>
           <Clinic></Clinic>
         </View>
-      
       </View>
     </PaperProvider>
   );
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
     padding: 15,
     flexDirection: "row",
   },
-  
+
   calendarContainer: {
     marginRight: 15,
     flex: 1,
@@ -41,7 +40,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: 10,
     flex: 3,
-  }
+  },
 });
-
-
