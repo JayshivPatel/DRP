@@ -1,6 +1,7 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import Button from "./components/Button";
 import * as api from "./lib/api";
+import Clinic from "./components/Clinic";
 import { late } from "zod";
 
 export default function App() {
@@ -62,18 +63,7 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Button
-        border="dashed"
-        color="C0C0C0"
-        height="50px"
-        onClick={onClick}
-        radius="0%"
-        width="200px"
-        children="Send text to patient"
-      />
-      {notifications}
-    </View>
+    <Clinic></Clinic>
   );
 }
 
