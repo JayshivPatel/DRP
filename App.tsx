@@ -11,7 +11,6 @@ export default function App() {
         <View style={styles.calendarContainer}>
           <FullCalendar />
         </View>
-
         <View style={styles.clinicContainer}>
           <Clinic></Clinic>
           <Clinic></Clinic>
