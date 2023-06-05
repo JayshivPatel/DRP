@@ -1,15 +1,22 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import Clinic from "./components/Clinic";
-import { PaperProvider, Button, Portal, Modal, Searchbar } from "react-native-paper";
+import {
+  PaperProvider,
+  Button,
+  Portal,
+  Modal,
+  Searchbar,
+} from "react-native-paper";
 import { Calendar as FullCalendar } from "react-native-calendars";
 import Patient from "./components/Patient";
 import { SetStateAction, useState } from "react";
 
 export default function App() {
   const [visible, setVisible] = useState(false);
-  const [searchquery, setSearchquery] = useState('');
+  const [searchquery, setSearchquery] = useState("");
 
-  const onChangeSearch = (query: SetStateAction<string>) => setSearchquery(query);
+  const onChangeSearch = (query: SetStateAction<string>) =>
+    setSearchquery(query);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   return (
