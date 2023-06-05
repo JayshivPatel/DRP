@@ -23,7 +23,7 @@ export default class Schedule extends React.Component {
   }
 }
 
-function openBookingScreen(payload: EventClickArg) {
+function openBookingScreen(payload: DateClickArg) {
   alert("Should allow us to book here");
   payload;
 }
