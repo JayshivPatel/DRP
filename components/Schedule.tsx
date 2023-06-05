@@ -1,12 +1,12 @@
-import React from 'react'
-import FullCalendar from '@fullcalendar/react' // must go before plugins
-import timeGridPlugin from '@fullcalendar/timegrid' // a plugin!
+import React from "react";
+import FullCalendar from "@fullcalendar/react"; // must go before plugins
+import timeGridPlugin from "@fullcalendar/timegrid"; // a plugin!
 
 export default class Schedule extends React.Component {
   render() {
     return (
       <FullCalendar
-        plugins={[ timeGridPlugin ]}
+        plugins={[timeGridPlugin]}
         initialView="timeGridDay"
         headerToolbar={false}
         height="auto"
@@ -15,7 +15,7 @@ export default class Schedule extends React.Component {
         allDaySlot={false}
         events={events}
       />
-    )
+    );
   }
 }
 
@@ -24,11 +24,11 @@ const events = [
   {
     title: "Default Event 1",
     startTime: "10:00",
-    endTime: "10:10"
+    endTime: "10:10",
   },
   {
     title: "Default Event 2",
     startTime: "13:30",
-    endTime: "13:50"
-  }
-]
+    endTime: "13:50",
+  },
+];

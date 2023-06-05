@@ -3,19 +3,20 @@ import Clinic from "./components/Clinic";
 
 export default function App() {
   return (
-        <View
-            style={[
-                styles.container,
-                {
-                    flexDirection: "row",
-                },
-            ]}>
-            <Clinic></Clinic>
-            <Clinic></Clinic>
-            <Clinic></Clinic>
-            <Clinic></Clinic>
-        </View>
-    );
+    <View
+      style={[
+        styles.container,
+        {
+          flexDirection: "row",
+        },
+      ]}
+    >
+      <Clinic></Clinic>
+      <Clinic></Clinic>
+      <Clinic></Clinic>
+      <Clinic></Clinic>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -25,5 +26,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 15,
-  }
+  },
 });
