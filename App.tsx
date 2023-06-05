@@ -1,70 +1,21 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import Button from "./components/Button";
-import * as api from "./lib/api";
 import Clinic from "./components/Clinic";
-import { late } from "zod";
 
 export default function App() {
-  const { data, error, isLoading, mutate } = api.useNotifications();
-
-  const notifications = (function () {
-    if (error || isLoading) {
-      return (
-        <View>
-          <Text>{error ? "Failed to load" : "Loading"}</Text>
-        </View>
-      );
-    }
-
-    return (
-      <FlatList
-        data={data}
-        renderItem={({ item }) => (
-          <View style={styles.notification}>
-            <Text>{item.message}</Text>
-            <Button
-              border="dashed"
-              color="FF0000"
-              height="50px"
-              onClick={async () => {
-                await api.deleteNotification(item.id);
-                mutate();
-              }}
-              radius="0%"
-              width="200px"
-            >
-              <Text>Delete</Text>
-            </Button>
-          </View>
-        )}
-      />
-    );
-  })();
-
-  async function onClick() {
-    const recipient = prompt("Phone number", "+447770160480");
-    if (!recipient) return;
-
-    const lateness = parseInt(prompt("How late?", "45") || "");
-    if (Number.isNaN(lateness)) return;
-
-    try {
-      await api.createNotification(lateness);
-      mutate();
-    } catch (e) {
-      alert("Web notification failed: " + e);
-    }
-
-    try {
-      await api.notifySMS(recipient, lateness);
-    } catch (e) {
-      alert("SMS failed: " + e);
-    }
-  }
-
   return (
-    <Clinic></Clinic>
-  );
+        <View
+            style={[
+                styles.container,
+                {
+                    flexDirection: "row",
+                },
+            ]}>
+            <Clinic></Clinic>
+            <Clinic></Clinic>
+            <Clinic></Clinic>
+            <Clinic></Clinic>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -73,10 +24,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  },
-  notification: {
-    backgroundColor: "#ff0000",
-    marginVertical: 16,
-    padding: 20,
-  },
+    padding: 15,
+  }
 });
