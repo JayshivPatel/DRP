@@ -77,5 +77,7 @@ const styles = StyleSheet.create({
     width: "80%",
     alignItems: "center",
     maxHeight: "50%",
+    justifyContent: "center",
+    alignSelf: "center",
   },
 });
