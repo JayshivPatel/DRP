@@ -4,21 +4,27 @@ import timeGridPlugin from "@fullcalendar/timegrid"; // a plugin!
 import { EventClickArg } from "@fullcalendar/core";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import { Modal, PaperProvider, Portal } from "react-native-paper";
-import { TouchableOpacity } from "react-native";
+import { Button, View, Text } from "react-native";
 
 export default class Schedule extends React.Component {
   state = {
-    showModal: false,
+    showModalOne: false,
+    showModalTwo: false,
     selectedEvent: null,
   };
 
   openEventDetailsOnClick = (payload: EventClickArg) => {
     this.setState({ selectedEvent: payload.event });
-    this.setState({ showModal: true });
+    this.setState({ showModalOne: true });
   };
 
+  openBookingScreen = (payload: DateClickArg) => {
+    this.setState({selectedEvent: payload.date});
+    this.setState({showModalTwo: true});
+  }
+
   render() {
-    const { showModal, selectedEvent } = this.state;
+    const { showModalOne, showModalTwo, selectedEvent } = this.state;
 
     const containerStyle = {
       backgroundColor: "white",
@@ -26,6 +32,10 @@ export default class Schedule extends React.Component {
       innerHeight: 500,
       outerHeight: 50,
     };
+
+    const modalViewStyle = {
+      paddingVertical: 50,
+    }
 
     return (
       <PaperProvider>
@@ -38,29 +48,44 @@ export default class Schedule extends React.Component {
           dayHeaders={false}
           allDaySlot={false}
           eventClick={this.openEventDetailsOnClick}
-          dateClick={openBookingScreen}
+          dateClick={this.openBookingScreen}
           events={events}
         />
 
         <Portal>
           <Modal
-            visible={showModal}
-            onDismiss={() => this.setState({ showModal: false })}
+            visible={showModalOne}
+            onDismiss={() => this.setState({ showModalOne: false })}
             contentContainerStyle={containerStyle}
           >
-            <view>
-              <text>Random stuff here More stuff even more stuff waffling</text>
-            </view>
+            <View style={modalViewStyle}>
+              <Text style={{marginBottom: 30}}>Random stuff here More stuff even more stuff waffling</Text>
+              <Button
+                title="Cancel appointment"
+                onPress={() => alert("Appointment Cancelled")}
+              />
+            </View>
+          </Modal>
+        </Portal>
+
+        <Portal>
+          <Modal
+            visible={showModalTwo}
+            onDismiss={() => this.setState({showModalTwo: false})}
+            contentContainerStyle={containerStyle}
+          >
+            <View>
+              <Text>
+                random stuff
+              </Text>
+            </View>
+            
+
           </Modal>
         </Portal>
       </PaperProvider>
     );
   }
-}
-
-function openBookingScreen(payload: DateClickArg) {
-  alert("Should allow us to book here");
-  payload;
 }
 
 //Placeholder - to be added into the Clinic Component later for API request
