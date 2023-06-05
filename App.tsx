@@ -24,8 +24,6 @@ export default function App() {
           <Clinic></Clinic>
         </View>
       </View>
-
-      
     </PaperProvider>
   );
 }

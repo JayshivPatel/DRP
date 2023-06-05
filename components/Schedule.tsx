@@ -39,7 +39,7 @@ export default class Schedule extends React.Component {
 
     const modalTwoViewStyle = {
       paddingVertical: 50,
-    }
+    };
 
     return (
       <PaperProvider>
@@ -81,7 +81,7 @@ export default class Schedule extends React.Component {
             contentContainerStyle={containerStyle}
           >
             <View style={modalTwoViewStyle}>
-              <Text style={{marginBottom: 30}}>random stuff</Text>
+              <Text style={{ marginBottom: 30 }}>random stuff</Text>
               <Button
                 title={`Book Appointment for ${selectedEvent}`}
                 onPress={() => alert("Appointment Booked")}
@@ -89,7 +89,6 @@ export default class Schedule extends React.Component {
             </View>
           </Modal>
         </Portal>
-
       </PaperProvider>
     );
   }
