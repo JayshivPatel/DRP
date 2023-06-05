@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.8",
+    "@fullcalendar/interaction": "^6.1.8",
     "@fullcalendar/react": "^6.1.8",
     "@fullcalendar/timegrid": "^6.1.8",
     "@prisma/client": "^4.15.0",
@@ -20,6 +21,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-native": "^0.71.8",
+    "react-native-paper": "^5.8.0",
+    "react-native-vector-icons": "^9.2.0",
     "react-native-web": "^0.19.4",
     "swr": "^2.1.5",
     "ts-node": "^10.9.1",

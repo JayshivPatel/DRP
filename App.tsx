@@ -1,8 +1,10 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import Clinic from "./components/Clinic";
+import { PaperProvider } from "react-native-paper";
 
 export default function App() {
   return (
+    <PaperProvider>
     <View
       style={[
         styles.container,
@@ -16,6 +18,7 @@ export default function App() {
       <Clinic></Clinic>
       <Clinic></Clinic>
     </View>
+    </PaperProvider>
   );
 }
 
