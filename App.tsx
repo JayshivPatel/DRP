@@ -5,19 +5,19 @@ import { PaperProvider } from "react-native-paper";
 export default function App() {
   return (
     <PaperProvider>
-    <View
-      style={[
-        styles.container,
-        {
-          flexDirection: "row",
-        },
-      ]}
-    >
-      <Clinic></Clinic>
-      <Clinic></Clinic>
-      <Clinic></Clinic>
-      <Clinic></Clinic>
-    </View>
+      <View
+        style={[
+          styles.container,
+          {
+            flexDirection: "row",
+          },
+        ]}
+      >
+        <Clinic></Clinic>
+        <Clinic></Clinic>
+        <Clinic></Clinic>
+        <Clinic></Clinic>
+      </View>
     </PaperProvider>
   );
 }
