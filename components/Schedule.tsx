@@ -2,7 +2,7 @@ import React from "react";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import timeGridPlugin from "@fullcalendar/timegrid"; // a plugin!
 import { EventClickArg } from "@fullcalendar/core";
-import interactionPlugin from "@fullcalendar/interaction";
+import interactionPlugin,{ DateClickArg } from "@fullcalendar/interaction";
 
 export default class Schedule extends React.Component {
   render() {
