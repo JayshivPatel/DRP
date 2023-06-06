@@ -27,7 +27,6 @@ export default class Schedule extends React.Component {
     const { showModalOne, showModalTwo, selectedEvent } = this.state;
 
     const containerStyle = {
-      backgroundColor: "white",
       padding: 20,
       innerHeight: 500,
       outerHeight: 50,
@@ -53,6 +52,10 @@ export default class Schedule extends React.Component {
           allDaySlot={false}
           eventClick={this.openEventDetailsOnClick}
           dateClick={this.openBookingScreen}
+          slotMinTime={"08:00:00"}
+          slotMaxTime={"20:00:00"}
+          slotEventOverlap = {false}
+          nowIndicator = {true}
           events={events}
         />
 

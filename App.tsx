@@ -1,9 +1,9 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import Clinic from "./components/Clinic";
 import { PaperProvider, Button, Portal, Modal } from "react-native-paper";
-import { Calendar as FullCalendar } from "react-native-calendars";
 import Patient from "./components/Patient";
 import { useState } from "react";
+import MiniCalender from "./components/MiniCalender";
 
 export default function App() {
   const [visible, setVisible] = useState(false);
@@ -11,7 +11,7 @@ export default function App() {
   const hideModal = () => setVisible(false);
   return (
     <PaperProvider>
-      <Button icon="magnify" mode="contained" onPress={() => setVisible(true)}>
+      <Button icon="magnify" mode="contained" dark = {true} buttonColor="blue" onPress={() => setVisible(true)}>
         Patient Search
       </Button>
       <Portal>
@@ -37,7 +37,7 @@ export default function App() {
             />
           </View>
           <View style={styles.calendarContainer}>
-            <FullCalendar />
+            <MiniCalender/>
           </View>
         </View>
         <View style={styles.clinicContainer}>
@@ -54,7 +54,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     padding: 15,
     flexDirection: "row",
   },
