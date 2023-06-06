@@ -42,7 +42,7 @@ export default function App() {
             onDismiss={hideSearchModal}
             contentContainerStyle={styles.searchContainer}
           >
-            <SearchBarList/>
+            <SearchBarList />
           </Modal>
         </Portal>
         <Button
