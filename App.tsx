@@ -3,7 +3,7 @@ import Clinic from "./components/Clinic";
 import { PaperProvider } from "react-native-paper";
 import { Calendar } from "@fullcalendar/core";
 import { Calendar as FullCalendar } from "react-native-calendars";
-import Patient from "./components/Patient"
+import Patient from "./components/Patient";
 
 export default function App() {
   return (
