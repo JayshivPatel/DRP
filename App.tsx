@@ -11,6 +11,7 @@ import { Calendar as FullCalendar } from "react-native-calendars";
 import Patient from "./components/Patient";
 import { SetStateAction, useState } from "react";
 import MiniCalender from "./components/MiniCalender";
+import SearchBarList from "./components/SearchBarList";
 
 export default function App() {
   const [searchVisible, setSearchVisible] = useState(false);
@@ -41,13 +42,7 @@ export default function App() {
             onDismiss={hideSearchModal}
             contentContainerStyle={styles.searchContainer}
           >
-            <View>
-              <Searchbar
-                placeholder="Search"
-                value={searchquery}
-                onChangeText={onChangeSearch}
-              />
-            </View>
+            <SearchBarList/>
           </Modal>
         </Portal>
         <Button
