@@ -2,6 +2,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import Clinic from "./components/Clinic";
 import { PaperProvider, Button, Portal, Modal } from "react-native-paper";
 import { Calendar as FullCalendar } from "react-native-calendars";
+import Patient from "./components/Patient";
 import { useState } from "react";
 
 export default function App() {
@@ -23,8 +24,13 @@ export default function App() {
         </Modal>
       </Portal>
       <View style={styles.container}>
-        <View style={styles.calendarContainer}>
-          <FullCalendar />
+        <View>
+          <View>
+            <Patient />
+          </View>
+          <View style={styles.calendarContainer}>
+            <FullCalendar />
+          </View>
         </View>
         <View style={styles.clinicContainer}>
           <Clinic></Clinic>
