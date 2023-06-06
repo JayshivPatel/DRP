@@ -11,7 +11,15 @@ export default function App() {
       <View style={styles.container}>
         <View>
           <View>
-            <Patient />
+            <Patient
+              name="Test Name"
+              dob="01/02/1234"
+              address="Test Address"
+              phone="0123456789"
+              nhsNum="0000000000"
+              flags="Test Flags"
+              avgTime="15"
+            />
           </View>
           <View style={styles.calendarContainer}>
             <FullCalendar />

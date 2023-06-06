@@ -1,16 +1,26 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
-const name = "Test Name";
-const dob = "01/02/1234";
-const address = "Test Address";
-const phone = "0123456789";
-const nhsNum = "0000000000";
-const flags = "Test flags";
-const avgTime = "15";
-
-export default class Patient extends React.Component {
+export default class Patient extends React.Component<
+  {
+    name: string;
+    dob: string;
+    address: string;
+    phone: string;
+    nhsNum: string;
+    flags: string;
+    avgTime: string;
+  },
+  {}
+> {
   render() {
+    const name = this.props.name;
+    const dob = this.props.dob;
+    const address = this.props.address;
+    const phone = this.props.phone;
+    const nhsNum = this.props.nhsNum;
+    const flags = this.props.flags;
+    const avgTime = this.props.avgTime;
     return (
       <View style={styles.container}>
         <FlatList
