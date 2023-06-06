@@ -1,11 +1,9 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
-  PaperProvider,
   Button,
   Portal,
   Modal,
-  Searchbar,
 } from "react-native-paper";
 import SearchBarList from "./SearchBarList";
 
@@ -22,6 +20,8 @@ export default class Toolbar extends React.Component<Props> {
   render() {
     return (
       <View style={styles.toolbarContainer}>
+        <View style={styles.space} />
+        <View style={styles.space} />
         <Button
           icon="magnify"
           mode="contained"
@@ -40,6 +40,7 @@ export default class Toolbar extends React.Component<Props> {
             <SearchBarList />
           </Modal>
         </Portal>
+        <View style={styles.space} />
         <Button
           icon="magnify"
           mode="contained"
@@ -76,5 +77,10 @@ const styles = StyleSheet.create({
   },
   toolbarContainer: {
     flexDirection: "row",
+    alignSelf: "flex-start"
   },
+  space: {
+    width: 10,
+    height: 20,
+  }
 });
