@@ -33,7 +33,11 @@ export default class Schedule extends React.Component {
       outerHeight: 50,
     };
 
-    const modalViewStyle = {
+    const modalOneViewStyle = {
+      paddingVertical: 50,
+    };
+
+    const modalTwoViewStyle = {
       paddingVertical: 50,
     };
 
@@ -58,7 +62,7 @@ export default class Schedule extends React.Component {
             onDismiss={() => this.setState({ showModalOne: false })}
             contentContainerStyle={containerStyle}
           >
-            <View style={modalViewStyle}>
+            <View style={modalOneViewStyle}>
               <Text style={{ marginBottom: 30 }}>
                 Random stuff here More stuff even more stuff waffling
               </Text>
@@ -76,8 +80,12 @@ export default class Schedule extends React.Component {
             onDismiss={() => this.setState({ showModalTwo: false })}
             contentContainerStyle={containerStyle}
           >
-            <View>
-              <Text>random stuff</Text>
+            <View style={modalTwoViewStyle}>
+              <Text style={{ marginBottom: 30 }}>random stuff</Text>
+              <Button
+                title={`Book Appointment for ${selectedEvent}`}
+                onPress={() => alert("Appointment Booked")}
+              />
             </View>
           </Modal>
         </Portal>
