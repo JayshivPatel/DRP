@@ -13,39 +13,62 @@ import { SetStateAction, useState } from "react";
 import MiniCalender from "./components/MiniCalender";
 
 export default function App() {
-  const [visible, setVisible] = useState(false);
+  const [searchVisible, setSearchVisible] = useState(false);
+  const [clinicVisible, setClinicVisible] = useState(false);
   const [searchquery, setSearchquery] = useState("");
 
   const onChangeSearch = (query: SetStateAction<string>) =>
     setSearchquery(query);
-  const showModal = () => setVisible(true);
-  const hideModal = () => setVisible(false);
+  const showSearchModal = () => setSearchVisible(true);
+  const hideSearchModal = () => setSearchVisible(false);
+  const showClinicModal = () => setClinicVisible(true);
+  const hideClinicModal = () => setClinicVisible(false);
   return (
     <PaperProvider>
-      <Button
-        icon="magnify"
-        mode="contained"
-        dark={true}
-        buttonColor="blue"
-        onPress={() => setVisible(true)}
-      >
-        Patient Search
-      </Button>
-      <Portal>
-        <Modal
-          visible={visible}
-          onDismiss={hideModal}
-          contentContainerStyle={styles.searchContainer}
+      <View style={styles.toolbarContainer}>
+        <Button
+          icon="magnify"
+          mode="contained"
+          dark={true}
+          buttonColor="blue"
+          onPress={showSearchModal}
         >
-          <View>
-            <Searchbar
-              placeholder="Search"
-              value={searchquery}
-              onChangeText={onChangeSearch}
-            />
-          </View>
-        </Modal>
-      </Portal>
+          Patient Search
+        </Button>
+        <Portal>
+          <Modal
+            visible={searchVisible}
+            onDismiss={hideSearchModal}
+            contentContainerStyle={styles.searchContainer}
+          >
+            <View>
+              <Searchbar
+                placeholder="Search"
+                value={searchquery}
+                onChangeText={onChangeSearch}
+              />
+            </View>
+          </Modal>
+        </Portal>
+        <Button
+          icon="magnify"
+          mode="contained"
+          dark={true}
+          buttonColor="blue"
+          onPress={showClinicModal}
+        >
+          Create Clinic
+        </Button>
+        <Portal>
+          <Modal
+            visible={clinicVisible}
+            onDismiss={hideClinicModal}
+            contentContainerStyle={styles.searchContainer}
+          >
+            <View>Placeholder text</View>
+          </Modal>
+        </Portal>
+      </View>
       <View style={styles.container}>
         <View>
           <View>
@@ -101,5 +124,8 @@ const styles = StyleSheet.create({
     maxHeight: "50%",
     justifyContent: "center",
     alignSelf: "center",
+  },
+  toolbarContainer: {
+    flexDirection: "row",
   },
 });
