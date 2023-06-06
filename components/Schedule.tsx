@@ -54,8 +54,8 @@ export default class Schedule extends React.Component {
           dateClick={this.openBookingScreen}
           slotMinTime={"08:00:00"}
           slotMaxTime={"20:00:00"}
-          slotEventOverlap = {false}
-          nowIndicator = {true}
+          slotEventOverlap={false}
+          nowIndicator={true}
           events={events}
         />
 

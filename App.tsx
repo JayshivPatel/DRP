@@ -1,17 +1,34 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import Clinic from "./components/Clinic";
-import { PaperProvider, Button, Portal, Modal } from "react-native-paper";
+import {
+  PaperProvider,
+  Button,
+  Portal,
+  Modal,
+  Searchbar,
+} from "react-native-paper";
+import { Calendar as FullCalendar } from "react-native-calendars";
 import Patient from "./components/Patient";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import MiniCalender from "./components/MiniCalender";
 
 export default function App() {
   const [visible, setVisible] = useState(false);
+  const [searchquery, setSearchquery] = useState("");
+
+  const onChangeSearch = (query: SetStateAction<string>) =>
+    setSearchquery(query);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   return (
     <PaperProvider>
-      <Button icon="magnify" mode="contained" dark = {true} buttonColor="blue" onPress={() => setVisible(true)}>
+      <Button
+        icon="magnify"
+        mode="contained"
+        dark={true}
+        buttonColor="blue"
+        onPress={() => setVisible(true)}
+      >
         Patient Search
       </Button>
       <Portal>
@@ -20,7 +37,13 @@ export default function App() {
           onDismiss={hideModal}
           contentContainerStyle={styles.searchContainer}
         >
-          <View>Patient Search component here</View>
+          <View>
+            <Searchbar
+              placeholder="Search"
+              value={searchquery}
+              onChangeText={onChangeSearch}
+            />
+          </View>
         </Modal>
       </Portal>
       <View style={styles.container}>
@@ -37,7 +60,7 @@ export default function App() {
             />
           </View>
           <View style={styles.calendarContainer}>
-            <MiniCalender/>
+            <MiniCalender />
           </View>
         </View>
         <View style={styles.clinicContainer}>
