@@ -1,12 +1,27 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import Clinic from "./components/Clinic";
-import { PaperProvider } from "react-native-paper";
-import { Calendar } from "@fullcalendar/core";
+import { PaperProvider, Button, Portal, Modal } from "react-native-paper";
 import { Calendar as FullCalendar } from "react-native-calendars";
+import { useState } from "react";
 
 export default function App() {
+  const [visible, setVisible] = useState(false);
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
   return (
     <PaperProvider>
+      <Button icon="magnify" mode="contained" onPress={() => setVisible(true)}>
+        Patient Search
+      </Button>
+      <Portal>
+        <Modal
+          visible={visible}
+          onDismiss={hideModal}
+          contentContainerStyle={styles.searchContainer}
+        >
+          <View>Patient Search component here</View>
+        </Modal>
+      </Portal>
       <View style={styles.container}>
         <View style={styles.calendarContainer}>
           <FullCalendar />
@@ -39,5 +54,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: 10,
     flex: 3,
+  },
+
+  searchContainer: {
+    backgroundColor: "white",
+    flex: 1,
+    borderRadius: 20,
+    width: "80%",
+    alignItems: "center",
+    maxHeight: "50%",
   },
 });
