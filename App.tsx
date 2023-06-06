@@ -12,6 +12,7 @@ import Patient from "./components/Patient";
 import { SetStateAction, useState } from "react";
 import MiniCalender from "./components/MiniCalender";
 import SearchBarList from "./components/SearchBarList";
+import Toolbar from "./components/Toolbar";
 
 export default function App() {
   const [searchVisible, setSearchVisible] = useState(false);
@@ -26,44 +27,14 @@ export default function App() {
   const hideClinicModal = () => setClinicVisible(false);
   return (
     <PaperProvider>
-      <View style={styles.toolbarContainer}>
-        <Button
-          icon="magnify"
-          mode="contained"
-          dark={true}
-          buttonColor="blue"
-          onPress={showSearchModal}
-        >
-          Patient Search
-        </Button>
-        <Portal>
-          <Modal
-            visible={searchVisible}
-            onDismiss={hideSearchModal}
-            contentContainerStyle={styles.searchContainer}
-          >
-            <SearchBarList />
-          </Modal>
-        </Portal>
-        <Button
-          icon="magnify"
-          mode="contained"
-          dark={true}
-          buttonColor="blue"
-          onPress={showClinicModal}
-        >
-          Create Clinic
-        </Button>
-        <Portal>
-          <Modal
-            visible={clinicVisible}
-            onDismiss={hideClinicModal}
-            contentContainerStyle={styles.searchContainer}
-          >
-            <View>Placeholder text</View>
-          </Modal>
-        </Portal>
-      </View>
+      <Toolbar
+        showSearchModal={showSearchModal}
+        hideSearchModal={hideSearchModal}
+        showClinicModal={showClinicModal}
+        hideClinicModal={hideClinicModal}
+        searchVisible={searchVisible}
+        clinicVisible={clinicVisible}
+      />
       <View style={styles.container}>
         <View>
           <View>
@@ -108,19 +79,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: 10,
     flex: 3,
-  },
-
-  searchContainer: {
-    backgroundColor: "white",
-    flex: 1,
-    borderRadius: 20,
-    width: "80%",
-    alignItems: "center",
-    maxHeight: "50%",
-    justifyContent: "center",
-    alignSelf: "center",
-  },
-  toolbarContainer: {
-    flexDirection: "row",
   },
 });
