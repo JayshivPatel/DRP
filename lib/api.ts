@@ -16,12 +16,12 @@ async function apiRequest(url: string, method = "GET", data?: object) {
   }
 
   const response = await fetch(`${apiUrl}${url}`, options);
+  const result = await response.json();
 
   if (response.status != 200) {
-    throw new Error(`API error: HTTP ${response.status}`);
+    throw new Error(`API call failed: ${result.error}`);
   }
 
-  const result = await response.json();
   return result;
 }
 
@@ -40,17 +40,5 @@ export async function deleteNotification(id: number) {
 }
 
 export async function notifySMS(recipient: string, lateness: number) {
-  const response = await fetch(
-    `${apiUrl}/api/send?${new URLSearchParams({
-      recipient,
-      lateness: lateness.toString(),
-    })}`,
-    {
-      method: "POST",
-    }
-  );
-
-  if (response.status !== 200) {
-    throw new Error("Failed to send notification");
-  }
+  await apiRequest("/api/send", "POST", { recipient, lateness });
 }
