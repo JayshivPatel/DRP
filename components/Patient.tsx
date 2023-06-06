@@ -1,18 +1,15 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
-export default class Patient extends React.Component<
-  {
-    name: string;
-    dob: string;
-    address: string;
-    phone: string;
-    nhsNum: string;
-    flags: string;
-    avgTime: string;
-  },
-  {}
-> {
+export default class Patient extends React.Component<{
+  name: string;
+  dob: string;
+  address: string;
+  phone: string;
+  nhsNum: string;
+  flags: string;
+  avgTime: string;
+}> {
   render() {
     const name = this.props.name;
     const dob = this.props.dob;
