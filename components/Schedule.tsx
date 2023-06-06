@@ -27,6 +27,7 @@ export default class Schedule extends React.Component {
     const { showModalOne, showModalTwo, selectedEvent } = this.state;
 
     const containerStyle = {
+      backgroundColor: "white",
       padding: 20,
       innerHeight: 500,
       outerHeight: 50,
