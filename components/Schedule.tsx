@@ -3,8 +3,8 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import timeGridPlugin from "@fullcalendar/timegrid"; // a plugin!
 import { EventClickArg } from "@fullcalendar/core";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
-import { Modal, PaperProvider, Portal, Text } from "react-native-paper";
-import { Button, View, StyleSheet, TextInput } from "react-native";
+import { Modal, PaperProvider, Portal, Text, Button } from "react-native-paper";
+import { View, StyleSheet, TextInput } from "react-native";
 import {Picker} from '@react-native-picker/picker';
 
 export default class Schedule extends React.Component<{
@@ -84,6 +84,13 @@ export default class Schedule extends React.Component<{
           <Text variant="titleLarge" style={styles.clinicHeader}>
             {this.props.title}: {this.props.date.slice(0, 10)}
           </Text>
+          <Button 
+            icon="cog"
+            textColor="white"
+            buttonColor="#2196f3"
+            mode="outlined"
+            onPress={() => confirm("Are you sure you wish to cancel this clinic?")}
+            >Cancel Clinic</Button>
           <FullCalendar
             plugins={[timeGridPlugin, interactionPlugin]}
             initialView="timeGridDay"
@@ -122,9 +129,8 @@ export default class Schedule extends React.Component<{
                 Random stuff here More stuff even more stuff waffling
               </Text>
               <Button
-                title="Cancel appointment"
                 onPress={() => alert("Appointment Cancelled")}
-              />
+              >Cancel Appointment</Button>
             </View>
           </Modal>
         </Portal>
@@ -162,9 +168,8 @@ export default class Schedule extends React.Component<{
               </View>
               
               <Button
-                title={`Book Appointment for ${selectedEvent}`}
                 onPress={this.openAppointmentModal}
-              />
+              >Book Appointment for {selectedEvent}</Button>
             </View>
           </Modal>
         </Portal>
