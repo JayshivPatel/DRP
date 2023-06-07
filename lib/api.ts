@@ -62,3 +62,11 @@ export function usePatients(params?: { dateOfBirth?: string }) {
     apiRequest
   );
 }
+
+export function useClinics(params?: { date?: string }) {
+  return useSWR("/api/clinics?" + new URLSearchParams(params), apiRequest);
+}
+
+export async function createClinic(date: string, title: string) {
+  await apiRequest("/api/clinics", "POST", { date, title });
+}
