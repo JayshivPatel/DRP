@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ZodError } from "zod";
+import * as z from "zod";
 
 type ApiHandler = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 
@@ -13,6 +13,13 @@ function isApiMethod(method?: string): method is ApiMethod {
 type RouteHandler = {
   [key in ApiMethod]?: ApiHandler;
 };
+
+export function dateOnly(): z.ZodPipeline<z.ZodString, z.ZodDate> {
+  return z
+    .string()
+    .regex(/^\d+-\d+-\d+$/)
+    .pipe(z.coerce.date());
+}
 
 export function routeHandler(handler: RouteHandler): ApiHandler {
   const allowedMethods = [
@@ -36,7 +43,7 @@ export function routeHandler(handler: RouteHandler): ApiHandler {
     try {
       await handle(req, res);
     } catch (e) {
-      if (e instanceof ZodError) {
+      if (e instanceof z.ZodError) {
         return res.status(400).json({
           error: "Invalid request",
           issues: e.issues,
