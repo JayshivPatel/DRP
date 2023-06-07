@@ -27,10 +27,9 @@ async function vercel(args: string[], options?: any): Promise<string> {
 }
 
 gulp.task("build:expo", async () => {
-  await npx("expo", ["export:web"], {
+  await npx("expo", ["export", "-p", "web", "--output-dir", "public"], {
     env: {
-      /* Export the frontend to the Next.js static folder */
-      WEBPACK_BUILD_OUTPUT_PATH: "public",
+      EXPO_PUBLIC_FOLDER: "dummy-folder-does-not-exist",
     },
   });
 });

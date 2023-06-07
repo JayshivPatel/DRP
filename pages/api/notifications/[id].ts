@@ -2,16 +2,14 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { prisma } from "../../../server/database";
 import * as z from "zod";
+import { routeHandler } from "../../../server/handlers";
 
 const deleteSchema = z.object({
   id: z.coerce.number().int(),
 });
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method === "DELETE") {
+export default routeHandler({
+  async DELETE(req: NextApiRequest, res: NextApiResponse) {
     const { id } = deleteSchema.parse(req.query);
 
     await prisma.notification.delete({
@@ -19,9 +17,5 @@ export default async function handler(
     });
 
     res.status(200).json({});
-  } else if (req.method === "OPTIONS") {
-    res.status(200).end();
-  } else {
-    res.status(404).json({});
-  }
-}
+  },
+});

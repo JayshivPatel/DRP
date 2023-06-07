@@ -1,6 +1,7 @@
 /** @type {import("next").NextConfig} */
 const nextConfig = {
   experimental: {
+    appDir: false,
     forceSwcTransforms: true,
   },
   headers: async () => [
@@ -21,6 +22,14 @@ const nextConfig = {
       ],
     },
   ],
+  rewrites: async () => ({
+    fallback: [
+      {
+        source: "/:path*",
+        destination: "/",
+      },
+    ],
+  }),
 };
 
 module.exports = nextConfig;

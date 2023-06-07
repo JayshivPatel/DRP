@@ -3,6 +3,19 @@ import useSWR from "swr";
 
 const { apiUrl } = Constants.expoConfig?.extra || {};
 
+export declare type Patient = {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  nhsNumber: string;
+  phoneNumber: string;
+};
+
+export declare type Clinic = {
+  title: string;
+  date: string;
+};
+
 async function apiRequest(url: string, method = "GET", data?: object) {
   const options: RequestInit = {
     method,
@@ -16,12 +29,12 @@ async function apiRequest(url: string, method = "GET", data?: object) {
   }
 
   const response = await fetch(`${apiUrl}${url}`, options);
+  const result = await response.json();
 
   if (response.status != 200) {
-    throw new Error(`API error: HTTP ${response.status}`);
+    throw new Error(`API call failed: ${result.error}`);
   }
 
-  const result = await response.json();
   return result;
 }
 
@@ -40,17 +53,12 @@ export async function deleteNotification(id: number) {
 }
 
 export async function notifySMS(recipient: string, lateness: number) {
-  const response = await fetch(
-    `${apiUrl}/api/send?${new URLSearchParams({
-      recipient,
-      lateness: lateness.toString(),
-    })}`,
-    {
-      method: "POST",
-    }
-  );
+  await apiRequest("/api/send", "POST", { recipient, lateness });
+}
 
-  if (response.status !== 200) {
-    throw new Error("Failed to send notification");
-  }
+export function usePatients(params?: { dateOfBirth?: string }) {
+  return useSWR<[Patient], Error>(
+    "/api/patients?" + new URLSearchParams(params),
+    apiRequest
+  );
 }

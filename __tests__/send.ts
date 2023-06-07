@@ -7,9 +7,9 @@ const agent = createAgent("../pages/api/send");
 
 describe("GET /api/send", () => {
   it("sends an SMS with the number of minutes", async () => {
-    const response = await agent.post("/api/send").query({
+    const response = await agent.post("/api/send").send({
       recipient: "+1234",
-      lateness: "27",
+      lateness: 27,
     });
 
     expect(response.status).toEqual(200);
@@ -21,7 +21,7 @@ describe("GET /api/send", () => {
   });
 
   it("responds with HTTP 400 if the lateness is not a number", async () => {
-    const response = await agent.post("/api/send").query({
+    const response = await agent.post("/api/send").send({
       recipient: "+1234",
       lateness: "hello",
     });

@@ -22,6 +22,7 @@ export default {
       },
     },
     web: {
+      bundler: "metro",
       favicon: "./assets/favicon.png",
     },
     extra: {
