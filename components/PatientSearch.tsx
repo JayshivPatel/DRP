@@ -70,11 +70,13 @@ export default function PatientSearch(props: {
                 mode="bar"
                 iconColor="white"
                 style={{
-                  backgroundColor: "#2f3e46",
+                  backgroundColor: "white",
                   marginTop: 0,
                   maxHeight: 55,
                   borderWidth: 1,
+                  color: "white",
                 }}
+                theme={{colors: {primary: "white"}}}
               />
             </View>
           </View>
@@ -87,7 +89,7 @@ export default function PatientSearch(props: {
                 description={item.nhsNumber}
                 left={(props) => <List.Icon {...props} icon="account" />}
                 onPress={() => props.setPatient(item)}
-                style={{ backgroundColor: "#2f3e46", borderRadius: 15 }}
+                style={{ backgroundColor: "white", borderRadius: 15 }}
               />
             )}
           />
