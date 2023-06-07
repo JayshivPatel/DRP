@@ -53,10 +53,11 @@ export default function PatientSearch(props: {
             value={nameQuery}
             onChangeText={setNameQuery}
             style={{
-              backgroundColor: "grey",
+              backgroundColor: "white",
               marginTop: 20,
               maxHeight: 60,
               maxWidth: 200,
+              borderWidth: 1,
             }}
           />
         </View>
@@ -69,7 +70,7 @@ export default function PatientSearch(props: {
               description={item.nhsNumber}
               left={(props) => <List.Icon {...props} icon="account" />}
               onPress={() => props.setPatient(item)}
-              style={{ backgroundColor: "black", borderRadius: 15 }}
+              style={{ backgroundColor: "white", borderRadius: 15 }}
             />
           )}
         />
