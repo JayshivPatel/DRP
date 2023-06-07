@@ -3,6 +3,14 @@ import useSWR from "swr";
 
 const { apiUrl } = Constants.expoConfig?.extra || {};
 
+export declare type Patient = {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  nhsNumber: string;
+  phoneNumber: string;
+};
+
 async function apiRequest(url: string, method = "GET", data?: object) {
   const options: RequestInit = {
     method,
@@ -41,4 +49,11 @@ export async function deleteNotification(id: number) {
 
 export async function notifySMS(recipient: string, lateness: number) {
   await apiRequest("/api/send", "POST", { recipient, lateness });
+}
+
+export function usePatients(params?: { dateOfBirth?: string }) {
+  return useSWR<[Patient], Error>(
+    "/api/patients?" + new URLSearchParams(params),
+    apiRequest
+  );
 }

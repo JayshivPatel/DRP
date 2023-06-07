@@ -7,17 +7,18 @@ import {
   Modal,
   Searchbar,
 } from "react-native-paper";
-import { Calendar as FullCalendar } from "react-native-calendars";
-import Patient from "./components/Patient";
 import { SetStateAction, useState } from "react";
 import MiniCalender from "./components/MiniCalender";
-import SearchBarList from "./components/SearchBarList";
 import Toolbar from "./components/Toolbar";
+import PatientInfo from "./components/PatientInfo";
+
+import type { Patient } from "./lib/api";
 
 export default function App() {
   const [searchVisible, setSearchVisible] = useState(false);
   const [clinicVisible, setClinicVisible] = useState(false);
   const [searchquery, setSearchquery] = useState("");
+  const [patient, setPatient] = useState<Patient | undefined>(undefined);
 
   const onChangeSearch = (query: SetStateAction<string>) =>
     setSearchquery(query);
@@ -34,19 +35,12 @@ export default function App() {
         hideClinicModal={hideClinicModal}
         searchVisible={searchVisible}
         clinicVisible={clinicVisible}
+        setPatient={setPatient}
       />
       <View style={styles.container}>
         <View>
           <View>
-            <Patient
-              name="Test Name"
-              dob="01/02/1234"
-              address="Test Address"
-              phone="0123456789"
-              nhsNum="0000000000"
-              flags="Test Flags"
-              avgTime="15"
-            />
+            <PatientInfo patient={patient} />
           </View>
           <View style={styles.calendarContainer}>
             <MiniCalender />

@@ -1,17 +1,16 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import {
-  Button,
-  Portal,
-  Modal,
-} from "react-native-paper";
-import SearchBarList from "./SearchBarList";
+import { Button, Portal, Modal } from "react-native-paper";
+import PatientSearch from "./PatientSearch";
+
+import type { Patient } from "../lib/api";
 
 type Props = {
   showSearchModal: () => void;
   hideSearchModal: () => void;
   showClinicModal: () => void;
   hideClinicModal: () => void;
+  setPatient: (patient: Patient) => void;
   searchVisible: boolean;
   clinicVisible: boolean;
 };
@@ -37,7 +36,12 @@ export default class Toolbar extends React.Component<Props> {
             onDismiss={this.props.hideSearchModal}
             contentContainerStyle={styles.searchContainer}
           >
-            <SearchBarList />
+            <PatientSearch
+              setPatient={(patient) => {
+                this.props.hideSearchModal();
+                this.props.setPatient(patient);
+              }}
+            />
           </Modal>
         </Portal>
         <View style={styles.space} />
@@ -77,10 +81,10 @@ const styles = StyleSheet.create({
   },
   toolbarContainer: {
     flexDirection: "row",
-    alignSelf: "flex-start"
+    alignSelf: "flex-start",
   },
   space: {
     width: 10,
     height: 20,
-  }
+  },
 });
