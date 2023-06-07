@@ -12,7 +12,7 @@ import MiniCalender from "../components/MiniCalender";
 import Toolbar from "../components/Toolbar";
 import PatientInfo from "../components/PatientInfo";
 
-import type { Patient } from "../lib/api";
+import { Patient, createClinic, useClinics } from "../lib/api";
 import type { Clinic } from "../lib/api";
 
 export default function Receptionist() {
@@ -26,21 +26,23 @@ export default function Receptionist() {
   const showSearchModal = () => setSearchVisible(true);
   const hideSearchModal = () => setSearchVisible(false);
 
-  var clinics: Clinic[] = [];
-  const sampleClinic: Clinic = {
-    title: "Dr Patel",
-    date: "2023-06-07",
-  };
-  clinics.push(sampleClinic);
+  const { data: clinics, mutate: mutateClinics } = useClinics({
+    date: "2022-06-07",
+  });
 
   return (
     <PaperProvider>
       <Toolbar
         showSearchModal={showSearchModal}
         hideSearchModal={hideSearchModal}
-        createClinic={() => {
-          alert("Adding an additional clinic...");
-          clinics.push(sampleClinic);
+        createClinic={async () => {
+          const title = prompt("Clinic name");
+          if (!title) {
+            return;
+          }
+
+          await createClinic("2022-06-07", title);
+          mutateClinics();
         }}
         searchVisible={searchVisible}
         setPatient={setPatient}
@@ -59,7 +61,6 @@ export default function Receptionist() {
             data={clinics}
             horizontal={true}
             renderItem={(clinic) => <ClinicInfo clinic={clinic.item} />}
-            extraData={clinics.length}
           />
         </View>
       </View>
