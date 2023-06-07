@@ -23,7 +23,7 @@ export default class Toolbar extends React.Component<Props> {
           icon="magnify"
           mode="contained"
           dark={true}
-          buttonColor="blue"
+          buttonColor="#2196f3"
           onPress={this.props.showSearchModal}
         >
           Patient Search
@@ -44,10 +44,10 @@ export default class Toolbar extends React.Component<Props> {
         </Portal>
         <View style={styles.space} />
         <Button
-          icon="magnify"
+          icon="plus"
           mode="contained"
           dark={true}
-          buttonColor="blue"
+          buttonColor="#2196f3"
           onPress={this.props.createClinic}
         >
           Create Clinic
