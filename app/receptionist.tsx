@@ -14,7 +14,7 @@ import PatientInfo from "../components/PatientInfo";
 
 import { Patient, createClinic, useClinics } from "../lib/api";
 import type { Clinic } from "../lib/api";
-const today = ((new Date()).toISOString().split('T')[0]);
+const today = new Date().toISOString().split("T")[0];
 
 export default function Receptionist() {
   const [searchVisible, setSearchVisible] = useState(false);

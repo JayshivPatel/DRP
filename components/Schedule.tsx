@@ -1,20 +1,32 @@
 import React, { useState } from "react";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import timeGridPlugin from "@fullcalendar/timegrid"; // a plugin!
-import { EventClickArg } from "@fullcalendar/core";
+import { EventApi, EventClickArg } from "@fullcalendar/core";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import { Modal, PaperProvider, Portal, Text, Button } from "react-native-paper";
 import { View, StyleSheet, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
-export default class Schedule extends React.Component<{
-  title: string;
-  date: string;
-}> {
+export default class Schedule extends React.Component<
+  {
+    title: string;
+    date: string;
+  },
+  {
+    showModalOne: boolean;
+    showModalTwo: boolean;
+    selectedEvent?: EventApi;
+    selectedDate?: Date;
+    showAppointmentModal: boolean;
+    text: string;
+    selectedDuration: number;
+  }
+> {
   state = {
     showModalOne: false,
     showModalTwo: false,
-    selectedEvent: null,
+    selectedEvent: undefined,
+    selectedDate: undefined,
     showAppointmentModal: false,
     text: "",
     selectedDuration: 5,
@@ -26,7 +38,7 @@ export default class Schedule extends React.Component<{
   };
 
   openBookingScreen = (payload: DateClickArg) => {
-    this.setState({ selectedEvent: payload.date });
+    this.setState({ selectedDate: payload.date });
     this.setState({ showModalTwo: true });
   };
 
@@ -34,11 +46,11 @@ export default class Schedule extends React.Component<{
     this.setState({ showAppointmentModal: true });
   };
 
-  onChangeText = (text: any) => {
+  onChangeText = (text: string) => {
     this.setState({ text: text });
   };
 
-  onChangeSelectedDuration = (durationValue: any) => {
+  onChangeSelectedDuration = (durationValue: number) => {
     this.setState({ selectedDuration: durationValue });
   };
 
@@ -47,6 +59,7 @@ export default class Schedule extends React.Component<{
       showModalOne,
       showModalTwo,
       selectedEvent,
+      selectedDate,
       showAppointmentModal,
       text,
     } = this.state;
@@ -81,6 +94,10 @@ export default class Schedule extends React.Component<{
       { label: "25 minutes", value: 25 },
       { label: "30 minutes", value: 30 },
     ];
+
+    const bookingTime = selectedDate
+      ? `${selectedDate.getHours()}:${selectedDate.getMinutes()}`
+      : null;
 
     return (
       <PaperProvider>
@@ -180,7 +197,7 @@ export default class Schedule extends React.Component<{
               </View>
 
               <Button onPress={this.openAppointmentModal}>
-                Book Appointment for {selectedEvent}
+                Book Appointment for {bookingTime}
               </Button>
             </View>
           </Modal>
