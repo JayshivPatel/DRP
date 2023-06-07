@@ -150,6 +150,10 @@ export default class Schedule extends React.Component<
             contentContainerStyle={containerStyle}
           >
             <View style={modalOneViewStyle}>
+              <View style={styles.checkboxContainer}>
+                <label style={{marginRight: 5}}>Name: </label>
+                <Text>John Smith</Text>
+              </View>
               <label>Appointment Reason: </label>
               <Text style={{ marginBottom: 30, borderWidth: 1, }}>
                 Patient is struggling with knee pain. Appointment is being done to explore this further.
