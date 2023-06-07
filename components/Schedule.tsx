@@ -3,8 +3,8 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import timeGridPlugin from "@fullcalendar/timegrid"; // a plugin!
 import { EventClickArg } from "@fullcalendar/core";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
-import { Modal, PaperProvider, Portal } from "react-native-paper";
-import { Button, View, Text, StyleSheet } from "react-native";
+import { Modal, PaperProvider, Portal, Text } from "react-native-paper";
+import { Button, View, StyleSheet } from "react-native";
 
 export default class Schedule extends React.Component<{
   title: string;
@@ -60,8 +60,8 @@ export default class Schedule extends React.Component<{
     return (
       <PaperProvider>
         <View style={styles.container}>
-          <Text>
-            {this.props.title}: {this.props.date}
+          <Text variant="titleLarge" style={styles.clinicHeader}>
+            {this.props.title}: {this.props.date.slice(0, 10)}
           </Text>
           <FullCalendar
             plugins={[timeGridPlugin, interactionPlugin]}
@@ -74,10 +74,11 @@ export default class Schedule extends React.Component<{
             eventClick={this.openEventDetailsOnClick}
             dateClick={this.openBookingScreen}
             slotMinTime={"08:00:00"}
-            slotMaxTime={"20:00:00"}
+            slotMaxTime={"19:00:00"}
             slotEventOverlap={false}
             nowIndicator={true}
             events={events}
+            slotDuration={"00:10:00"}
           />
         </View>
         <Portal>
@@ -142,6 +143,9 @@ const events = [
 
 const styles = StyleSheet.create({
   container: {
-    maxWidth: 300,
+    maxWidth: 250,
   },
+  clinicHeader: {
+    color: "black"
+  }
 });
