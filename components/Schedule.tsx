@@ -14,6 +14,7 @@ export default class Schedule extends React.Component<{
     showModalOne: false,
     showModalTwo: false,
     selectedEvent: null,
+    showAppointmentModal: false,
   };
 
   openEventDetailsOnClick = (payload: EventClickArg) => {
@@ -26,13 +27,25 @@ export default class Schedule extends React.Component<{
     this.setState({ showModalTwo: true });
   };
 
+  openAppointmentModal = () => {
+    this.setState({ showAppointmentModal: true });
+  };
+
   render() {
-    const { showModalOne, showModalTwo, selectedEvent } = this.state;
+    const { showModalOne, showModalTwo, selectedEvent, showAppointmentModal } =
+      this.state;
 
     const containerStyle = {
       backgroundColor: "white",
       padding: 20,
       innerHeight: 500,
+      outerHeight: 50,
+    };
+
+    const bookingStyle = {
+      backgroundColor: "yellow",
+      padding: 200,
+      innerHeight: 50,
       outerHeight: 50,
     };
 
@@ -67,7 +80,15 @@ export default class Schedule extends React.Component<{
             events={events}
           />
         </View>
-
+        <Portal>
+          <Modal
+            visible={showAppointmentModal}
+            onDismiss={() => this.setState({ showAppointmentModal: false })}
+            contentContainerStyle={bookingStyle}
+          >
+            <View>Test</View>
+          </Modal>
+        </Portal>
         <Portal>
           <Modal
             visible={showModalOne}
@@ -85,7 +106,6 @@ export default class Schedule extends React.Component<{
             </View>
           </Modal>
         </Portal>
-
         <Portal>
           <Modal
             visible={showModalTwo}
@@ -96,7 +116,7 @@ export default class Schedule extends React.Component<{
               <Text style={{ marginBottom: 30 }}>random stuff</Text>
               <Button
                 title={`Book Appointment for ${selectedEvent}`}
-                onPress={() => alert("Appointment Booked")}
+                onPress={this.openAppointmentModal}
               />
             </View>
           </Modal>
