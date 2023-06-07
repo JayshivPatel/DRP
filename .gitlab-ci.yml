@@ -1,11 +1,21 @@
 ---
 default:
   image: node:18-alpine
+  before_script:
+    - npm install --cache .npm --frozen-lockfile --prefer-offline
+  cache:
+    - key: npm
+      paths:
+        - .npm/
+    - key:
+        files:
+          - package-lock.json
+      paths:
+        - node_modules/
 
 lint:
   stage: test
   script:
-    - npm ci
     - npm run lint
 
 test:
@@ -19,7 +29,6 @@ test:
   script:
     - export POSTGRES_URL_NON_POOLING="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
     - export POSTGRES_PRISMA_URL="$POSTGRES_URL_NON_POOLING"
-    - npm ci
     - npx prisma migrate deploy
     - npm test
   artifacts:
@@ -32,7 +41,6 @@ deploy_preview:
   rules:
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
   script:
-    - npm ci
     - npx gulp deploy:preview
   artifacts:
     reports:
@@ -47,7 +55,6 @@ deploy_production:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script:
-    - npm ci
     - npx gulp deploy:production
   environment:
     name: production
