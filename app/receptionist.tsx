@@ -14,12 +14,14 @@ import PatientInfo from "../components/PatientInfo";
 
 import { Patient, createClinic, useClinics } from "../lib/api";
 import type { Clinic } from "../lib/api";
+const today = ((new Date()).toISOString().split('T')[0]);
 
 export default function Receptionist() {
   const [searchVisible, setSearchVisible] = useState(false);
   const [clinicVisible, setClinicVisible] = useState(false);
   const [searchquery, setSearchquery] = useState("");
   const [patient, setPatient] = useState<Patient | undefined>(undefined);
+  const [date, setDate] = useState(today);
 
   const onChangeSearch = (query: SetStateAction<string>) =>
     setSearchquery(query);
@@ -27,8 +29,12 @@ export default function Receptionist() {
   const hideSearchModal = () => setSearchVisible(false);
 
   const { data: clinics, mutate: mutateClinics } = useClinics({
-    date: "2022-06-07",
+    date: date,
   });
+
+  function updateDate(date: string) {
+    setDate(date);
+  }
 
   return (
     <PaperProvider>
@@ -41,7 +47,7 @@ export default function Receptionist() {
             return;
           }
 
-          await createClinic("2022-06-07", title);
+          await createClinic(date, title);
           mutateClinics();
         }}
         searchVisible={searchVisible}
@@ -53,7 +59,7 @@ export default function Receptionist() {
             <PatientInfo patient={patient} />
           </View>
           <View style={styles.calendarContainer}>
-            <MiniCalender />
+            <MiniCalender changeDate={updateDate} />
           </View>
         </View>
         <View style={styles.clinicContainer}>
