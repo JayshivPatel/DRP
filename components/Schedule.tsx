@@ -5,7 +5,7 @@ import { EventClickArg } from "@fullcalendar/core";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import { Modal, PaperProvider, Portal, Text, Button } from "react-native-paper";
 import { View, StyleSheet, TextInput } from "react-native";
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from "@react-native-picker/picker";
 
 export default class Schedule extends React.Component<{
   title: string;
@@ -16,8 +16,8 @@ export default class Schedule extends React.Component<{
     showModalTwo: false,
     selectedEvent: null,
     showAppointmentModal: false,
-    text: '',
-    selectedDuration: 5
+    text: "",
+    selectedDuration: 5,
   };
 
   openEventDetailsOnClick = (payload: EventClickArg) => {
@@ -36,15 +36,20 @@ export default class Schedule extends React.Component<{
 
   onChangeText = (text: any) => {
     this.setState({ text: text });
-  }
+  };
 
   onChangeSelectedDuration = (durationValue: any) => {
-    this.setState({ selectedDuration: durationValue});
-  }
+    this.setState({ selectedDuration: durationValue });
+  };
 
   render() {
-    const { showModalOne, showModalTwo, selectedEvent, showAppointmentModal, text} =
-      this.state;
+    const {
+      showModalOne,
+      showModalTwo,
+      selectedEvent,
+      showAppointmentModal,
+      text,
+    } = this.state;
 
     const containerStyle = {
       backgroundColor: "white",
@@ -69,14 +74,13 @@ export default class Schedule extends React.Component<{
     };
 
     const durations = [
-      {label: "5 minutes", value: 5}, 
-      {label: "10 minutes", value: 10}, 
-      {label: "15 minutes", value: 15}, 
-      {label: "20 minutes", value: 20}, 
-      {label: "25 minutes", value: 25}, 
-      {label: "30 minutes", value: 30}
-    ]
-
+      { label: "5 minutes", value: 5 },
+      { label: "10 minutes", value: 10 },
+      { label: "15 minutes", value: 15 },
+      { label: "20 minutes", value: 20 },
+      { label: "25 minutes", value: 25 },
+      { label: "30 minutes", value: 30 },
+    ];
 
     return (
       <PaperProvider>
@@ -84,13 +88,17 @@ export default class Schedule extends React.Component<{
           <Text variant="titleLarge" style={styles.clinicHeader}>
             {this.props.title}: {this.props.date.slice(0, 10)}
           </Text>
-          <Button 
+          <Button
             icon="cog"
             textColor="white"
             buttonColor="#2196f3"
             mode="outlined"
-            onPress={() => confirm("Are you sure you wish to cancel this clinic?")}
-            >Cancel Clinic</Button>
+            onPress={() =>
+              confirm("Are you sure you wish to cancel this clinic?")
+            }
+          >
+            Cancel Clinic
+          </Button>
           <FullCalendar
             plugins={[timeGridPlugin, interactionPlugin]}
             initialView="timeGridDay"
@@ -128,9 +136,9 @@ export default class Schedule extends React.Component<{
               <Text style={{ marginBottom: 30 }}>
                 Random stuff here More stuff even more stuff waffling
               </Text>
-              <Button
-                onPress={() => alert("Appointment Cancelled")}
-              >Cancel Appointment</Button>
+              <Button onPress={() => alert("Appointment Cancelled")}>
+                Cancel Appointment
+              </Button>
             </View>
           </Modal>
         </Portal>
@@ -143,33 +151,37 @@ export default class Schedule extends React.Component<{
             <View style={modalTwoViewStyle}>
               <label>Appointment Reason:</label>
               <TextInput
-                style = {{marginBottom: 30, borderWidth: 1, padding: 10, height: 200}}
+                style={{
+                  marginBottom: 30,
+                  borderWidth: 1,
+                  padding: 10,
+                  height: 200,
+                }}
                 multiline
                 numberOfLines={3}
-                onChangeText={this.onChangeText} 
+                onChangeText={this.onChangeText}
                 placeholder="Enter Appointment details and info"
               />
               <label>Enter Duration: </label>
               <Picker
-                style = {{marginBottom: 30}}
-                selectedValue = {this.state.selectedDuration}
-                onValueChange = {(itemValue, _) => this.onChangeSelectedDuration(itemValue)}>
-                  {durations.map((duration) => (
-                    <Picker.Item
-                      label={duration.label}
-                      value={duration.value}
-                    />
-                  ))}
+                style={{ marginBottom: 30 }}
+                selectedValue={this.state.selectedDuration}
+                onValueChange={(itemValue, _) =>
+                  this.onChangeSelectedDuration(itemValue)
+                }
+              >
+                {durations.map((duration) => (
+                  <Picker.Item label={duration.label} value={duration.value} />
+                ))}
               </Picker>
               <View style={styles.checkboxContainer}>
                 <label>Send patient SMS confirmation: </label>
-                <input type="checkbox" id="smsConfirmed"/>
-
+                <input type="checkbox" id="smsConfirmed" />
               </View>
-              
-              <Button
-                onPress={this.openAppointmentModal}
-              >Book Appointment for {selectedEvent}</Button>
+
+              <Button onPress={this.openAppointmentModal}>
+                Book Appointment for {selectedEvent}
+              </Button>
             </View>
           </Modal>
         </Portal>
@@ -202,5 +214,5 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: "row",
     marginBottom: 20,
-  }
+  },
 });
