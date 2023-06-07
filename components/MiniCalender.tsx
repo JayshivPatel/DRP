@@ -1,14 +1,20 @@
 import React from "react";
-import { Calendar as FullCalendar } from "react-native-calendars";
+import FullCalendar from "@fullcalendar/react";
 import { DateClickArg } from "@fullcalendar/interaction";
+import interactionPlugin from "@fullcalendar/interaction";
+import dayGridPlugin from "@fullcalendar/daygrid";
 
 export default class MiniCalender extends React.Component {
   changeDaySelected = (payload: DateClickArg) => {
-    alert("This should change the day" + payload.date);
+    alert("This should change the day to " + payload.date);
   };
   render() {
     return (
-      <FullCalendar nowIndicator={true} dateClick={this.changeDaySelected} />
+      <FullCalendar
+        plugins={[dayGridPlugin, interactionPlugin]}
+        nowIndicator={true}
+        dateClick={this.changeDaySelected}
+      />
     );
   }
 }
