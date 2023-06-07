@@ -150,8 +150,9 @@ export default class Schedule extends React.Component<
             contentContainerStyle={containerStyle}
           >
             <View style={modalOneViewStyle}>
-              <Text style={{ marginBottom: 30 }}>
-                Random stuff here More stuff even more stuff waffling
+              <label>Appointment Reason: </label>
+              <Text style={{ marginBottom: 30, borderWidth: 1, }}>
+                Patient is struggling with knee pain. Appointment is being done to explore this further.
               </Text>
               <Button onPress={() => alert("Appointment Cancelled")}>
                 Cancel Appointment
