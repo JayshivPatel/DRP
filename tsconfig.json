@@ -12,9 +12,14 @@
     "noEmit": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["*.ts", "*.tsx", "**/*.ts", "**/*.tsx"],
+  "include": ["*.ts", "*.tsx", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"],
   "extends": "expo/tsconfig.base"
 }

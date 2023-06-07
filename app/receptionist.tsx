@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import Clinic from "./components/Clinic";
+import Clinic from "../components/Clinic";
 import {
   PaperProvider,
   Button,
@@ -8,13 +8,13 @@ import {
   Searchbar,
 } from "react-native-paper";
 import { SetStateAction, useState } from "react";
-import MiniCalender from "./components/MiniCalender";
-import Toolbar from "./components/Toolbar";
-import PatientInfo from "./components/PatientInfo";
+import MiniCalender from "../components/MiniCalender";
+import Toolbar from "../components/Toolbar";
+import PatientInfo from "../components/PatientInfo";
 
-import type { Patient } from "./lib/api";
+import type { Patient } from "../lib/api";
 
-export default function App() {
+export default function Receptionist() {
   const [searchVisible, setSearchVisible] = useState(false);
   const [clinicVisible, setClinicVisible] = useState(false);
   const [searchquery, setSearchquery] = useState("");
