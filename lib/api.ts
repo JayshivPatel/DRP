@@ -11,6 +11,11 @@ export declare type Patient = {
   phoneNumber: string;
 };
 
+export declare type Clinic = {
+  title: string;
+  date: string;
+};
+
 async function apiRequest(url: string, method = "GET", data?: object) {
   const options: RequestInit = {
     method,

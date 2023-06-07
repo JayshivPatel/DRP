@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import Clinic from "../components/Clinic";
+import ClinicInfo from "../components/ClinicInfo";
 import {
   PaperProvider,
   Button,
@@ -13,6 +13,7 @@ import Toolbar from "../components/Toolbar";
 import PatientInfo from "../components/PatientInfo";
 
 import type { Patient } from "../lib/api";
+import type { Clinic } from "../lib/api";
 
 export default function Receptionist() {
   const [searchVisible, setSearchVisible] = useState(false);
@@ -24,17 +25,24 @@ export default function Receptionist() {
     setSearchquery(query);
   const showSearchModal = () => setSearchVisible(true);
   const hideSearchModal = () => setSearchVisible(false);
-  const showClinicModal = () => setClinicVisible(true);
-  const hideClinicModal = () => setClinicVisible(false);
+
+  var clinics: Clinic[] = [];
+  const sampleClinic: Clinic = {
+    title: "Dr Patel",
+    date: "2023-06-07",
+  };
+  clinics.push(sampleClinic);
+
   return (
     <PaperProvider>
       <Toolbar
         showSearchModal={showSearchModal}
         hideSearchModal={hideSearchModal}
-        showClinicModal={showClinicModal}
-        hideClinicModal={hideClinicModal}
+        createClinic={() => {
+          alert("Adding an additional clinic...");
+          clinics.push(sampleClinic);
+        }}
         searchVisible={searchVisible}
-        clinicVisible={clinicVisible}
         setPatient={setPatient}
       />
       <View style={styles.container}>
@@ -47,10 +55,12 @@ export default function Receptionist() {
           </View>
         </View>
         <View style={styles.clinicContainer}>
-          <Clinic></Clinic>
-          <Clinic></Clinic>
-          <Clinic></Clinic>
-          <Clinic></Clinic>
+          <FlatList
+            data={clinics}
+            horizontal={true}
+            renderItem={(clinic) => <ClinicInfo clinic={clinic.item} />}
+            extraData={clinics.length}
+          />
         </View>
       </View>
     </PaperProvider>

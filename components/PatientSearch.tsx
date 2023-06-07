@@ -11,7 +11,6 @@ export default function PatientSearch(props: {
 }) {
   const [dateOfBirth, setDateOfBirth] = useState("2000-01-01");
   const [nameQuery, setNameQuery] = useState("");
-
   const searchResults = usePatients({ dateOfBirth })
     .data?.map((item) => ({
       name: `${item.firstName} ${item.lastName}`,

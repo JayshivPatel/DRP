@@ -8,11 +8,9 @@ import type { Patient } from "../lib/api";
 type Props = {
   showSearchModal: () => void;
   hideSearchModal: () => void;
-  showClinicModal: () => void;
-  hideClinicModal: () => void;
+  createClinic: () => void;
   setPatient: (patient: Patient) => void;
   searchVisible: boolean;
-  clinicVisible: boolean;
 };
 
 export default class Toolbar extends React.Component<Props> {
@@ -50,19 +48,10 @@ export default class Toolbar extends React.Component<Props> {
           mode="contained"
           dark={true}
           buttonColor="blue"
-          onPress={this.props.showClinicModal}
+          onPress={this.props.createClinic}
         >
           Create Clinic
         </Button>
-        <Portal>
-          <Modal
-            visible={this.props.clinicVisible}
-            onDismiss={this.props.hideClinicModal}
-            contentContainerStyle={styles.searchContainer}
-          >
-            <View>Placeholder text</View>
-          </Modal>
-        </Portal>
       </View>
     );
   }
