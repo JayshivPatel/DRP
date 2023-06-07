@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import timeGridPlugin from "@fullcalendar/timegrid"; // a plugin!
 import { EventClickArg } from "@fullcalendar/core";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import { Modal, PaperProvider, Portal } from "react-native-paper";
-import { Button, View, Text, StyleSheet } from "react-native";
+import { Button, View, Text, StyleSheet, TextInput } from "react-native";
+import {Picker} from '@react-native-picker/picker';
 
 export default class Schedule extends React.Component<{
   title: string;
@@ -15,6 +16,8 @@ export default class Schedule extends React.Component<{
     showModalTwo: false,
     selectedEvent: null,
     showAppointmentModal: false,
+    text: '',
+    selectedDuration: 5
   };
 
   openEventDetailsOnClick = (payload: EventClickArg) => {
@@ -31,8 +34,16 @@ export default class Schedule extends React.Component<{
     this.setState({ showAppointmentModal: true });
   };
 
+  onChangeText = (text: any) => {
+    this.setState({ text: text });
+  }
+
+  onChangeSelectedDuration = (durationValue: any) => {
+    this.setState({ selectedDuration: durationValue});
+  }
+
   render() {
-    const { showModalOne, showModalTwo, selectedEvent, showAppointmentModal } =
+    const { showModalOne, showModalTwo, selectedEvent, showAppointmentModal, text} =
       this.state;
 
     const containerStyle = {
@@ -56,6 +67,16 @@ export default class Schedule extends React.Component<{
     const modalTwoViewStyle = {
       paddingVertical: 50,
     };
+
+    const durations = [
+      {label: "5 minutes", value: 5}, 
+      {label: "10 minutes", value: 10}, 
+      {label: "15 minutes", value: 15}, 
+      {label: "20 minutes", value: 20}, 
+      {label: "25 minutes", value: 25}, 
+      {label: "30 minutes", value: 30}
+    ]
+
 
     return (
       <PaperProvider>
@@ -113,7 +134,32 @@ export default class Schedule extends React.Component<{
             contentContainerStyle={containerStyle}
           >
             <View style={modalTwoViewStyle}>
-              <Text style={{ marginBottom: 30 }}>random stuff</Text>
+              <label>Appointment Reason:</label>
+              <TextInput
+                style = {{marginBottom: 30, borderWidth: 1, padding: 10, height: 200}}
+                multiline
+                numberOfLines={3}
+                onChangeText={this.onChangeText} 
+                placeholder="Enter Appointment details and info"
+              />
+              <label>Enter Duration: </label>
+              <Picker
+                style = {{marginBottom: 30}}
+                selectedValue = {this.state.selectedDuration}
+                onValueChange = {(itemValue, _) => this.onChangeSelectedDuration(itemValue)}>
+                  {durations.map((duration) => (
+                    <Picker.Item
+                      label={duration.label}
+                      value={duration.value}
+                    />
+                  ))}
+              </Picker>
+              <View style={styles.checkboxContainer}>
+                <label>Send patient SMS confirmation: </label>
+                <input type="checkbox" id="smsConfirmed"/>
+
+              </View>
+              
               <Button
                 title={`Book Appointment for ${selectedEvent}`}
                 onPress={this.openAppointmentModal}
@@ -144,4 +190,8 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: 300,
   },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  }
 });
