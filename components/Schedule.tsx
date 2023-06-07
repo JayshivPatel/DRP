@@ -146,6 +146,6 @@ const styles = StyleSheet.create({
     maxWidth: 250,
   },
   clinicHeader: {
-    color: "black"
-  }
+    color: "black",
+  },
 });

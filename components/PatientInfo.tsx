@@ -29,7 +29,7 @@ export default class PatientInfo extends React.Component<{
         <FlatList
           data={fields}
           renderItem={({ item }) => (
-          <List.Item title={item[0]} description={item[1]} />
+            <List.Item title={item[0]} description={item[1]} />
           )}
         />
       </Card>
@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#2196f3",
-    color: "black"
+    color: "black",
   },
 });
