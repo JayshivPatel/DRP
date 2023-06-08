@@ -52,8 +52,10 @@ export default function PatientSearch(props: {
             placeholder="Search by name.."
             value={nameQuery}
             onChangeText={setNameQuery}
+            mode="bar"
+            iconColor="white"
             style={{
-              backgroundColor: "white",
+              backgroundColor: "#2f3e46",
               marginTop: 20,
               maxHeight: 60,
               maxWidth: 200,
@@ -70,7 +72,7 @@ export default function PatientSearch(props: {
               description={item.nhsNumber}
               left={(props) => <List.Icon {...props} icon="account" />}
               onPress={() => props.setPatient(item)}
-              style={{ backgroundColor: "white", borderRadius: 15 }}
+              style={{ backgroundColor: "#2f3e46", borderRadius: 15 }}
             />
           )}
         />
