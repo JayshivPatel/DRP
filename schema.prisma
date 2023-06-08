@@ -13,7 +13,7 @@ datasource db {
 model Clinic {
   id           Int           @id @default(autoincrement())
   title        String
-  date         DateTime
+  date         DateTime      @db.Date
   appointments Appointment[]
 }
 
@@ -21,7 +21,7 @@ model Patient {
   id           Int           @id @default(autoincrement())
   firstName    String
   lastName     String
-  dateOfBirth  DateTime
+  dateOfBirth  DateTime      @db.Date
   nhsNumber    String        @unique
   phoneNumber  String
   appointments Appointment[]
@@ -32,10 +32,12 @@ model Patient {
 
 model Appointment {
   id        Int      @id @default(autoincrement())
-  date      DateTime
-  Clinic    Clinic   @relation(fields: [clinicId], references: [id])
+  startTime DateTime @db.Time
+  endTime   DateTime @db.Time
+  notes     String
+  clinic    Clinic   @relation(fields: [clinicId], references: [id])
   clinicId  Int
-  Patient   Patient  @relation(fields: [patientId], references: [id])
+  patient   Patient  @relation(fields: [patientId], references: [id])
   patientId Int
 }
 

@@ -1,22 +1,50 @@
 import React from "react";
 import Schedule from "./Schedule";
-import { Clinic } from "../lib/api";
+import {
+  Clinic,
+  Patient,
+  Appointment,
+  createAppointment,
+  useAppointments,
+} from "../lib/api";
 import { View, Text, StyleSheet } from "react-native";
 
-export default class ClinicInfo extends React.Component<{ clinic?: Clinic }> {
-  render() {
-    const { clinic } = this.props;
+export default function ClinicInfo({
+  clinic,
+  selectedPatient,
+}: {
+  clinic: Clinic;
+  selectedPatient?: Patient;
+}) {
+  const { data, mutate } = useAppointments({
+    clinicId: clinic.id,
+    includePatient: true,
+  });
 
-    if (!clinic) {
-      return (
-        <View style={styles.container}>
-          <Text>Clinic failed to load</Text>
-        </View>
-      );
-    }
-
-    return <Schedule title={clinic.title} date={clinic.date} />;
-  }
+  return (
+    <Schedule
+      title={clinic.title}
+      date={clinic.date}
+      appointments={data?.map((appointment: Appointment) => ({
+        ...appointment,
+        title: `${appointment.patient?.firstName} ${appointment.patient?.lastName}`,
+      }))}
+      createAppointment={
+        selectedPatient &&
+        (async (startTime, endTime, notes, notifySms) => {
+          await createAppointment({
+            patientId: selectedPatient.id,
+            clinicId: clinic.id,
+            startTime,
+            endTime,
+            notes,
+            notifySms,
+          });
+          mutate();
+        })
+      }
+    />
+  );
 }
 
 const styles = StyleSheet.create({

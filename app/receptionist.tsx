@@ -63,7 +63,11 @@ export default function Receptionist() {
           </View>
         </View>
         <View style={styles.clinicContainer}>
-          {clinics?.map((clinic: Cl) => <View style={styles.clinicInfo}><ClinicInfo clinic={clinic} /></View>)}
+          {clinics?.map((clinic) => (
+            <View style={styles.clinicInfo}>
+              <ClinicInfo clinic={clinic} selectedPatient={patient} />
+            </View>
+          ))}
         </View>
       </View>
     </PaperProvider>
@@ -91,5 +95,5 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 1,
     flex: 1,
-  }
+  },
 });

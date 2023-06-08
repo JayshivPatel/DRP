@@ -6,11 +6,21 @@ import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import { Modal, PaperProvider, Portal, Text, Button } from "react-native-paper";
 import { View, StyleSheet, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { useAppointments, useClinics } from "../lib/api";
+
+const durations = [5, 10, 15, 20, 25, 30];
 
 export default class Schedule extends React.Component<
   {
     title: string;
     date: string;
+    appointments: any;
+    createAppointment?: (
+      startTime: string,
+      endTime: string,
+      notes: string,
+      notifySms: boolean
+    ) => void;
   },
   {
     showModalOne: boolean;
@@ -19,16 +29,22 @@ export default class Schedule extends React.Component<
     selectedDate?: Date;
     text: string;
     selectedDuration: number;
+    smsConfirmed: boolean;
   }
 > {
-  state = {
-    showModalOne: false,
-    showModalTwo: false,
-    selectedEvent: undefined,
-    selectedDate: undefined,
-    text: "",
-    selectedDuration: 5,
-  };
+  constructor(props: Schedule["props"]) {
+    super(props);
+
+    this.state = {
+      showModalOne: false,
+      showModalTwo: false,
+      selectedEvent: undefined,
+      selectedDate: undefined,
+      text: "",
+      selectedDuration: 5,
+      smsConfirmed: false,
+    };
+  }
 
   openEventDetailsOnClick = (payload: EventClickArg) => {
     this.setState({ selectedEvent: payload.event });
@@ -36,6 +52,10 @@ export default class Schedule extends React.Component<
   };
 
   openBookingScreen = (payload: DateClickArg) => {
+    if (!this.props.createAppointment) {
+      return;
+    }
+
     this.setState({ selectedDate: payload.date });
     this.setState({ showModalTwo: true });
   };
@@ -48,22 +68,46 @@ export default class Schedule extends React.Component<
     this.setState({ text: text });
   };
 
-  onChangeSelectedDuration = (durationValue: number) => {
-    this.setState({ selectedDuration: durationValue });
+  onChangeSelectedDuration = (selectedDuration: number) => {
+    this.setState({ selectedDuration });
   };
 
   createAppointment = () => {
     this.closeBookingScreen();
+
+    const startDate = this.state.selectedDate;
+
+    if (!(this.props.createAppointment && startDate)) {
+      return;
+    }
+
+    const endDate = new Date(startDate);
+    endDate.setMinutes(
+      endDate.getMinutes() + durations[this.state.selectedDuration]
+    );
+
+    function timeToString(date: Date): string {
+      return (
+        date.getHours().toString().padStart(2, "0") +
+        ":" +
+        date.getMinutes().toString().padStart(2, "0")
+      );
+    }
+
+    const startTime = timeToString(startDate);
+    const endTime = timeToString(endDate);
+
+    this.props.createAppointment(
+      startTime,
+      endTime,
+      this.state.text,
+      this.state.smsConfirmed
+    );
   };
 
   render() {
-    const {
-      showModalOne,
-      showModalTwo,
-      selectedEvent,
-      selectedDate,
-      text,
-    } = this.state;
+    const { showModalOne, showModalTwo, selectedEvent, selectedDate, text } =
+      this.state;
 
     const containerStyle = {
       backgroundColor: "white",
@@ -87,18 +131,7 @@ export default class Schedule extends React.Component<
       paddingVertical: 50,
     };
 
-    const durations = [
-      { label: "5 minutes", value: 5 },
-      { label: "10 minutes", value: 10 },
-      { label: "15 minutes", value: 15 },
-      { label: "20 minutes", value: 20 },
-      { label: "25 minutes", value: 25 },
-      { label: "30 minutes", value: 30 },
-    ];
-
-    const bookingTime = selectedDate
-      ? selectedDate.toLocaleTimeString()
-      : null;
+    const bookingTime = selectedDate ? selectedDate.toLocaleTimeString() : null;
 
     return (
       <PaperProvider>
@@ -131,7 +164,7 @@ export default class Schedule extends React.Component<
             slotMaxTime={"19:00:00"}
             slotEventOverlap={false}
             nowIndicator={true}
-            events={events}
+            events={this.props.appointments}
             slotDuration={"00:10:00"}
           />
         </View>
@@ -143,12 +176,12 @@ export default class Schedule extends React.Component<
           >
             <View style={modalOneViewStyle}>
               <View style={styles.checkboxContainer}>
-                <label style={{marginRight: 5}}>Name: </label>
-                <Text>John Smith</Text>
+                <label style={{ marginRight: 5 }}>Name: </label>
+                <Text>hi</Text>
               </View>
               <label>Appointment Reason: </label>
-              <Text style={{ marginBottom: 30, borderWidth: 1, }}>
-                Patient is struggling with knee pain. Appointment is being done to explore this further.
+              <Text style={{ marginBottom: 30, borderWidth: 1 }}>
+                {this.state.selectedEvent?.extendedProps.notes}
               </Text>
               <Button onPress={() => alert("Appointment Cancelled")}>
                 Cancel Appointment
@@ -156,67 +189,63 @@ export default class Schedule extends React.Component<
             </View>
           </Modal>
         </Portal>
-        <Portal>
-          <Modal
-            visible={showModalTwo}
-            onDismiss={() => this.setState({ showModalTwo: false })}
-            contentContainerStyle={containerStyle}
-          >
-            <View style={modalTwoViewStyle}>
-              <label>Appointment Reason:</label>
-              <TextInput
-                style={{
-                  marginBottom: 30,
-                  borderWidth: 1,
-                  padding: 10,
-                  height: 200,
-                }}
-                multiline
-                numberOfLines={3}
-                onChangeText={this.onChangeText}
-                placeholder="Enter Appointment details and info"
-              />
-              <label>Enter Duration: </label>
-              <Picker
-                style={{ marginBottom: 30 }}
-                selectedValue={this.state.selectedDuration}
-                onValueChange={(itemValue, _) =>
-                  this.onChangeSelectedDuration(itemValue)
-                }
-              >
-                {durations.map((duration) => (
-                  <Picker.Item label={duration.label} value={duration.value} />
-                ))}
-              </Picker>
-              <View style={styles.checkboxContainer}>
-                <label>Send patient SMS confirmation: </label>
-                <input type="checkbox" id="smsConfirmed" />
-              </View>
+        {this.props.createAppointment && (
+          <Portal>
+            <Modal
+              visible={showModalTwo}
+              onDismiss={() => this.setState({ showModalTwo: false })}
+              contentContainerStyle={containerStyle}
+            >
+              <View style={modalTwoViewStyle}>
+                <label>Appointment Reason:</label>
+                <TextInput
+                  style={{
+                    marginBottom: 30,
+                    borderWidth: 1,
+                    padding: 10,
+                    height: 200,
+                  }}
+                  multiline
+                  numberOfLines={3}
+                  onChangeText={this.onChangeText}
+                  placeholder="Enter Appointment details and info"
+                />
+                <label>Enter Duration: </label>
+                <Picker
+                  style={{ marginBottom: 30 }}
+                  selectedValue={this.state.selectedDuration}
+                  onValueChange={(_, i) => this.onChangeSelectedDuration(i)}
+                >
+                  {durations.map((duration, index) => (
+                    <Picker.Item
+                      label={`${duration} minutes`}
+                      value={index}
+                      key={index}
+                    />
+                  ))}
+                </Picker>
+                <View style={styles.checkboxContainer}>
+                  <label>Send patient SMS confirmation: </label>
+                  <input
+                    type="checkbox"
+                    checked={this.state.smsConfirmed}
+                    onChange={(e) =>
+                      this.setState({ smsConfirmed: e.target.checked })
+                    }
+                  />
+                </View>
 
-              <Button onPress={this.createAppointment}>
-                Book Appointment for {bookingTime}
-              </Button>
-            </View>
-          </Modal>
-        </Portal>
+                <Button onPress={this.createAppointment}>
+                  Book Appointment for {bookingTime}
+                </Button>
+              </View>
+            </Modal>
+          </Portal>
+        )}
       </PaperProvider>
     );
   }
 }
-
-//Placeholder - to be added into the Clinic Component later for API request
-const events = [
-  {
-    title: "Default Event 1",
-    startTime: "10:00",
-    endTime: "10:10",
-  },
-  {
-    title: "Default Event 2",
-    startTime: "13:30",
-    endTime: "13:50",
-  },
-];
 
 const styles = StyleSheet.create({
   container: {},
