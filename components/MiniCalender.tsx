@@ -16,6 +16,7 @@ export default class MiniCalender extends React.Component<Props> {
         plugins={[dayGridPlugin, interactionPlugin]}
         nowIndicator={true}
         dateClick={this.changeDaySelected}
+        contentHeight={400}
       />
     );
   }
