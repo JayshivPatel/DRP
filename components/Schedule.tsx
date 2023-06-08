@@ -168,7 +168,7 @@ export default class Schedule extends React.Component<
     const bookingTime = selectedDate ? selectedDate.toLocaleTimeString() : null;
 
     return (
-      <PaperProvider>
+      <PaperProvider theme={{ version: 2 }}>
         <Card style={styles.clinicHeader}>
           <Card.Title
             title={this.props.title + ": " + this.props.date.slice(0, 10)}

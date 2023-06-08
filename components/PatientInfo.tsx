@@ -1,7 +1,7 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Patient } from "../lib/api";
-import { List, Card } from "react-native-paper";
+import { List, Card, PaperProvider } from "react-native-paper";
 
 export default class PatientInfo extends React.Component<{
   patient?: Patient;
@@ -25,14 +25,16 @@ export default class PatientInfo extends React.Component<{
     ];
 
     return (
-      <Card style={styles.container}>
-        <FlatList
-          data={fields}
-          renderItem={({ item }) => (
-            <List.Item title={item[0]} description={item[1]} />
-          )}
-        />
-      </Card>
+      <PaperProvider theme={{ version: 2 }}>
+        <Card style={styles.container}>
+          <FlatList
+            data={fields}
+            renderItem={({ item }) => (
+              <List.Item title={item[0]} description={item[1]} />
+            )}
+          />
+        </Card>
+      </PaperProvider>
     );
   }
 }

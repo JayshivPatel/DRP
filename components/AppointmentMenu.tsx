@@ -10,7 +10,7 @@ const AppointmentMenu = () => {
   const closeMenu = () => setVisible(false);
 
   return (
-    <PaperProvider>
+    <PaperProvider theme={{ version: 2 }}>
       <View
         style={{
           paddingTop: 50,

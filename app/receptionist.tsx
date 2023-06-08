@@ -38,7 +38,7 @@ export default function Receptionist() {
   }
 
   return (
-    <PaperProvider>
+    <PaperProvider theme={{ version: 2 }}>
       <Toolbar
         showSearchModal={showSearchModal}
         hideSearchModal={hideSearchModal}

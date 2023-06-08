@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { View, FlatList } from "react-native";
-import { List, Searchbar, Card, Text, Divider } from "react-native-paper";
+import {
+  List,
+  Searchbar,
+  Card,
+  Text,
+  Divider,
+  PaperProvider,
+} from "react-native-paper";
 import DateInput from "./DateInput";
 
 import type { Patient } from "../lib/api";
@@ -21,70 +28,71 @@ export default function PatientSearch(props: {
     );
 
   return (
-    <Card
-      style={{
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "white",
-      }}
-    >
-      <Card.Title
-        title="Patient Search"
-        titleStyle={{ color: "black" }}
-        titleVariant={"headlineLarge"}
-      ></Card.Title>
-
-      <Card.Content
+    <PaperProvider theme={{ version: 2 }}>
+      <Card
         style={{
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: "white",
         }}
       >
-        <View style={{ flexDirection: "row", padding: 10 }}>
-          <View>
-            <Text variant="titleMedium" style={{ color: "black" }}>
-              Date Of Birth:{" "}
-            </Text>
-            <DateInput value={dateOfBirth} onChange={setDateOfBirth} />
+        <Card.Title
+          title="Patient Search"
+          titleStyle={{ color: "black" }}
+          titleVariant={"headlineLarge"}
+        ></Card.Title>
 
-            <Text
-              variant="titleMedium"
-              style={{ color: "black", marginTop: 20 }}
-            >
-              Name:
-            </Text>
-            <Searchbar
-              placeholder="Search by name.."
-              value={nameQuery}
-              onChangeText={setNameQuery}
-              mode="bar"
-              iconColor="white"
-              style={{
-                backgroundColor: "#2f3e46",
-                marginTop: 0,
-                maxHeight: 55,
-                maxWidth: 200,
-                borderWidth: 1,
-              }}
-            />
+        <Card.Content
+          style={{
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View style={{ flexDirection: "row", padding: 10 }}>
+            <View>
+              <Text variant="titleMedium" style={{ color: "black" }}>
+                Date Of Birth:{" "}
+              </Text>
+              <DateInput value={dateOfBirth} onChange={setDateOfBirth} />
+
+              <Text
+                variant="titleMedium"
+                style={{ color: "black", marginTop: 20 }}
+              >
+                Name:
+              </Text>
+              <Searchbar
+                placeholder="Search by name.."
+                value={nameQuery}
+                onChangeText={setNameQuery}
+                mode="bar"
+                iconColor="white"
+                style={{
+                  backgroundColor: "#2f3e46",
+                  marginTop: 0,
+                  maxHeight: 55,
+                  borderWidth: 1,
+                }}
+              />
+            </View>
           </View>
-        </View>
 
-        <FlatList
-          data={searchResults}
-          renderItem={({ item }) => (
-            <List.Item
-              title={item.name}
-              description={item.nhsNumber}
-              left={(props) => <List.Icon {...props} icon="account" />}
-              onPress={() => props.setPatient(item)}
-              style={{ backgroundColor: "#2f3e46", borderRadius: 15 }}
-            />
-          )}
-        />
-      </Card.Content>
-    </Card>
+          <FlatList
+            data={searchResults}
+            renderItem={({ item }) => (
+              <List.Item
+                title={item.name}
+                description={item.nhsNumber}
+                left={(props) => <List.Icon {...props} icon="account" />}
+                onPress={() => props.setPatient(item)}
+                style={{ backgroundColor: "#2f3e46", borderRadius: 15 }}
+              />
+            )}
+          />
+        </Card.Content>
+      </Card>
+    </PaperProvider>
   );
 }
