@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, FlatList } from "react-native";
-import { List, Searchbar, Card } from "react-native-paper";
+import { View, FlatList } from "react-native";
+import { List, Searchbar, Card, Text, Divider } from "react-native-paper";
 import DateInput from "./DateInput";
 
 import type { Patient } from "../lib/api";
@@ -32,7 +32,7 @@ export default function PatientSearch(props: {
       <Card.Title
         title="Patient Search"
         titleStyle={{ color: "black" }}
-        titleVariant={"titleLarge"}
+        titleVariant={"headlineLarge"}
       ></Card.Title>
 
       <Card.Content
@@ -43,25 +43,33 @@ export default function PatientSearch(props: {
         }}
       >
         <View style={{ flexDirection: "row", padding: 10 }}>
-          <Text>Date Of Birth: </Text>
-          <DateInput value={dateOfBirth} onChange={setDateOfBirth} />
-        </View>
-        <View style={{ flexDirection: "row", padding: 10 }}>
-          <Text>Name: </Text>
-          <Searchbar
-            placeholder="Search by name.."
-            value={nameQuery}
-            onChangeText={setNameQuery}
-            mode="bar"
-            iconColor="white"
-            style={{
-              backgroundColor: "#2f3e46",
-              marginTop: 20,
-              maxHeight: 60,
-              maxWidth: 200,
-              borderWidth: 1,
-            }}
-          />
+          <View>
+            <Text variant="titleMedium" style={{ color: "black" }}>
+              Date Of Birth:{" "}
+            </Text>
+            <DateInput value={dateOfBirth} onChange={setDateOfBirth} />
+
+            <Text
+              variant="titleMedium"
+              style={{ color: "black", marginTop: 20 }}
+            >
+              Name:
+            </Text>
+            <Searchbar
+              placeholder="Search by name.."
+              value={nameQuery}
+              onChangeText={setNameQuery}
+              mode="bar"
+              iconColor="white"
+              style={{
+                backgroundColor: "#2f3e46",
+                marginTop: 0,
+                maxHeight: 55,
+                maxWidth: 200,
+                borderWidth: 1,
+              }}
+            />
+          </View>
         </View>
 
         <FlatList

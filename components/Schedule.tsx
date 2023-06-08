@@ -153,8 +153,9 @@ export default class Schedule extends React.Component<
       <PaperProvider>
         <Card style={styles.clinicHeader}>
           <Card.Title
-            title={this.props.title + ":" + this.props.date.slice(0, 10)}
+            title={this.props.title + ": " + this.props.date.slice(0, 10)}
             titleStyle={{ color: "black" }}
+            titleVariant="titleMedium"
           />
           <Card.Actions>
             {this.props.handleCancel && (
@@ -198,15 +199,30 @@ export default class Schedule extends React.Component<
           >
             <View style={modalOneViewStyle}>
               <View style={styles.checkboxContainer}>
-                <label style={{ marginRight: 5 }}>Name: </label>
-                <Text>
+                <Text
+                  variant="bodyLarge"
+                  style={{ marginRight: 5, color: "black" }}
+                >
+                  Name:{" "}
+                </Text>
+                <Text variant="bodyLarge" style={{ color: "black" }}>
                   {this.state.selectedEvent?.extendedProps.patient.firstName +
                     " " +
                     this.state.selectedEvent?.extendedProps.patient.lastName}
                 </Text>
               </View>
-              <label>Appointment Reason: </label>
-              <Text style={{ marginBottom: 30, borderWidth: 1 }}>
+              <Text variant="bodyLarge" style={{ color: "black" }}>
+                Appointment Reason:{" "}
+              </Text>
+              <Text
+                variant="bodyLarge"
+                style={{
+                  marginBottom: 30,
+                  borderWidth: 1,
+                  color: "black",
+                  borderRadius: 5,
+                }}
+              >
                 {this.state.selectedEvent?.extendedProps.notes}
               </Text>
               <Button
@@ -276,6 +292,7 @@ export default class Schedule extends React.Component<
                     <Button
                       buttonColor="#2196f3"
                       textColor="white"
+                      compact={true}
                       onPress={() => this.setState({ showModalTwo: false })}
                     >
                       Cancel
