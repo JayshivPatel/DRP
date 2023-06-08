@@ -199,7 +199,11 @@ export default class Schedule extends React.Component<
             <View style={modalOneViewStyle}>
               <View style={styles.checkboxContainer}>
                 <label style={{ marginRight: 5 }}>Name: </label>
-                <Text>hi</Text>
+                <Text>
+                  {this.state.selectedEvent?.extendedProps.patient.firstName +
+                    " " +
+                    this.state.selectedEvent?.extendedProps.patient.lastName}
+                </Text>
               </View>
               <label>Appointment Reason: </label>
               <Text style={{ marginBottom: 30, borderWidth: 1 }}>
