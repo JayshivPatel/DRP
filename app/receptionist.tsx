@@ -63,11 +63,7 @@ export default function Receptionist() {
           </View>
         </View>
         <View style={styles.clinicContainer}>
-          <FlatList
-            data={clinics}
-            horizontal={true}
-            renderItem={(clinic) => <ClinicInfo clinic={clinic.item} />}
-          />
+          {clinics?.map((clinic: Cl) => <View style={styles.clinicInfo}><ClinicInfo clinic={clinic} /></View>)}
         </View>
       </View>
     </PaperProvider>
@@ -89,6 +85,11 @@ const styles = StyleSheet.create({
   clinicContainer: {
     flexDirection: "row",
     marginLeft: 10,
-    flex: 3,
+    flex: 1,
   },
+  clinicInfo: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flex: 1,
+  }
 });

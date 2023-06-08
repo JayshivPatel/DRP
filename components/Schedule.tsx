@@ -17,7 +17,6 @@ export default class Schedule extends React.Component<
     showModalTwo: boolean;
     selectedEvent?: EventApi;
     selectedDate?: Date;
-    showAppointmentModal: boolean;
     text: string;
     selectedDuration: number;
   }
@@ -27,7 +26,6 @@ export default class Schedule extends React.Component<
     showModalTwo: false,
     selectedEvent: undefined,
     selectedDate: undefined,
-    showAppointmentModal: false,
     text: "",
     selectedDuration: 5,
   };
@@ -42,8 +40,8 @@ export default class Schedule extends React.Component<
     this.setState({ showModalTwo: true });
   };
 
-  openAppointmentModal = () => {
-    this.setState({ showAppointmentModal: true });
+  closeBookingScreen = () => {
+    this.setState({ showModalTwo: false });
   };
 
   onChangeText = (text: string) => {
@@ -54,13 +52,16 @@ export default class Schedule extends React.Component<
     this.setState({ selectedDuration: durationValue });
   };
 
+  createAppointment = () => {
+    this.closeBookingScreen();
+  };
+
   render() {
     const {
       showModalOne,
       showModalTwo,
       selectedEvent,
       selectedDate,
-      showAppointmentModal,
       text,
     } = this.state;
 
@@ -96,7 +97,7 @@ export default class Schedule extends React.Component<
     ];
 
     const bookingTime = selectedDate
-      ? `${selectedDate.getHours()}:${selectedDate.getMinutes()}`
+      ? selectedDate.toLocaleTimeString()
       : null;
 
     return (
@@ -134,15 +135,6 @@ export default class Schedule extends React.Component<
             slotDuration={"00:10:00"}
           />
         </View>
-        <Portal>
-          <Modal
-            visible={showAppointmentModal}
-            onDismiss={() => this.setState({ showAppointmentModal: false })}
-            contentContainerStyle={bookingStyle}
-          >
-            <View>Test</View>
-          </Modal>
-        </Portal>
         <Portal>
           <Modal
             visible={showModalOne}
@@ -201,7 +193,7 @@ export default class Schedule extends React.Component<
                 <input type="checkbox" id="smsConfirmed" />
               </View>
 
-              <Button onPress={this.openAppointmentModal}>
+              <Button onPress={this.createAppointment}>
                 Book Appointment for {bookingTime}
               </Button>
             </View>
@@ -227,9 +219,7 @@ const events = [
 ];
 
 const styles = StyleSheet.create({
-  container: {
-    maxWidth: 250,
-  },
+  container: {},
   clinicHeader: {
     color: "black",
   },
