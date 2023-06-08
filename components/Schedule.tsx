@@ -119,7 +119,7 @@ export default class Schedule extends React.Component<
       return;
     }
     alert("Cancelled appointment " + id);
-  }
+  };
 
   render() {
     const { showModalOne, showModalTwo, selectedEvent, selectedDate, text } =
@@ -206,7 +206,11 @@ export default class Schedule extends React.Component<
                 {this.state.selectedEvent?.extendedProps.notes}
               </Text>
               <Button
-                onPress={() => this.cancelAppointment(this.state.selectedEvent?.extendedProps.notes)}
+                onPress={() =>
+                  this.cancelAppointment(
+                    this.state.selectedEvent?.extendedProps.notes
+                  )
+                }
                 buttonColor="#2196f3"
                 textColor="white"
               >
