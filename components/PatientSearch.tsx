@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, FlatList } from "react-native";
-import { List, Searchbar } from "react-native-paper";
+import { List, Searchbar, Card } from "react-native-paper";
 import DateInput from "./DateInput";
 
 import type { Patient } from "../lib/api";
@@ -21,28 +21,45 @@ export default function PatientSearch(props: {
     );
 
   return (
-    <View
+    <Card
       style={{
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "white",
       }}
     >
-      <Text style={{ fontWeight: "bold", fontSize: 20 }}>Patient Search</Text>
+      <Card.Title
+        title="Patient Search"
+        titleStyle={{ color: "black" }}
+        titleVariant={"titleLarge"}
+      ></Card.Title>
 
-      <View
+      <Card.Content
         style={{
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <DateInput value={dateOfBirth} onChange={setDateOfBirth} />
-        <Searchbar
-          placeholder="Name"
-          value={nameQuery}
-          onChangeText={setNameQuery}
-        />
+        <View style={{ flexDirection: "row", padding: 10 }}>
+          <Text>Date Of Birth: </Text>
+          <DateInput value={dateOfBirth} onChange={setDateOfBirth} />
+        </View>
+        <View style={{ flexDirection: "row", padding: 10 }}>
+          <Text>Name: </Text>
+          <Searchbar
+            placeholder="Search by name.."
+            value={nameQuery}
+            onChangeText={setNameQuery}
+            style={{
+              backgroundColor: "grey",
+              marginTop: 20,
+              maxHeight: 60,
+              maxWidth: 200,
+            }}
+          />
+        </View>
 
         <FlatList
           data={searchResults}
@@ -52,10 +69,11 @@ export default function PatientSearch(props: {
               description={item.nhsNumber}
               left={(props) => <List.Icon {...props} icon="account" />}
               onPress={() => props.setPatient(item)}
+              style={{ backgroundColor: "black", borderRadius: 15 }}
             />
           )}
         />
-      </View>
-    </View>
+      </Card.Content>
+    </Card>
   );
 }
