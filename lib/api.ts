@@ -116,5 +116,5 @@ export async function createAppointment(options: {
 }
 
 export async function deleteAppointment(id: number) {
-  //await apiRequest("/api/appointments/" + id, "DELETE");
+  await apiRequest("/api/appointments/" + id, "DELETE");
 }
