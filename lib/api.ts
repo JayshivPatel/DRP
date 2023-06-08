@@ -114,3 +114,7 @@ export async function createAppointment(options: {
 }) {
   await apiRequest("/api/appointments", "POST", options);
 }
+
+export async function deleteAppointment(id: number) {
+  //await apiRequest("/api/appointments/" + id, "DELETE");
+}

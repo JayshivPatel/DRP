@@ -114,6 +114,13 @@ export default class Schedule extends React.Component<
     );
   };
 
+  cancelAppointment = (id: string) => {
+    if (!confirm("Are you sure you want to cancel this appointment?")) {
+      return;
+    }
+    alert("Cancelled appointment " + id);
+  }
+
   render() {
     const { showModalOne, showModalTwo, selectedEvent, selectedDate, text } =
       this.state;
@@ -199,7 +206,7 @@ export default class Schedule extends React.Component<
                 {this.state.selectedEvent?.extendedProps.notes}
               </Text>
               <Button
-                onPress={() => alert("Appointment Cancelled")}
+                onPress={() => this.cancelAppointment(this.state.selectedEvent?.extendedProps.notes)}
                 buttonColor="#2196f3"
                 textColor="white"
               >
