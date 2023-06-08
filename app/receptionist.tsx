@@ -6,6 +6,7 @@ import {
   Portal,
   Modal,
   Searchbar,
+  Card,
 } from "react-native-paper";
 import { SetStateAction, useState } from "react";
 import MiniCalender from "../components/MiniCalender";
@@ -58,9 +59,11 @@ export default function Receptionist() {
           <View>
             <PatientInfo patient={patient} />
           </View>
-          <View style={styles.calendarContainer}>
-            <MiniCalender changeDate={updateDate} />
-          </View>
+          <Card style={styles.calendarContainer}>
+            <Card.Content>
+              <MiniCalender changeDate={updateDate} />
+            </Card.Content>
+          </Card>
         </View>
         <View style={styles.clinicContainer}>
           {clinics?.map((clinic) => (
@@ -88,6 +91,7 @@ const styles = StyleSheet.create({
   calendarContainer: {
     marginRight: 15,
     flex: 1,
+    backgroundColor: "white",
   },
 
   clinicContainer: {
@@ -99,5 +103,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 1,
     flex: 1,
+  },
+  patientContainer: {
+    backgroundColor: "white",
   },
 });

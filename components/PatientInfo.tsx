@@ -11,9 +11,9 @@ export default class PatientInfo extends React.Component<{
 
     if (!patient) {
       return (
-        <View style={styles.container}>
-          <Text>No patient selected</Text>
-        </View>
+        <Card style={styles.container}>
+          <Card.Title title="No Patient Selected"></Card.Title>
+        </Card>
       );
     }
 
@@ -41,6 +41,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#2196f3",
-    color: "black",
   },
 });
