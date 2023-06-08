@@ -144,10 +144,9 @@ export default class Schedule extends React.Component<
 
     return (
       <PaperProvider>
-        <View style={styles.container}>
-          <Text variant="titleLarge" style={styles.clinicHeader}>
-            {this.props.title}: {this.props.date.slice(0, 10)}
-          </Text>
+        <Card style={styles.clinicHeader}>
+          <Card.Title title={this.props.title + ":" + this.props.date.slice(0, 10)} titleStyle={{color: "black"}}/>
+          <Card.Actions>
           {this.props.handleCancel && (
             <Button
               icon="cog"
@@ -159,6 +158,8 @@ export default class Schedule extends React.Component<
               Cancel Clinic
             </Button>
           )}
+          </Card.Actions>
+          <Card.Content>
           <FullCalendar
             plugins={[timeGridPlugin, interactionPlugin]}
             initialView="timeGridDay"
@@ -175,8 +176,10 @@ export default class Schedule extends React.Component<
             nowIndicator={true}
             events={this.props.appointments}
             slotDuration={"00:10:00"}
+            eventColor="#2196f3"
           />
-        </View>
+          </Card.Content>
+        </Card>
         <Portal>
           <Modal
             visible={showModalOne}
@@ -282,6 +285,7 @@ const styles = StyleSheet.create({
   container: {},
   clinicHeader: {
     color: "black",
+    backgroundColor: "29335C"
   },
   checkboxContainer: {
     flexDirection: "row",

@@ -8,7 +8,6 @@ type Props = { changeDate: (date: string) => void };
 
 export default class MiniCalender extends React.Component<Props> {
   changeDaySelected = (payload: DateClickArg) => {
-    alert("This should change the day to " + payload.dateStr);
     this.props.changeDate(payload.dateStr);
   };
   render() {
