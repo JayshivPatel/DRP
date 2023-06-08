@@ -7,6 +7,7 @@ import {
   deleteClinic,
   createAppointment,
   useAppointments,
+  deleteAppointment,
 } from "../lib/api";
 import { View, Text, StyleSheet } from "react-native";
 
@@ -28,15 +29,11 @@ export default function ClinicInfo({
     <Schedule
       title={clinic.title}
       date={clinic.date}
-      appointments={data?.map((appointment: Appointment) => ({
-        ...appointment,
-        title: `${appointment.patient?.firstName} ${appointment.patient?.lastName}`,
-      }))}
+      appointments={data}
       handleCancel={async () => {
         if (!confirm("Are you sure you wish to cancel this clinic?")) {
           return;
         }
-
         await deleteClinic(clinic.id);
         onDelete!();
       }}
@@ -54,6 +51,10 @@ export default function ClinicInfo({
           mutate();
         })
       }
+      cancelAppointment={async ({ id }) => {
+        await deleteAppointment(id);
+        mutate();
+      }}
     />
   );
 }

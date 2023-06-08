@@ -20,6 +20,9 @@ export declare type Clinic = {
 
 export declare type Appointment = {
   id: number;
+  startTime: string;
+  endTime: string;
+  notes: string;
   patient?: Patient;
   clinic?: Clinic;
 };

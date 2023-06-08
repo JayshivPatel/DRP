@@ -13,16 +13,22 @@ import {
 } from "react-native-paper";
 import { View, StyleSheet, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { useAppointments, useClinics } from "../lib/api";
+import { Appointment, useAppointments, useClinics } from "../lib/api";
 import CardActions from "react-native-paper/lib/typescript/src/components/Card/CardActions";
 
 const durations = [5, 10, 15, 20, 25, 30];
+
+interface WithExtendedProps {
+  extendedProps: {
+    appointment: Appointment;
+  };
+}
 
 export default class Schedule extends React.Component<
   {
     title: string;
     date: string;
-    appointments: any;
+    appointments?: Appointment[];
     handleCancel?: () => void;
     createAppointment?: (
       startTime: string,
@@ -30,11 +36,12 @@ export default class Schedule extends React.Component<
       notes: string,
       notifySms: boolean
     ) => void;
+    cancelAppointment?: (appointment: Appointment) => void;
   },
   {
     showModalOne: boolean;
     showModalTwo: boolean;
-    selectedEvent?: EventApi;
+    appointment?: Appointment;
     selectedDate?: Date;
     text: string;
     selectedDuration: number;
@@ -47,7 +54,7 @@ export default class Schedule extends React.Component<
     this.state = {
       showModalOne: false,
       showModalTwo: false,
-      selectedEvent: undefined,
+      appointment: undefined,
       selectedDate: undefined,
       text: "",
       selectedDuration: 5,
@@ -56,8 +63,12 @@ export default class Schedule extends React.Component<
   }
 
   openEventDetailsOnClick = (payload: EventClickArg) => {
-    this.setState({ selectedEvent: payload.event });
+    this.setState({ appointment: payload.event.extendedProps.appointment });
     this.setState({ showModalOne: true });
+  };
+
+  closeEventDetails = () => {
+    this.setState({ showModalOne: false });
   };
 
   openBookingScreen = (payload: DateClickArg) => {
@@ -114,16 +125,23 @@ export default class Schedule extends React.Component<
     );
   };
 
-  cancelAppointment = (id: string) => {
-    if (!confirm("Are you sure you want to cancel this appointment?")) {
-      return;
-    }
-    alert("Cancelled appointment " + id);
+  cancelAppointment = (appointment: Appointment) => {
+    this.closeEventDetails();
+    this.props.cancelAppointment!(appointment);
   };
 
   render() {
-    const { showModalOne, showModalTwo, selectedEvent, selectedDate, text } =
+    const { showModalOne, showModalTwo, appointment, selectedDate, text } =
       this.state;
+
+    const events = this.props.appointments?.map((appointment) => ({
+      title: `${appointment.patient?.firstName} ${appointment.patient?.lastName}`,
+      startTime: appointment.startTime,
+      endTime: appointment.endTime,
+      extendedProps: {
+        appointment,
+      },
+    }));
 
     const containerStyle = {
       backgroundColor: "white",
@@ -185,7 +203,7 @@ export default class Schedule extends React.Component<
               slotMaxTime={"19:00:00"}
               slotEventOverlap={false}
               nowIndicator={true}
-              events={this.props.appointments}
+              events={events}
               slotDuration={"00:10:00"}
               eventColor="#2196f3"
             />
@@ -203,16 +221,15 @@ export default class Schedule extends React.Component<
                   variant="bodyLarge"
                   style={{ marginRight: 5, color: "black" }}
                 >
-                  Name:{" "}
+                  Name:
                 </Text>
                 <Text variant="bodyLarge" style={{ color: "black" }}>
-                  {this.state.selectedEvent?.extendedProps.patient.firstName +
-                    " " +
-                    this.state.selectedEvent?.extendedProps.patient.lastName}
+                  {appointment?.patient?.firstName}{" "}
+                  {appointment?.patient?.lastName}
                 </Text>
               </View>
               <Text variant="bodyLarge" style={{ color: "black" }}>
-                Appointment Reason:{" "}
+                Appointment Reason:
               </Text>
               <Text
                 variant="bodyLarge"
@@ -223,19 +240,19 @@ export default class Schedule extends React.Component<
                   borderRadius: 5,
                 }}
               >
-                {this.state.selectedEvent?.extendedProps.notes}
+                {appointment?.notes}
               </Text>
-              <Button
-                onPress={() =>
-                  this.cancelAppointment(
-                    this.state.selectedEvent?.extendedProps.notes
-                  )
-                }
-                buttonColor="#2196f3"
-                textColor="white"
-              >
-                Cancel Appointment
-              </Button>
+              {this.props.cancelAppointment && (
+                <Button
+                  onPress={() =>
+                    appointment && this.cancelAppointment!(appointment)
+                  }
+                  buttonColor="#2196f3"
+                  textColor="white"
+                >
+                  Cancel Appointment
+                </Button>
+              )}
             </View>
           </Modal>
         </Portal>
