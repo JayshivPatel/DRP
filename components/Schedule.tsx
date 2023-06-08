@@ -15,6 +15,7 @@ export default class Schedule extends React.Component<
     title: string;
     date: string;
     appointments: any;
+    handleCancel?: () => void;
     createAppointment?: (
       startTime: string,
       endTime: string,
@@ -139,17 +140,17 @@ export default class Schedule extends React.Component<
           <Text variant="titleLarge" style={styles.clinicHeader}>
             {this.props.title}: {this.props.date.slice(0, 10)}
           </Text>
-          <Button
-            icon="cog"
-            textColor="white"
-            buttonColor="#2196f3"
-            mode="outlined"
-            onPress={() =>
-              confirm("Are you sure you wish to cancel this clinic?")
-            }
-          >
-            Cancel Clinic
-          </Button>
+          {this.props.handleCancel && (
+            <Button
+              icon="cog"
+              textColor="white"
+              buttonColor="#2196f3"
+              mode="outlined"
+              onPress={this.props.handleCancel}
+            >
+              Cancel Clinic
+            </Button>
+          )}
           <FullCalendar
             plugins={[timeGridPlugin, interactionPlugin]}
             initialView="timeGridDay"

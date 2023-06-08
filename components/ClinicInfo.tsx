@@ -4,6 +4,7 @@ import {
   Clinic,
   Patient,
   Appointment,
+  deleteClinic,
   createAppointment,
   useAppointments,
 } from "../lib/api";
@@ -12,9 +13,11 @@ import { View, Text, StyleSheet } from "react-native";
 export default function ClinicInfo({
   clinic,
   selectedPatient,
+  onDelete,
 }: {
   clinic: Clinic;
   selectedPatient?: Patient;
+  onDelete?: () => void;
 }) {
   const { data, mutate } = useAppointments({
     clinicId: clinic.id,
@@ -29,6 +32,14 @@ export default function ClinicInfo({
         ...appointment,
         title: `${appointment.patient?.firstName} ${appointment.patient?.lastName}`,
       }))}
+      handleCancel={async () => {
+        if (!confirm("Are you sure you wish to cancel this clinic?")) {
+          return;
+        }
+
+        await deleteClinic(clinic.id);
+        onDelete!();
+      }}
       createAppointment={
         selectedPatient &&
         (async (startTime, endTime, notes, notifySms) => {

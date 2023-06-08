@@ -65,7 +65,11 @@ export default function Receptionist() {
         <View style={styles.clinicContainer}>
           {clinics?.map((clinic) => (
             <View style={styles.clinicInfo}>
-              <ClinicInfo clinic={clinic} selectedPatient={patient} />
+              <ClinicInfo
+                clinic={clinic}
+                selectedPatient={patient}
+                onDelete={mutateClinics}
+              />
             </View>
           ))}
         </View>

@@ -35,9 +35,9 @@ model Appointment {
   startTime DateTime @db.Time
   endTime   DateTime @db.Time
   notes     String
-  clinic    Clinic   @relation(fields: [clinicId], references: [id])
+  clinic    Clinic   @relation(fields: [clinicId], references: [id], onDelete: Cascade)
   clinicId  Int
-  patient   Patient  @relation(fields: [patientId], references: [id])
+  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
   patientId Int
 }
 

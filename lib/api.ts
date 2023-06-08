@@ -82,6 +82,10 @@ export async function createClinic(date: string, title: string) {
   await apiRequest("/api/clinics", "POST", { date, title });
 }
 
+export async function deleteClinic(id: number) {
+  await apiRequest("/api/clinics/" + id, "DELETE");
+}
+
 export function useAppointments(options?: {
   clinicId?: number;
   patientId?: number;
