@@ -12,7 +12,7 @@ export default routeHandler({
   async DELETE(req: NextApiRequest, res: NextApiResponse) {
     const { id } = deleteSchema.parse(req.query);
 
-    await prisma.clinic.delete({
+    await prisma.appointment.delete({
       where: { id },
     });
 
