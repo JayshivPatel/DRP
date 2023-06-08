@@ -1,7 +1,7 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Patient } from "../lib/api";
-import { List } from "react-native-paper";
+import { List, Card, PaperProvider } from "react-native-paper";
 
 export default class PatientInfo extends React.Component<{
   patient?: Patient;
@@ -11,9 +11,9 @@ export default class PatientInfo extends React.Component<{
 
     if (!patient) {
       return (
-        <View style={styles.container}>
-          <Text>No patient selected</Text>
-        </View>
+        <Card style={styles.container}>
+          <Card.Title title="No Patient Selected"></Card.Title>
+        </Card>
       );
     }
 
@@ -25,14 +25,18 @@ export default class PatientInfo extends React.Component<{
     ];
 
     return (
-      <View style={styles.container}>
-        <FlatList
-          data={fields}
-          renderItem={({ item }) => (
-            <List.Item title={item[0]} description={item[1]} />
-          )}
-        />
-      </View>
+      <PaperProvider theme={{ version: 2 }}>
+        <Card style={styles.container}>
+          <Card.Content>
+            <FlatList
+              data={fields}
+              renderItem={({ item }) => (
+                <List.Item title={item[0]} description={item[1]} />
+              )}
+            />
+          </Card.Content>
+        </Card>
+      </PaperProvider>
     );
   }
 }
@@ -40,6 +44,6 @@ export default class PatientInfo extends React.Component<{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 22,
+    backgroundColor: "#2196f3",
   },
 });

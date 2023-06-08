@@ -5,7 +5,7 @@ import { prisma, filterDateOnly } from "../../server/database";
 import * as z from "zod";
 
 const getSchema = z.object({
-  dateOfBirth: dateOnly(),
+  dateOfBirth: dateOnly().optional(),
 });
 
 export default routeHandler({
@@ -13,7 +13,7 @@ export default routeHandler({
     const { dateOfBirth } = getSchema.parse(req.query);
     const patients = await prisma.patient.findMany({
       where: {
-        dateOfBirth: filterDateOnly(dateOfBirth),
+        dateOfBirth: dateOfBirth && filterDateOnly(dateOfBirth),
       },
     });
     res.status(200).json(patients);

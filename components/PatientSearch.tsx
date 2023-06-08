@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, FlatList } from "react-native";
-import { List, Searchbar } from "react-native-paper";
+import { View, FlatList } from "react-native";
+import {
+  List,
+  Searchbar,
+  Card,
+  Text,
+  Divider,
+  PaperProvider,
+} from "react-native-paper";
 import DateInput from "./DateInput";
 
 import type { Patient } from "../lib/api";
@@ -21,41 +28,75 @@ export default function PatientSearch(props: {
     );
 
   return (
-    <View
-      style={{
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text style={{ fontWeight: "bold", fontSize: 20 }}>Patient Search</Text>
-
-      <View
+    <PaperProvider theme={{ version: 2 }}>
+      <Card
         style={{
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: "white",
         }}
       >
-        <DateInput value={dateOfBirth} onChange={setDateOfBirth} />
-        <Searchbar
-          placeholder="Name"
-          value={nameQuery}
-          onChangeText={setNameQuery}
-        />
+        <Card.Title
+          title="Patient Search"
+          titleStyle={{ color: "black" }}
+          titleVariant={"headlineLarge"}
+        ></Card.Title>
 
-        <FlatList
-          data={searchResults}
-          renderItem={({ item }) => (
-            <List.Item
-              title={item.name}
-              description={item.nhsNumber}
-              left={(props) => <List.Icon {...props} icon="account" />}
-              onPress={() => props.setPatient(item)}
+        <Card.Content
+          style={{
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View style={{ flexDirection: "row", padding: 10 }}>
+            <View>
+              <Text variant="titleMedium" style={{ color: "black" }}>
+                Date Of Birth:{" "}
+              </Text>
+              <DateInput value={dateOfBirth} onChange={setDateOfBirth} />
+
+              <Text
+                variant="titleMedium"
+                style={{ color: "black", marginTop: 20 }}
+              >
+                Name:
+              </Text>
+              <Searchbar
+                placeholder="Search by name.."
+                value={nameQuery}
+                onChangeText={setNameQuery}
+                mode="bar"
+                iconColor="white"
+                style={{
+                  backgroundColor: "#2196f3",
+                  marginTop: 0,
+                  maxHeight: 55,
+                  borderWidth: 1,
+                  color: "white",
+                  borderRadius: 10,
+                }}
+                theme={{ colors: { primary: "white" } }}
+              />
+            </View>
+          </View>
+          <PaperProvider theme={{ version: 2 }}>
+            <FlatList
+              data={searchResults}
+              renderItem={({ item }) => (
+                <List.Item
+                  title={item.name}
+                  description={item.nhsNumber}
+                  left={(props) => <List.Icon {...props} icon="account" />}
+                  onPress={() => props.setPatient(item)}
+                  style={{ backgroundColor: "#2196f3", borderRadius: 15 }}
+                />
+              )}
             />
-          )}
-        />
-      </View>
-    </View>
+          </PaperProvider>
+        </Card.Content>
+      </Card>
+    </PaperProvider>
   );
 }

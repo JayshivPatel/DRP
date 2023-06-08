@@ -6,41 +6,50 @@ import {
   Portal,
   Modal,
   Searchbar,
+  Card,
 } from "react-native-paper";
 import { SetStateAction, useState } from "react";
 import MiniCalender from "../components/MiniCalender";
 import Toolbar from "../components/Toolbar";
 import PatientInfo from "../components/PatientInfo";
 
-import type { Patient } from "../lib/api";
+import { Patient, createClinic, useClinics } from "../lib/api";
 import type { Clinic } from "../lib/api";
+const today = new Date().toISOString().split("T")[0];
 
 export default function Receptionist() {
   const [searchVisible, setSearchVisible] = useState(false);
   const [clinicVisible, setClinicVisible] = useState(false);
   const [searchquery, setSearchquery] = useState("");
   const [patient, setPatient] = useState<Patient | undefined>(undefined);
+  const [date, setDate] = useState(today);
 
   const onChangeSearch = (query: SetStateAction<string>) =>
     setSearchquery(query);
   const showSearchModal = () => setSearchVisible(true);
   const hideSearchModal = () => setSearchVisible(false);
 
-  var clinics: Clinic[] = [];
-  const sampleClinic: Clinic = {
-    title: "Dr Patel",
-    date: "2023-06-07",
-  };
-  clinics.push(sampleClinic);
+  const { data: clinics, mutate: mutateClinics } = useClinics({
+    date: date,
+  });
+
+  function updateDate(date: string) {
+    setDate(date);
+  }
 
   return (
-    <PaperProvider>
+    <PaperProvider theme={{ version: 2 }}>
       <Toolbar
         showSearchModal={showSearchModal}
         hideSearchModal={hideSearchModal}
-        createClinic={() => {
-          alert("Adding an additional clinic...");
-          clinics.push(sampleClinic);
+        createClinic={async () => {
+          const title = prompt("Clinic name");
+          if (!title) {
+            return;
+          }
+
+          await createClinic(date, title);
+          mutateClinics();
         }}
         searchVisible={searchVisible}
         setPatient={setPatient}
@@ -50,17 +59,22 @@ export default function Receptionist() {
           <View>
             <PatientInfo patient={patient} />
           </View>
-          <View style={styles.calendarContainer}>
-            <MiniCalender />
-          </View>
+          <Card style={styles.calendarContainer}>
+            <Card.Content>
+              <MiniCalender changeDate={updateDate} />
+            </Card.Content>
+          </Card>
         </View>
         <View style={styles.clinicContainer}>
-          <FlatList
-            data={clinics}
-            horizontal={true}
-            renderItem={(clinic) => <ClinicInfo clinic={clinic.item} />}
-            extraData={clinics.length}
-          />
+          {clinics?.map((clinic) => (
+            <View style={styles.clinicInfo}>
+              <ClinicInfo
+                clinic={clinic}
+                selectedPatient={patient}
+                onDelete={mutateClinics}
+              />
+            </View>
+          ))}
         </View>
       </View>
     </PaperProvider>
@@ -77,11 +91,20 @@ const styles = StyleSheet.create({
   calendarContainer: {
     marginRight: 15,
     flex: 1,
+    backgroundColor: "white",
   },
 
   clinicContainer: {
     flexDirection: "row",
     marginLeft: 10,
-    flex: 3,
+    flex: 1,
+  },
+  clinicInfo: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flex: 1,
+  },
+  patientContainer: {
+    backgroundColor: "white",
   },
 });

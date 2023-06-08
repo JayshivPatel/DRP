@@ -4,6 +4,7 @@ import useSWR from "swr";
 const { apiUrl } = Constants.expoConfig?.extra || {};
 
 export declare type Patient = {
+  id: number;
   firstName: string;
   lastName: string;
   dateOfBirth: string;
@@ -12,8 +13,18 @@ export declare type Patient = {
 };
 
 export declare type Clinic = {
+  id: number;
   title: string;
   date: string;
+};
+
+export declare type Appointment = {
+  id: number;
+  startTime: string;
+  endTime: string;
+  notes: string;
+  patient?: Patient;
+  clinic?: Clinic;
 };
 
 async function apiRequest(url: string, method = "GET", data?: object) {
@@ -61,4 +72,52 @@ export function usePatients(params?: { dateOfBirth?: string }) {
     "/api/patients?" + new URLSearchParams(params),
     apiRequest
   );
+}
+
+export function useClinics(params?: { date?: string }) {
+  return useSWR<[Clinic], Error>(
+    "/api/clinics?" + new URLSearchParams(params),
+    apiRequest
+  );
+}
+
+export async function createClinic(date: string, title: string) {
+  await apiRequest("/api/clinics", "POST", { date, title });
+}
+
+export async function deleteClinic(id: number) {
+  await apiRequest("/api/clinics/" + id, "DELETE");
+}
+
+export function useAppointments(options?: {
+  clinicId?: number;
+  patientId?: number;
+  includeClinic?: boolean;
+  includePatient?: boolean;
+}) {
+  const params: Record<string, string> = {};
+
+  if (options?.clinicId) params.clinicId = options?.clinicId?.toString();
+  if (options?.patientId) params.patientId = options?.patientId?.toString();
+  if (options?.includeClinic)
+    params.includeClinic = options?.includeClinic?.toString();
+  if (options?.includePatient)
+    params.includePatient = options?.includePatient?.toString();
+
+  return useSWR("/api/appointments?" + new URLSearchParams(params), apiRequest);
+}
+
+export async function createAppointment(options: {
+  patientId: number;
+  clinicId: number;
+  startTime: string;
+  endTime: string;
+  notes: string;
+  notifySms?: boolean;
+}) {
+  await apiRequest("/api/appointments", "POST", options);
+}
+
+export async function deleteAppointment(id: number) {
+  await apiRequest("/api/appointments/" + id, "DELETE");
 }

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as z from "zod";
+import { parse as parseDate } from "date-fns";
 
 type ApiHandler = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 
@@ -14,11 +15,36 @@ type RouteHandler = {
   [key in ApiMethod]?: ApiHandler;
 };
 
-export function dateOnly(): z.ZodPipeline<z.ZodString, z.ZodDate> {
-  return z
-    .string()
-    .regex(/^\d+-\d+-\d+$/)
-    .pipe(z.coerce.date());
+function coerceDate(format: string) {
+  return z.string().transform((val, ctx) => {
+    const date = parseDate(val, format, new Date(0));
+
+    if (isNaN(date.getTime())) {
+      ctx.addIssue({ code: z.ZodIssueCode.invalid_date });
+      return z.NEVER;
+    }
+
+    /* Treat the input as UTC */
+    return new Date(
+      Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
+        date.getMilliseconds()
+      )
+    );
+  });
+}
+
+export function dateOnly() {
+  return coerceDate("yyyy-MM-dd");
+}
+
+export function timeOnly() {
+  return coerceDate("HH:mm");
 }
 
 export function routeHandler(handler: RouteHandler): ApiHandler {

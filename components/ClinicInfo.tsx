@@ -1,22 +1,62 @@
 import React from "react";
 import Schedule from "./Schedule";
-import { Clinic } from "../lib/api";
+import {
+  Clinic,
+  Patient,
+  Appointment,
+  deleteClinic,
+  createAppointment,
+  useAppointments,
+  deleteAppointment,
+} from "../lib/api";
 import { View, Text, StyleSheet } from "react-native";
 
-export default class ClinicInfo extends React.Component<{ clinic?: Clinic }> {
-  render() {
-    const { clinic } = this.props;
+export default function ClinicInfo({
+  clinic,
+  selectedPatient,
+  onDelete,
+}: {
+  clinic: Clinic;
+  selectedPatient?: Patient;
+  onDelete?: () => void;
+}) {
+  const { data, mutate } = useAppointments({
+    clinicId: clinic.id,
+    includePatient: true,
+  });
 
-    if (!clinic) {
-      return (
-        <View style={styles.container}>
-          <Text>Clinic failed to load</Text>
-        </View>
-      );
-    }
-
-    return <Schedule title={clinic.title} date={clinic.date} />;
-  }
+  return (
+    <Schedule
+      title={clinic.title}
+      date={clinic.date}
+      appointments={data}
+      handleCancel={async () => {
+        if (!confirm("Are you sure you wish to cancel this clinic?")) {
+          return;
+        }
+        await deleteClinic(clinic.id);
+        onDelete!();
+      }}
+      createAppointment={
+        selectedPatient &&
+        (async (startTime, endTime, notes, notifySms) => {
+          await createAppointment({
+            patientId: selectedPatient.id,
+            clinicId: clinic.id,
+            startTime,
+            endTime,
+            notes,
+            notifySms,
+          });
+          mutate();
+        })
+      }
+      cancelAppointment={async ({ id }) => {
+        await deleteAppointment(id);
+        mutate();
+      }}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
