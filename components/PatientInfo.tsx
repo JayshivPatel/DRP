@@ -27,12 +27,14 @@ export default class PatientInfo extends React.Component<{
     return (
       <PaperProvider theme={{ version: 2 }}>
         <Card style={styles.container}>
-          <FlatList
-            data={fields}
-            renderItem={({ item }) => (
-              <List.Item title={item[0]} description={item[1]} />
-            )}
-          />
+          <Card.Content>
+            <FlatList
+              data={fields}
+              renderItem={({ item }) => (
+                <List.Item title={item[0]} description={item[1]} />
+              )}
+            />
+          </Card.Content>
         </Card>
       </PaperProvider>
     );

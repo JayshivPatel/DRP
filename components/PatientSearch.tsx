@@ -70,29 +70,31 @@ export default function PatientSearch(props: {
                 mode="bar"
                 iconColor="white"
                 style={{
-                  backgroundColor: "white",
+                  backgroundColor: "#2196f3",
                   marginTop: 0,
                   maxHeight: 55,
                   borderWidth: 1,
                   color: "white",
+                  borderRadius: 10,
                 }}
-                theme={{colors: {primary: "white"}}}
+                theme={{ colors: { primary: "white" } }}
               />
             </View>
           </View>
-
-          <FlatList
-            data={searchResults}
-            renderItem={({ item }) => (
-              <List.Item
-                title={item.name}
-                description={item.nhsNumber}
-                left={(props) => <List.Icon {...props} icon="account" />}
-                onPress={() => props.setPatient(item)}
-                style={{ backgroundColor: "white", borderRadius: 15 }}
-              />
-            )}
-          />
+          <PaperProvider theme={{ version: 2 }}>
+            <FlatList
+              data={searchResults}
+              renderItem={({ item }) => (
+                <List.Item
+                  title={item.name}
+                  description={item.nhsNumber}
+                  left={(props) => <List.Icon {...props} icon="account" />}
+                  onPress={() => props.setPatient(item)}
+                  style={{ backgroundColor: "#2196f3", borderRadius: 15 }}
+                />
+              )}
+            />
+          </PaperProvider>
         </Card.Content>
       </Card>
     </PaperProvider>
