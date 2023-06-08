@@ -3,10 +3,18 @@ import FullCalendar from "@fullcalendar/react"; // must go before plugins
 import timeGridPlugin from "@fullcalendar/timegrid"; // a plugin!
 import { EventApi, EventClickArg } from "@fullcalendar/core";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
-import { Modal, PaperProvider, Portal, Text, Button } from "react-native-paper";
+import {
+  Modal,
+  PaperProvider,
+  Portal,
+  Text,
+  Button,
+  Card,
+} from "react-native-paper";
 import { View, StyleSheet, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useAppointments, useClinics } from "../lib/api";
+import CardActions from "react-native-paper/lib/typescript/src/components/Card/CardActions";
 
 const durations = [5, 10, 15, 20, 25, 30];
 
@@ -184,7 +192,11 @@ export default class Schedule extends React.Component<
               <Text style={{ marginBottom: 30, borderWidth: 1 }}>
                 {this.state.selectedEvent?.extendedProps.notes}
               </Text>
-              <Button onPress={() => alert("Appointment Cancelled")}>
+              <Button
+                onPress={() => alert("Appointment Cancelled")}
+                buttonColor="#2196f3"
+                textColor="white"
+              >
                 Cancel Appointment
               </Button>
             </View>
@@ -235,10 +247,28 @@ export default class Schedule extends React.Component<
                     }
                   />
                 </View>
-
-                <Button onPress={this.createAppointment}>
-                  Book Appointment for {bookingTime}
-                </Button>
+                <Card style={styles.bookingContainer}>
+                  <Card.Content>
+                    Proceed to book appointment for: {bookingTime}
+                  </Card.Content>
+                  <Card.Actions>
+                    <Button
+                      buttonColor="#2196f3"
+                      textColor="white"
+                      onPress={() => this.setState({ showModalTwo: false })}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onPress={this.createAppointment}
+                      buttonColor="#2196f3"
+                      textColor="white"
+                      compact={true}
+                    >
+                      Book
+                    </Button>
+                  </Card.Actions>
+                </Card>
               </View>
             </Modal>
           </Portal>
@@ -256,5 +286,9 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: "row",
     marginBottom: 20,
+  },
+  bookingContainer: {
+    flexDirection: "row",
+    backgroundColor: "white",
   },
 });
