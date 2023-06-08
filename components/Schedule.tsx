@@ -145,39 +145,42 @@ export default class Schedule extends React.Component<
     return (
       <PaperProvider>
         <Card style={styles.clinicHeader}>
-          <Card.Title title={this.props.title + ":" + this.props.date.slice(0, 10)} titleStyle={{color: "black"}}/>
+          <Card.Title
+            title={this.props.title + ":" + this.props.date.slice(0, 10)}
+            titleStyle={{ color: "black" }}
+          />
           <Card.Actions>
-          {this.props.handleCancel && (
-            <Button
-              icon="cog"
-              textColor="white"
-              buttonColor="#2196f3"
-              mode="outlined"
-              onPress={this.props.handleCancel}
-            >
-              Cancel Clinic
-            </Button>
-          )}
+            {this.props.handleCancel && (
+              <Button
+                icon="cog"
+                textColor="white"
+                buttonColor="#2196f3"
+                mode="outlined"
+                onPress={this.props.handleCancel}
+              >
+                Cancel Clinic
+              </Button>
+            )}
           </Card.Actions>
           <Card.Content>
-          <FullCalendar
-            plugins={[timeGridPlugin, interactionPlugin]}
-            initialView="timeGridDay"
-            headerToolbar={false}
-            height={"auto"}
-            expandRows={false}
-            dayHeaders={false}
-            allDaySlot={false}
-            eventClick={this.openEventDetailsOnClick}
-            dateClick={this.openBookingScreen}
-            slotMinTime={"08:00:00"}
-            slotMaxTime={"19:00:00"}
-            slotEventOverlap={false}
-            nowIndicator={true}
-            events={this.props.appointments}
-            slotDuration={"00:10:00"}
-            eventColor="#2196f3"
-          />
+            <FullCalendar
+              plugins={[timeGridPlugin, interactionPlugin]}
+              initialView="timeGridDay"
+              headerToolbar={false}
+              height={"auto"}
+              expandRows={false}
+              dayHeaders={false}
+              allDaySlot={false}
+              eventClick={this.openEventDetailsOnClick}
+              dateClick={this.openBookingScreen}
+              slotMinTime={"08:00:00"}
+              slotMaxTime={"19:00:00"}
+              slotEventOverlap={false}
+              nowIndicator={true}
+              events={this.props.appointments}
+              slotDuration={"00:10:00"}
+              eventColor="#2196f3"
+            />
           </Card.Content>
         </Card>
         <Portal>
@@ -285,7 +288,7 @@ const styles = StyleSheet.create({
   container: {},
   clinicHeader: {
     color: "black",
-    backgroundColor: "29335C"
+    backgroundColor: "29335C",
   },
   checkboxContainer: {
     flexDirection: "row",
