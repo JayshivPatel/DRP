@@ -1,11 +1,13 @@
 import { Card, Text } from "react-native-paper";
+import Message from "./PatientMessage";
 
 export default function PatientMessages() {
   return (
     <Card>
-      <Card.Title title="MESSAGES" />
       <Card.Content>
-        <Text>MESSAGES</Text>
+        <Message/>
+        <Message/>
+        <Message/>
       </Card.Content>
     </Card>
   );

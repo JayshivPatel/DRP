@@ -5,7 +5,8 @@ export default function Message() {
   <Card>
   <Card.Content>
     <Text variant="bodyLarge">
-      Dear Patient,...
+      Dear Patient,
+        This is a test message sent from your surgery.
     </Text>
   </Card.Content>
   <Card.Actions>
