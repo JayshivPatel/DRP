@@ -1,14 +1,22 @@
-import { Card, Text } from "react-native-paper";
+import { Card, Divider, PaperProvider, Text } from "react-native-paper";
 import Message from "./PatientMessage";
+import { ScrollView } from "react-native";
 
 export default function PatientMessages() {
   return (
-    <Card>
-      <Card.Content>
-        <Message/>
-        <Message/>
-        <Message/>
-      </Card.Content>
-    </Card>
+    <PaperProvider>
+      <ScrollView>
+        <Card>
+          <Card.Title title="Your Messages" titleVariant="displayMedium" />
+          <Card.Content>
+            <Message />
+            <Divider />
+            <Message />
+            <Divider />
+            <Message />
+          </Card.Content>
+        </Card>
+      </ScrollView>
+    </PaperProvider>
   );
 }
