@@ -9,7 +9,6 @@ export default function Message() {
             Dear Patient, This is a test message sent from your surgery.
           </Text>
         </Card.Content>
-        <Card.Actions></Card.Actions>
       </Card>
     </PaperProvider>
   );
