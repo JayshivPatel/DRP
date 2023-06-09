@@ -13,8 +13,7 @@ import {
 } from "react-native-paper";
 import { View, StyleSheet, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { Appointment, useAppointments, useClinics } from "../lib/api";
-import CardActions from "react-native-paper/lib/typescript/src/components/Card/CardActions";
+import { Appointment, useAppointments, useClinics } from "../../lib/api";
 
 const durations = [5, 10, 15, 20, 25, 30];
 

@@ -8,7 +8,7 @@ import {
   createAppointment,
   useAppointments,
   deleteAppointment,
-} from "../lib/api";
+} from "../../lib/api";
 import { View, Text, StyleSheet } from "react-native";
 
 export default function ClinicInfo({

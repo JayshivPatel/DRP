@@ -1,7 +1,7 @@
 import { BottomNavigation, PaperProvider } from "react-native-paper";
-import PatientMessages from "../components/PatientMessages";
-import PatientAppointments from "../components/PatientAppointments";
-import PatientDashBoard from "../components/PatientDashboard";
+import PatientMessages from "../components/patient/PatientMessages";
+import PatientAppointments from "../components/patient/PatientAppointments";
+import PatientDashBoard from "../components/patient/PatientDashboard";
 import React from "react";
 
 export default function PatientApp() {

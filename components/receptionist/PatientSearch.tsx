@@ -10,8 +10,8 @@ import {
 } from "react-native-paper";
 import DateInput from "./DateInput";
 
-import type { Patient } from "../lib/api";
-import { usePatients } from "../lib/api";
+import type { Patient } from "../../lib/api";
+import { usePatients } from "../../lib/api";
 
 export default function PatientSearch(props: {
   setPatient: (patient: Patient) => void;

@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Button, Portal, Modal } from "react-native-paper";
 import PatientSearch from "./PatientSearch";
 
-import type { Patient } from "../lib/api";
+import type { Patient } from "../../lib/api";
 
 type Props = {
   showSearchModal: () => void;

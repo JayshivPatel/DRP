@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import { Patient } from "../lib/api";
+import { Patient } from "../../lib/api";
 import { List, Card, PaperProvider } from "react-native-paper";
 
 export default class PatientInfo extends React.Component<{

@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import ClinicInfo from "../components/ClinicInfo";
+import ClinicInfo from "../components/receptionist/ClinicInfo";
 import {
   PaperProvider,
   Button,
@@ -9,9 +9,9 @@ import {
   Card,
 } from "react-native-paper";
 import { SetStateAction, useState } from "react";
-import MiniCalender from "../components/MiniCalender";
-import Toolbar from "../components/Toolbar";
-import PatientInfo from "../components/PatientInfo";
+import MiniCalender from "../components/receptionist/MiniCalender";
+import Toolbar from "../components/receptionist/Toolbar";
+import PatientInfo from "../components/receptionist/PatientInfo";
 
 import { Patient, createClinic, useClinics } from "../lib/api";
 import type { Clinic } from "../lib/api";
