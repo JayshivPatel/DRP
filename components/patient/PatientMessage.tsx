@@ -1,5 +1,16 @@
-import { Text } from "react-native-paper";
+import { Text, Card, Button, List } from "react-native-paper";
 
 export default function Message() {
-  return <Text>This is a message</Text>;
+  return (
+  <Card>
+  <Card.Content>
+    <Text variant="bodyLarge">
+      Dear Patient,...
+    </Text>
+  </Card.Content>
+  <Card.Actions>
+    <Button>Cancel</Button>
+  </Card.Actions>
+</Card>
+  )
 }
