@@ -20,11 +20,7 @@ export default function PatientDashboard() {
                 <Divider />
                 <Appointment />
               </Card.Content>
-              <Card.Actions>
-                <Button icon="calendar">View All Appointments</Button>
-              </Card.Actions>
             </Card>
-            <Divider />
             <Card>
               <Card.Title
                 title="Most Recent Message:"
@@ -33,9 +29,6 @@ export default function PatientDashboard() {
               <Card.Content>
                 <Message />
               </Card.Content>
-              <Card.Actions>
-                <Button icon="email">View All Messages</Button>
-              </Card.Actions>
             </Card>
           </Card.Content>
         </Card>

@@ -3,7 +3,6 @@ import PatientMessages from "../components/patient/PatientMessages";
 import PatientAppointments from "../components/patient/PatientAppointments";
 import PatientDashBoard from "../components/patient/PatientDashboard";
 import React from "react";
-import { View } from "react-native";
 
 export default function PatientApp() {
   const [index, setIndex] = React.useState(0);
