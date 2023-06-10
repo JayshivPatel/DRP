@@ -44,6 +44,6 @@ export default class PatientInfo extends React.Component<{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 10
+    margin: 10,
   },
 });

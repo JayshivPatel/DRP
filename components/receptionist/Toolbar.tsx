@@ -41,11 +41,7 @@ export default class Toolbar extends React.Component<Props> {
           </Modal>
         </Portal>
         <View style={styles.space} />
-        <Button
-          icon="plus"
-          mode="contained"
-          onPress={this.props.createClinic}
-        >
+        <Button icon="plus" mode="contained" onPress={this.props.createClinic}>
           Create Clinic
         </Button>
       </View>

@@ -42,15 +42,10 @@ export default function PatientSearch(props: {
         >
           <View style={{ flexDirection: "row", padding: 10 }}>
             <View>
-              <Text variant="titleLarge">
-                Date Of Birth:{" "}
-              </Text>
+              <Text variant="titleLarge">Date Of Birth: </Text>
               <DateInput value={dateOfBirth} onChange={setDateOfBirth} />
 
-              <Text
-                variant="titleMedium"
-                style={{marginTop: 20 }}
-              >
+              <Text variant="titleMedium" style={{ marginTop: 20 }}>
                 Name:
               </Text>
               <Searchbar
@@ -58,7 +53,6 @@ export default function PatientSearch(props: {
                 value={nameQuery}
                 onChangeText={setNameQuery}
                 mode="bar"
-
                 style={{
                   marginTop: 0,
                   maxHeight: 55,
@@ -74,10 +68,10 @@ export default function PatientSearch(props: {
               renderItem={({ item }) => (
                 <List.Item
                   title={item.name}
-                  description={"NHS No. " +item.nhsNumber}
+                  description={"NHS No. " + item.nhsNumber}
                   left={(props) => <List.Icon {...props} icon="account" />}
                   onPress={() => props.setPatient(item)}
-                  style={{borderRadius: 15}}
+                  style={{ borderRadius: 15 }}
                 />
               )}
             />

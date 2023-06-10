@@ -308,11 +308,7 @@ export default class Schedule extends React.Component<
                     >
                       Cancel
                     </Button>
-                    <Button
-                      onPress={this.createAppointment}
-                    >
-                      Book
-                    </Button>
+                    <Button onPress={this.createAppointment}>Book</Button>
                   </Card.Actions>
                 </Card>
               </View>
