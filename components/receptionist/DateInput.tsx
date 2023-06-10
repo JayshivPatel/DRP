@@ -10,7 +10,7 @@ export default class DateInput extends React.Component<{
         type="date"
         value={this.props.value}
         onChange={(e) => this.props.onChange(e.target.value)}
-        style={{ font: "menu", color: "black", height: 20 }}
+        style={{ font: "menu", color: "black", height: 30 }}
       />
     );
   }

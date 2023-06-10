@@ -171,15 +171,12 @@ export default class Schedule extends React.Component<
         <Card style={styles.clinicHeader}>
           <Card.Title
             title={this.props.title + ": " + this.props.date.slice(0, 10)}
-            titleStyle={{ color: "black" }}
-            titleVariant="titleMedium"
+            titleVariant="titleLarge"
           />
           <Card.Actions>
             {this.props.handleCancel && (
               <Button
-                icon="cog"
-                textColor="white"
-                buttonColor="#2196f3"
+                icon="cancel"
                 mode="outlined"
                 onPress={this.props.handleCancel}
               >
@@ -204,7 +201,9 @@ export default class Schedule extends React.Component<
               nowIndicator={true}
               events={events}
               slotDuration={"00:10:00"}
-              eventColor="#2196f3"
+              eventBackgroundColor="white"
+              eventTextColor="black"
+              eventColor="black"
             />
           </Card.Content>
         </Card>
@@ -243,11 +242,10 @@ export default class Schedule extends React.Component<
               </Text>
               {this.props.cancelAppointment && (
                 <Button
+                  mode="contained"
                   onPress={() =>
                     appointment && this.cancelAppointment!(appointment)
                   }
-                  buttonColor="#2196f3"
-                  textColor="white"
                 >
                   Cancel Appointment
                 </Button>
@@ -263,7 +261,7 @@ export default class Schedule extends React.Component<
               contentContainerStyle={containerStyle}
             >
               <View style={modalTwoViewStyle}>
-                <label>Appointment Reason:</label>
+                <Text>Appointment Reason:</Text>
                 <TextInput
                   style={{
                     marginBottom: 30,
@@ -274,7 +272,7 @@ export default class Schedule extends React.Component<
                   multiline
                   numberOfLines={3}
                   onChangeText={this.onChangeText}
-                  placeholder="Enter Appointment details and info"
+                  placeholder="Enter appointment reason here..."
                 />
                 <label>Enter Duration: </label>
                 <Picker
@@ -306,18 +304,12 @@ export default class Schedule extends React.Component<
                   </Card.Content>
                   <Card.Actions>
                     <Button
-                      buttonColor="#2196f3"
-                      textColor="white"
-                      compact={true}
                       onPress={() => this.setState({ showModalTwo: false })}
                     >
                       Cancel
                     </Button>
                     <Button
                       onPress={this.createAppointment}
-                      buttonColor="#2196f3"
-                      textColor="white"
-                      compact={true}
                     >
                       Book
                     </Button>

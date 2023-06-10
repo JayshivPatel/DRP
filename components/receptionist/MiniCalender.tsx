@@ -17,7 +17,7 @@ export default function MiniCalender(props: {
   }
 
   return (
-    <PaperProvider theme={{ version: 2 }}>
+    <PaperProvider>
       {/* Workaround for https://github.com/fullcalendar/fullcalendar/issues/6322 */}
       <View key={now.toDateString()}>
         <FullCalendar
@@ -25,7 +25,7 @@ export default function MiniCalender(props: {
           now={now}
           nowIndicator={true}
           dateClick={changeDaySelected}
-          contentHeight={400}
+          contentHeight={500}
         />
       </View>
     </PaperProvider>

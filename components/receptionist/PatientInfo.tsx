@@ -25,7 +25,7 @@ export default class PatientInfo extends React.Component<{
     ];
 
     return (
-      <PaperProvider theme={{ version: 2 }}>
+      <PaperProvider>
         <Card style={styles.container}>
           <Card.Content>
             <FlatList
@@ -44,6 +44,6 @@ export default class PatientInfo extends React.Component<{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2196f3",
+    margin: 10
   },
 });

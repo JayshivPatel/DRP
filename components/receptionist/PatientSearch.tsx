@@ -29,37 +29,27 @@ export default function PatientSearch(props: {
 
   return (
     <PaperProvider theme={{ version: 2 }}>
-      <Card
-        style={{
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "white",
-        }}
-      >
+      <Card>
         <Card.Title
           title="Patient Search"
-          titleStyle={{ color: "black" }}
           titleVariant={"headlineLarge"}
         ></Card.Title>
 
         <Card.Content
           style={{
             flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
           }}
         >
           <View style={{ flexDirection: "row", padding: 10 }}>
             <View>
-              <Text variant="titleMedium" style={{ color: "black" }}>
+              <Text variant="titleLarge">
                 Date Of Birth:{" "}
               </Text>
               <DateInput value={dateOfBirth} onChange={setDateOfBirth} />
 
               <Text
                 variant="titleMedium"
-                style={{ color: "black", marginTop: 20 }}
+                style={{marginTop: 20 }}
               >
                 Name:
               </Text>
@@ -68,29 +58,26 @@ export default function PatientSearch(props: {
                 value={nameQuery}
                 onChangeText={setNameQuery}
                 mode="bar"
-                iconColor="white"
+
                 style={{
-                  backgroundColor: "#2196f3",
                   marginTop: 0,
                   maxHeight: 55,
                   borderWidth: 1,
-                  color: "white",
                   borderRadius: 10,
                 }}
-                theme={{ colors: { primary: "white" } }}
               />
             </View>
           </View>
-          <PaperProvider theme={{ version: 2 }}>
+          <PaperProvider>
             <FlatList
               data={searchResults}
               renderItem={({ item }) => (
                 <List.Item
                   title={item.name}
-                  description={item.nhsNumber}
+                  description={"NHS No. " +item.nhsNumber}
                   left={(props) => <List.Icon {...props} icon="account" />}
                   onPress={() => props.setPatient(item)}
-                  style={{ backgroundColor: "#2196f3", borderRadius: 15 }}
+                  style={{borderRadius: 15}}
                 />
               )}
             />
