@@ -15,6 +15,7 @@ export default function Appointment() {
         title={messageComponents[0]}
         subtitle={messageComponents[1]}
         titleVariant="headlineMedium"
+        style={{marginTop: 20}}
       />
       <Card.Content>
         <Text variant="bodyLarge">Time: {messageComponents[2]}</Text>
