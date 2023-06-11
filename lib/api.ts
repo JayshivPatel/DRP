@@ -104,7 +104,10 @@ export function useAppointments(options?: {
   if (options?.includePatient)
     params.includePatient = options?.includePatient?.toString();
 
-  return useSWR("/api/appointments?" + new URLSearchParams(params), apiRequest);
+  return useSWR<[Appointment], Error>(
+    "/api/appointments?" + new URLSearchParams(params),
+    apiRequest
+  );
 }
 
 export async function createAppointment(options: {
