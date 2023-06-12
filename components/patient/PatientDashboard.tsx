@@ -16,9 +16,19 @@ export default function PatientDashboard() {
                 titleVariant="headlineMedium"
               />
               <Card.Content>
-                <Appointment />
+                <Appointment
+                  startTime="09:00"
+                  endTime="09:30"
+                  notes="Broken Toe"
+                  id={10}
+                />
                 <Divider />
-                <Appointment />
+                <Appointment
+                  startTime="09:00"
+                  endTime="09:30"
+                  notes="Broken Toe"
+                  id={10}
+                />
               </Card.Content>
             </Card>
             <Card>
