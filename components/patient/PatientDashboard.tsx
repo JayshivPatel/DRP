@@ -5,7 +5,6 @@ import Message from "./PatientMessage";
 import { ScrollView } from "react-native";
 import * as api from "../../lib/api";
 
-
 export default function PatientDashboard() {
   const temporaryAppointments = [
     {
@@ -16,10 +15,10 @@ export default function PatientDashboard() {
       clinic: {
         id: 1,
         title: "Dr Beans",
-        date: "12-06-23"
-      }
+        date: "12-06-23",
+      },
     },
-  ]
+  ];
 
   const { data, error, isLoading, mutate } = api.useNotifications();
 
@@ -33,19 +32,17 @@ export default function PatientDashboard() {
     }
     return (
       <FlatList
-              data={data}
-              renderItem={({ item }) => (
-                <List.Item
-                  title={"Message"}
-                  description={item}
-                  left={(props) => <List.Icon {...props} icon="email" />}
-                />
-              )}
-              />
-        )
-      })()
-
-
+        data={data}
+        renderItem={({ item }) => (
+          <List.Item
+            title={"Message"}
+            description={item}
+            left={(props) => <List.Icon {...props} icon="email" />}
+          />
+        )}
+      />
+    );
+  })();
 
   return (
     <PaperProvider>
@@ -59,26 +56,27 @@ export default function PatientDashboard() {
                 titleVariant="headlineMedium"
               />
               <Card.Content>
-              <FlatList
-              data={temporaryAppointments}
-              renderItem={({ item }) => (
-                <List.Item
-                  title={item.clinic.date}
-                  description={"Seeing:  " + item.clinic.title + "\n" + "Reason: " + item.notes}
-                  left={(props) => <List.Icon {...props} icon="calendar" />}
+                <FlatList
+                  data={temporaryAppointments}
+                  renderItem={({ item }) => (
+                    <List.Item
+                      title={item.clinic.date}
+                      description={
+                        "Seeing:  " +
+                        item.clinic.title +
+                        "\n" +
+                        "Reason: " +
+                        item.notes
+                      }
+                      left={(props) => <List.Icon {...props} icon="calendar" />}
+                    />
+                  )}
                 />
-              )}
-            />
               </Card.Content>
             </Card>
             <Card>
-              <Card.Title
-                title="Messages"
-                titleVariant="headlineMedium"
-              />
-              <Card.Content>
-                {notifications}
-              </Card.Content>
+              <Card.Title title="Messages" titleVariant="headlineMedium" />
+              <Card.Content>{notifications}</Card.Content>
             </Card>
           </Card.Content>
         </Card>
