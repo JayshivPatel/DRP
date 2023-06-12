@@ -19,16 +19,39 @@ export default function Appointments() {
 
   return (
     <PaperProvider>
-      <ScrollView>
+      <Divider />
+      <Card>
+        <Card.Title
+          title="Upcoming Appointments"
+          titleVariant="displayMedium"
+        />
+      </Card>
+
+      <ScrollView style={{ height: "50%" }}>
         <Card>
           <Card.Content>
-            <Card.Title title="Your Appointments" />
             {sortedApps?.map((app) => (
               <>
                 <Appointment {...app} />
                 <Divider />
               </>
             ))}
+          </Card.Content>
+        </Card>
+      </ScrollView>
+      <Divider />
+      <Card>
+        <Card.Title title="Past Appointments" titleVariant="displayMedium" />
+      </Card>
+      <ScrollView style={{ height: "50%" }}>
+        <Card>
+          <Card.Content>
+            <Appointment
+              startTime="09:00"
+              endTime="09:30"
+              notes="Broken Toe"
+              id={10}
+            />
           </Card.Content>
         </Card>
       </ScrollView>

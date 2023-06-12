@@ -13,8 +13,18 @@ export default function PatientApp() {
       focusedIcon: "home",
       unfocusedIcon: "home-outline",
     },
-    { key: "messages", title: "Messages", focusedIcon: "email" },
-    { key: "appointments", title: "Appointments", focusedIcon: "calendar" },
+    {
+      key: "messages",
+      title: "Messages",
+      focusedIcon: "email",
+      unfocusedIcon: "email-outline",
+    },
+    {
+      key: "appointments",
+      title: "Appointments",
+      focusedIcon: "calendar",
+      unfocusedIcon: "calendar-outline",
+    },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
