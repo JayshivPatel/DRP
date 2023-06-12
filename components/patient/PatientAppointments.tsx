@@ -33,14 +33,14 @@ export default function Appointments() {
   return (
     <PaperProvider>
       <Divider />
-      <Card>
-        <Card.Title
-          title="Upcoming Appointments"
-          titleVariant="displayMedium"
-        />
-      </Card>
+      <ScrollView>
+        <Card style={{ margin: 10 }}>
+          <Card.Title
+            title="Upcoming Appointments"
+            titleVariant="headlineMedium"
+          />
+        </Card>
 
-      <ScrollView style={{ height: "50%" }}>
         <Card>
           <Card.Content>
             {sortAppointments(false)
@@ -59,12 +59,12 @@ export default function Appointments() {
               ))}
           </Card.Content>
         </Card>
-      </ScrollView>
-      <Divider />
-      <Card>
-        <Card.Title title="Past Appointments" titleVariant="displayMedium" />
-      </Card>
-      <ScrollView style={{ height: "50%" }}>
+
+        <Divider />
+        <Card style={{ margin: 10 }}>
+          <Card.Title title="Past Appointments" titleVariant="headlineMedium" />
+        </Card>
+
         <Card>
           <Card.Content>
             {sortAppointments(true)
