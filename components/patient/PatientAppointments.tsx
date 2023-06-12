@@ -4,6 +4,7 @@ import { ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import { Appointment as App, useAppointments } from "../../lib/api";
 import { format } from "date-fns";
+import { number } from "zod";
 
 export default function Appointments() {
   const { data: apps, isLoading } = useAppointments({
@@ -19,6 +20,15 @@ export default function Appointments() {
       const date2 = app2.clinic?.date
         ? new Date(app2.clinic?.date)
         : new Date(0);
+
+      const [hrs1, mins1] = app1.startTime.split(":").map(Number);
+      const [hrs2, mins2] = app2.startTime.split(":").map(Number);
+
+      date1.setHours(hrs1);
+      date1.setMinutes(mins1);
+
+      date2.setHours(hrs2);
+      date2.setMinutes(mins2);
 
       if (reverse) {
         return date2.getTime() - date1.getTime();
@@ -49,6 +59,11 @@ export default function Appointments() {
                 const appDate = new Date(
                   app.clinic?.date ? app.clinic?.date : 0
                 );
+
+                const [hrs, mins] = app.startTime.split(":").map(Number);
+                appDate.setHours(hrs);
+                appDate.setMinutes(mins);
+
                 return appDate.getTime() >= currentDate.getTime();
               })
               .map((app) => (
@@ -73,6 +88,11 @@ export default function Appointments() {
                 const appDate = new Date(
                   app.clinic?.date ? app.clinic?.date : 0
                 );
+
+                const [hrs, mins] = app.startTime.split(":").map(Number);
+                appDate.setHours(hrs);
+                appDate.setMinutes(mins);
+
                 return appDate.getTime() < currentDate.getTime();
               })
               .map((app) => (
