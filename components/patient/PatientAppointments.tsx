@@ -13,8 +13,12 @@ export default function Appointments() {
 
   function sortAppointments(reverse: boolean) {
     apps?.sort((app1, app2) => {
-      const date1 = app1.clinic?.date ? new Date(app1.clinic?.date) : new Date(0);
-      const date2 = app2.clinic?.date ? new Date(app2.clinic?.date) : new Date(0);
+      const date1 = app1.clinic?.date
+        ? new Date(app1.clinic?.date)
+        : new Date(0);
+      const date2 = app2.clinic?.date
+        ? new Date(app2.clinic?.date)
+        : new Date(0);
 
       if (reverse) {
         return date2.getTime() - date1.getTime();
@@ -39,16 +43,20 @@ export default function Appointments() {
       <ScrollView style={{ height: "50%" }}>
         <Card>
           <Card.Content>
-            {sortAppointments(false)?.filter((app) => {
-              const currentDate = new Date();
-              const appDate = new Date(app.clinic?.date ? app.clinic?.date : 0);
-              return appDate.getTime() >= currentDate.getTime();
-            }).map((app) => (
-              <>
-                <Appointment {...app} />
-                <Divider />
-              </>
-            ))}
+            {sortAppointments(false)
+              ?.filter((app) => {
+                const currentDate = new Date();
+                const appDate = new Date(
+                  app.clinic?.date ? app.clinic?.date : 0
+                );
+                return appDate.getTime() >= currentDate.getTime();
+              })
+              .map((app) => (
+                <>
+                  <Appointment {...app} />
+                  <Divider />
+                </>
+              ))}
           </Card.Content>
         </Card>
       </ScrollView>
@@ -59,16 +67,20 @@ export default function Appointments() {
       <ScrollView style={{ height: "50%" }}>
         <Card>
           <Card.Content>
-          {sortAppointments(true)?.filter((app) => {
-              const currentDate = new Date();
-              const appDate = new Date(app.clinic?.date ? app.clinic?.date : 0);
-              return appDate.getTime() < currentDate.getTime();
-            }).map((app) => (
-              <>
-                <Appointment {...app} />
-                <Divider />
-              </>
-            ))}
+            {sortAppointments(true)
+              ?.filter((app) => {
+                const currentDate = new Date();
+                const appDate = new Date(
+                  app.clinic?.date ? app.clinic?.date : 0
+                );
+                return appDate.getTime() < currentDate.getTime();
+              })
+              .map((app) => (
+                <>
+                  <Appointment {...app} />
+                  <Divider />
+                </>
+              ))}
           </Card.Content>
         </Card>
       </ScrollView>
