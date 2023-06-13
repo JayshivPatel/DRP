@@ -1,12 +1,14 @@
+import * as React from "react";
 import { Button, Dialog, Portal, Text } from "react-native-paper";
 
-export default function ConfirmDialog(props: {
-  visible: boolean;
-  title: string;
-  children: string | JSX.Element | JSX.Element[];
-  onDismiss: () => void;
-  onConfirm: () => void;
-}) {
+export default function ConfirmDialog(
+  props: React.PropsWithChildren<{
+    visible: boolean;
+    title: string;
+    onDismiss: () => void;
+    onConfirm: () => void;
+  }>
+) {
   const content =
     typeof props.children === "string" ? (
       <Text>{props.children}</Text>

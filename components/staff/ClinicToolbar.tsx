@@ -1,5 +1,4 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
 import {
   ActivityIndicator,
   Button,
@@ -9,10 +8,11 @@ import {
   Text,
   useTheme,
 } from "react-native-paper";
-import { Collection, OrderedSet } from "immutable";
+import { OrderedSet } from "immutable";
 
 import { Clinic, createClinic, useClinics } from "../../lib/api";
 import CreateClinicDialog from "./CreateClinicDialog";
+import Toolbar from "./Toolbar";
 
 function ClinicItem(props: {
   clinic: Clinic;
@@ -82,24 +82,20 @@ export default function ClinicToolbar(props: {
   if (error) {
     content = (
       <>
-        <Text
-          variant="labelLarge"
+        <Toolbar.Text
           style={{
             color: theme.colors.error,
-            ...styles.text,
           }}
         >
           Failed to load clinics for {dateString}
-        </Text>
+        </Toolbar.Text>
       </>
     );
   } else if (isLoading) {
     content = (
       <>
         <ActivityIndicator />
-        <Text variant="labelLarge" style={styles.text}>
-          Loading clinics for {dateString}
-        </Text>
+        <Toolbar.Text>Loading clinics for {dateString}</Toolbar.Text>
       </>
     );
   } else {
@@ -112,9 +108,7 @@ export default function ClinicToolbar(props: {
         >
           Change date
         </Button>
-        <Text variant="labelLarge" style={styles.text}>
-          Available clinics for {dateString}
-        </Text>
+        <Toolbar.Text>Available clinics for {dateString}</Toolbar.Text>
         {data?.map((clinic) => (
           <ClinicItem
             key={clinic.id}
@@ -146,24 +140,5 @@ export default function ClinicToolbar(props: {
     );
   }
 
-  return (
-    <Surface mode="flat" elevation={1} style={styles.surface}>
-      {content}
-    </Surface>
-  );
+  return <Toolbar>{content}</Toolbar>;
 }
-
-const styles = StyleSheet.create({
-  surface: {
-    flexBasis: 56,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8,
-    alignItems: "center",
-  },
-  text: {
-    paddingHorizontal: 8,
-  },
-});

@@ -1,6 +1,7 @@
+import { PropsWithChildren } from "react";
 import { SWRConfig } from "swr";
 
-export default function Config(props: { children: JSX.Element }) {
+export default function Config(props: PropsWithChildren<{}>) {
   return (
     <SWRConfig
       value={{
