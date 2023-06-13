@@ -14,8 +14,8 @@ import {
   Patient,
   deleteAppointment,
   useAppointments,
-} from "../lib/api";
-import { createAppointment } from "../lib/api";
+} from "../../lib/api";
+import { createAppointment } from "../../lib/api";
 import { styles } from "./ClinicViews";
 import ClinicSchedule from "./ClinicSchedule";
 import CreateAppointmentMenu from "./CreateAppointmentMenu";

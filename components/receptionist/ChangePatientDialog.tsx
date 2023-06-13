@@ -10,7 +10,7 @@ import {
   useTheme,
 } from "react-native-paper";
 
-import { Patient, usePatients } from "../lib/api";
+import { Patient, usePatients } from "../../lib/api";
 import { DatePickerInput } from "react-native-paper-dates";
 
 function getPatientFullName({ firstName, lastName }: Patient): string {

@@ -1,4 +1,4 @@
-import { Patient } from "../lib/api";
+import { Patient } from "../../lib/api";
 
 export default function PatientData(props: {
   patient?: Patient;

@@ -9,7 +9,7 @@ import {
   useTheme,
 } from "react-native-paper";
 
-import type { Patient } from "../lib/api";
+import type { Patient } from "../../lib/api";
 import PatientData from "./PatientData";
 
 export default function PatientToolbar(props: {

@@ -11,7 +11,7 @@ import {
 } from "react-native-paper";
 import { Collection, OrderedSet } from "immutable";
 
-import { Clinic, createClinic, useClinics } from "../lib/api";
+import { Clinic, createClinic, useClinics } from "../../lib/api";
 import CreateClinicDialog from "./CreateClinicDialog";
 
 function ClinicItem(props: {

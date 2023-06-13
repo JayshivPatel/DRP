@@ -5,12 +5,12 @@ import { OrderedSet } from "immutable";
 
 import type { Clinic, Patient } from "../lib/api";
 
-import ClinicToolbar from "../components/ClinicToolbar";
-import ClinicViews from "../components/ClinicViews";
-import PatientToolbar from "../components/PatientToolbar";
+import ClinicToolbar from "../components/receptionist/ClinicToolbar";
+import ClinicViews from "../components/receptionist/ClinicViews";
+import PatientToolbar from "../components/receptionist/PatientToolbar";
 
 import materialColors from "../material-colors.json";
-import ChangePatientDialog from "../components/ChangePatientDialog";
+import ChangePatientDialog from "../components/receptionist/ChangePatientDialog";
 import { DatePickerModal } from "react-native-paper-dates";
 import { SWRConfig } from "swr";
 

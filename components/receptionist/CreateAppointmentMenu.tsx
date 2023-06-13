@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Button, Card, Dialog, Menu, TextInput } from "react-native-paper";
-import { Patient } from "../lib/api";
+import { Patient } from "../../lib/api";
 
 function DurationPicker(props: {
   value: number;

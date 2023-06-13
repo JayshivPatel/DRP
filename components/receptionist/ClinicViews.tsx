@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Snackbar, Text } from "react-native-paper";
 import { OrderedSet } from "immutable";
 
-import { Clinic, Patient, deleteClinic, useClinics } from "../lib/api";
+import { Clinic, Patient, deleteClinic, useClinics } from "../../lib/api";
 import ClinicView from "./ClinicView";
 
 export default function ClinicViews(props: {
