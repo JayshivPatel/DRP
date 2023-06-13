@@ -90,7 +90,7 @@ export default function Receptionist() {
             onConfirm={onConfirmDate as any}
             onDismiss={closeChangeDate}
           />
-          <PatientToolbar patient={patient} changePatient={openChangePatient} />
+          <PatientToolbar patient={patient} changePatient={openChangePatient} gp = {false}/>
           <ClinicViews
             date={date}
             selected={selectedClinics}
