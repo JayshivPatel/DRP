@@ -4,6 +4,7 @@ import Appointment from "./PatientAppointment";
 import Message from "./PatientMessage";
 import { ScrollView } from "react-native";
 import * as api from "../../lib/api";
+import renderNotifications from "./RenderNotifications";
 
 export default function PatientDashboard() {
   const temporaryAppointments = [
@@ -22,27 +23,7 @@ export default function PatientDashboard() {
 
   const { data, error, isLoading, mutate } = api.useNotifications();
 
-  const notifications = (function () {
-    if (error || isLoading) {
-      return (
-        <View>
-          <Text>{error ? "Failed to load" : "Loading"}</Text>
-        </View>
-      );
-    }
-    return (
-      <FlatList
-        data={data}
-        renderItem={({ item }) => (
-          <List.Item
-            title={"Message"}
-            description={item.message}
-            left={(props) => <List.Icon {...props} icon="email" />}
-          />
-        )}
-      />
-    );
-  })();
+  const notifications = renderNotifications(data, error, isLoading);
 
   return (
     <PaperProvider>

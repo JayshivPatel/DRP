@@ -7,34 +7,14 @@ import {
   List,
 } from "react-native-paper";
 import Message from "./PatientMessage";
+import renderNotifications from "./RenderNotifications";
 import { ScrollView, StyleSheet, FlatList, View } from "react-native";
 import * as api from "../../lib/api";
 
 export default function PatientMessages() {
   const { data, error, isLoading, mutate } = api.useNotifications();
 
-  const notifications = (function () {
-    if (error || isLoading) {
-      return (
-        <View>
-          <Text>{error ? "Failed to load" : "Loading"}</Text>
-        </View>
-      );
-    }
-    return (
-      <FlatList
-        data={data}
-        renderItem={({ item }) => (
-          <List.Item
-            title={"Message"}
-            description={item.message}
-            left={(props) => <List.Icon {...props} icon="email" />}
-          />
-        )}
-      />
-    );
-  })();
-
+  const notifications = renderNotifications(data, error, isLoading);
   return (
     <PaperProvider>
       <ScrollView>
