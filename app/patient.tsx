@@ -18,14 +18,12 @@ export default function PatientApp() {
     {
       key: "messages",
       title: "Messages",
-      focusedIcon: "email",
-      unfocusedIcon: "email-outline",
+      focusedIcon: "android-messages",
     },
     {
       key: "appointments",
       title: "Appointments",
       focusedIcon: "calendar",
-      unfocusedIcon: "calendar-outline",
     },
   ]);
 

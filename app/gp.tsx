@@ -14,7 +14,7 @@ import ChangePatientDialog from "../components/staff/ChangePatientDialog";
 import { DatePickerModal } from "react-native-paper-dates";
 import { SWRConfig } from "swr";
 
-export default function Receptionist() {
+export default function GP() {
   const [changeDateVisible, setChangeDateVisible] = React.useState(false);
   const [changePatientVisible, setChangePatientVisible] = React.useState(false);
 

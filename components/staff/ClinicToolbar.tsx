@@ -105,12 +105,16 @@ export default function ClinicToolbar(props: {
   } else {
     content = (
       <>
-        <Text variant="labelLarge" style={styles.text}>
-          Available clinics for {dateString}
-        </Text>
-        <Button mode="outlined" onPress={props.changeDate}>
+        <Button
+          mode="outlined"
+          icon="calendar-month"
+          onPress={props.changeDate}
+        >
           Change date
         </Button>
+        <Text variant="labelLarge" style={styles.text}>
+          Available clinics for {dateString} 
+        </Text>
         {data?.map((clinic) => (
           <ClinicItem
             key={clinic.id}
@@ -119,7 +123,11 @@ export default function ClinicToolbar(props: {
             onChange={(value) => onChange(clinic, value)}
           />
         ))}
-        <Button mode="outlined" onPress={openCreateDialog}>
+        <Button
+          mode="outlined"
+          icon="clipboard-list"
+          onPress={openCreateDialog}
+        >
           Create clinic
         </Button>
         <CreateClinicDialog

@@ -55,9 +55,20 @@ export default function PatientToolbar(props: {
           No patient selected
         </Text>
       )}
-      <Button mode="outlined" onPress={props.changePatient}>
+      <Button
+        mode="outlined"
+        icon="account-box-multiple"
+        onPress={props.changePatient}
+      >
         Change patient
       </Button>
+      <Button mode="outlined" icon="account-clock">
+        Change suggested length
+      </Button>
+
+      <Chip mode="outlined" icon="clock">
+        Suggested appointment length: 15 mins
+      </Chip>
     </Surface>
   );
 }

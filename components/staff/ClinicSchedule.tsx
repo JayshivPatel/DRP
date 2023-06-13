@@ -8,7 +8,7 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 
-import { Appointment, Clinic, useAppointments } from "../lib/api";
+import { Appointment, Clinic, useAppointments } from "../../lib/api";
 import styled from "@emotion/styled";
 import { EventClickArg } from "@fullcalendar/core";
 
@@ -30,7 +30,7 @@ const CalendarWrapper = styled.div<{ theme: MD3Theme }>(({ theme }) => ({
 }));
 
 export default function ClinicSchedule(props: {
-  appointments: Appointment[];
+  appointments: Appointment[] | undefined;
   selectionStart?: Date;
   selectionEnd?: Date;
   onPressDate: (date: Date, x: number, y: number) => void;
