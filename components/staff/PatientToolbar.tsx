@@ -21,16 +21,20 @@ export default function PatientToolbar(props: {
   const theme = useTheme();
 
   const renderButton = () => {
-    console.log(props.gp)
-    var content = (<></>);
+    console.log(props.gp);
+    var content = <></>;
     if (props.gp == true) {
-      content =  (
-        <Button mode="outlined" icon="account-clock" onPress={props.changeSuggestedDuration}>
+      content = (
+        <Button
+          mode="outlined"
+          icon="account-clock"
+          onPress={props.changeSuggestedDuration}
+        >
           Change suggested length
         </Button>
       );
     }
-    return content
+    return content;
   };
 
   const fields = props.patient && [

@@ -18,7 +18,8 @@ import ChangeSuggestedDurationDialog from "../components/staff/ChangeSuggestedDu
 export default function GP() {
   const [changeDateVisible, setChangeDateVisible] = React.useState(false);
   const [changePatientVisible, setChangePatientVisible] = React.useState(false);
-  const [changeSuggestedDurationVisible, setChangeSuggestedDurationVisible] = React.useState(false);
+  const [changeSuggestedDurationVisible, setChangeSuggestedDurationVisible] =
+    React.useState(false);
 
   function formatDate(date: Date): string {
     /* TODO(saleem): Change to date library */
@@ -100,7 +101,12 @@ export default function GP() {
             onConfirm={onConfirmDate as any}
             onDismiss={closeChangeDate}
           />
-          <PatientToolbar patient={patient} changePatient={openChangePatient} changeSuggestedDuration={openSuggestedDuration} gp = {true}/>
+          <PatientToolbar
+            patient={patient}
+            changePatient={openChangePatient}
+            changeSuggestedDuration={openSuggestedDuration}
+            gp={true}
+          />
           <ClinicViews
             date={date}
             selected={selectedClinics}

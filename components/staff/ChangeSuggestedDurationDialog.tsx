@@ -7,7 +7,6 @@ export default function ChangeSuggestedDurationDialog(props: {
   visible: boolean;
   onDismiss: () => void;
 }) {
-
   return (
     <Portal>
       <Dialog
@@ -17,9 +16,7 @@ export default function ChangeSuggestedDurationDialog(props: {
       >
         <Dialog.Title>Change suggested time for patient</Dialog.Title>
         <Dialog.Content>
-            <DurationPicker
-                      value={15}
-                      onChange={() => {}}/>
+          <DurationPicker value={15} onChange={() => {}} />
         </Dialog.Content>
         <Dialog.Actions>
           <Button onPress={props.onDismiss}>Cancel</Button>
