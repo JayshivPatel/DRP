@@ -20,15 +20,6 @@ export default function PatientMessages(props: { patientId: Patient["id"] }) {
           <Card.Title title="Your Messages" titleVariant="displayMedium" />
           <Card.Content>
             <Card>
-              <Card.Content style={styles.messagebuttons}>
-                <Button onPress={() => alert("Button pressed")}>
-                  All Messages
-                </Button>
-                <Button>Unread Messages</Button>
-                <Button>Read Messages</Button>
-              </Card.Content>
-            </Card>
-            <Card>
               <Card.Title title="Messages" titleVariant="headlineMedium" />
               <Card.Content>{notifications}</Card.Content>
             </Card>
