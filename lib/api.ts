@@ -50,9 +50,7 @@ async function apiRequest(url: string, method = "GET", data?: object) {
 }
 
 export function useNotifications() {
-  return useSWR("/api/notifications", apiRequest, {
-    refreshInterval: 500,
-  });
+  return useSWR("/api/notifications", apiRequest);
 }
 
 export async function createNotification(lateness: number) {
@@ -81,8 +79,12 @@ export function useClinics(params?: { date?: string }) {
   );
 }
 
-export async function createClinic(date: string, title: string) {
-  await apiRequest("/api/clinics", "POST", { date, title });
+export async function createClinic(
+  date: string,
+  title: string
+): Promise<Clinic["id"]> {
+  const { id } = await apiRequest("/api/clinics", "POST", { date, title });
+  return id;
 }
 
 export async function deleteClinic(id: number) {
