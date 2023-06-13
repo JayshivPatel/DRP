@@ -32,7 +32,7 @@ export default function PatientApp() {
   const renderScene = BottomNavigation.SceneMap({
     dashboard: () => PatientDashBoard({ patientId }),
     messages: () => PatientMessages({ patientId }),
-    appointments: PatientAppointments,
+    appointments: () => PatientAppointments({ patientId }),
   });
 
   return (
