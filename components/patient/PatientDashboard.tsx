@@ -36,7 +36,7 @@ export default function PatientDashboard() {
         renderItem={({ item }) => (
           <List.Item
             title={"Message"}
-            description={item}
+            description={item.message}
             left={(props) => <List.Icon {...props} icon="email" />}
           />
         )}
