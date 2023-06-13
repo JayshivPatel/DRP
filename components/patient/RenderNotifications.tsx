@@ -1,15 +1,20 @@
 import { FlatList, View } from "react-native";
 import { Text, List, Card, Badge } from "react-native-paper";
+import { Patient } from "../../lib/api";
 
-const ComponentTest = (props: {isRead: boolean}) => {
+const ComponentTest = (props: { isRead: boolean }) => {
   if (!props.isRead) {
-    return <Badge>!</Badge>
+    return <Badge>!</Badge>;
   }
   return <></>;
-}
+};
 
-
-const renderNotifications = function (data: any, error: Error, isLoading: boolean) {
+const renderNotifications = function (
+  data: any,
+  error: Error,
+  isLoading: boolean,
+  patientId: Patient["id"]
+) {
   if (error || isLoading) {
     return (
       <View>

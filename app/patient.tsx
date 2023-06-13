@@ -4,6 +4,8 @@ import PatientAppointments from "../components/patient/PatientAppointments";
 import PatientDashBoard from "../components/patient/PatientDashboard";
 import React from "react";
 
+const patientId = 2;
+
 export default function PatientApp() {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -28,8 +30,8 @@ export default function PatientApp() {
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
-    dashboard: PatientDashBoard,
-    messages: PatientMessages,
+    dashboard: () => PatientDashBoard({ patientId }),
+    messages: () => PatientMessages({ patientId }),
     appointments: PatientAppointments,
   });
 

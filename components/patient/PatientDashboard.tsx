@@ -4,9 +4,10 @@ import Appointment from "./PatientAppointment";
 import Message from "./PatientMessage";
 import { ScrollView } from "react-native";
 import * as api from "../../lib/api";
+import { Patient } from "../../lib/api";
 import renderNotifications from "./RenderNotifications";
 
-export default function PatientDashboard() {
+export default function PatientDashboard(props: { patientId: Patient["id"] }) {
   const temporaryAppointments = [
     {
       startTime: "9:00",
@@ -23,7 +24,12 @@ export default function PatientDashboard() {
 
   const { data, error, isLoading, mutate } = api.useNotifications();
 
-  const notifications = renderNotifications(data, error, isLoading);
+  const notifications = renderNotifications(
+    data,
+    error,
+    isLoading,
+    props.patientId
+  );
 
   return (
     <PaperProvider>

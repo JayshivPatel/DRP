@@ -10,11 +10,12 @@ import Message from "./PatientMessage";
 import renderNotifications from "./RenderNotifications";
 import { ScrollView, StyleSheet, FlatList, View } from "react-native";
 import * as api from "../../lib/api";
+import { Patient } from "../../lib/api";
 
-export default function PatientMessages() {
+export default function PatientMessages(props: {patientId: Patient["id"]}) {
   const { data, error, isLoading, mutate } = api.useNotifications();
 
-  const notifications = renderNotifications(data, error, isLoading);
+  const notifications = renderNotifications(data, error, isLoading, props.patientId);
   return (
     <PaperProvider>
       <ScrollView>
