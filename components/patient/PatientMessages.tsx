@@ -1,21 +1,18 @@
-import {
-  Card,
-  Divider,
-  PaperProvider,
-  Text,
-  Button,
-  List,
-} from "react-native-paper";
-import Message from "./PatientMessage";
+import { Card, PaperProvider, Button } from "react-native-paper";
 import renderNotifications from "./RenderNotifications";
-import { ScrollView, StyleSheet, FlatList, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import * as api from "../../lib/api";
 import { Patient } from "../../lib/api";
 
-export default function PatientMessages(props: {patientId: Patient["id"]}) {
+export default function PatientMessages(props: { patientId: Patient["id"] }) {
   const { data, error, isLoading, mutate } = api.useNotifications();
 
-  const notifications = renderNotifications(data, error, isLoading, props.patientId);
+  const notifications = renderNotifications(
+    data,
+    error,
+    isLoading,
+    props.patientId
+  );
   return (
     <PaperProvider>
       <ScrollView>

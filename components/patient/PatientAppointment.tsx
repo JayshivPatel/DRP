@@ -2,7 +2,7 @@ import { Text, Card, Button } from "react-native-paper";
 import { Clinic, Patient } from "../../lib/api";
 import { format } from "date-fns";
 
-export default function Appointment(props: {
+export default function PatientAppointment(props: {
   startTime: string;
   endTime: string;
   notes: string;
