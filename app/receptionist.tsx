@@ -12,7 +12,7 @@ import PatientToolbar from "../components/staff/PatientToolbar";
 import materialColors from "../material-colors.json";
 import ChangePatientDialog from "../components/staff/ChangePatientDialog";
 import { DatePickerModal } from "react-native-paper-dates";
-import { SWRConfig } from "swr";
+import Config from "../components/Config";
 
 export default function Receptionist() {
   const [changeDateVisible, setChangeDateVisible] = React.useState(false);
@@ -64,18 +64,14 @@ export default function Receptionist() {
   }
 
   return (
-    <PaperProvider
-      theme={{
-        ...DefaultTheme,
-        colors: materialColors.colors,
-      }}
-    >
-      <SWRConfig
-        value={{
-          refreshInterval: 100,
-        }}
-      >
-        <View style={styles.container}>
+    <Config>
+      <View style={styles.container}>
+        <PaperProvider
+          theme={{
+            ...DefaultTheme,
+            colors: materialColors.colors,
+          }}
+        >
           <ClinicToolbar
             date={date}
             selected={selectedClinics}
@@ -103,14 +99,15 @@ export default function Receptionist() {
             onChangePatient={onChangePatient}
             onDismiss={closeChangePatient}
           />
-        </View>
-      </SWRConfig>
-    </PaperProvider>
+        </PaperProvider>
+      </View>
+    </Config>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    ...(Platform.OS == "web" ? { height: "100vh" } : {}),
+    overflow: "hidden",
+    ...(Platform.OS == "web" && { height: "100vh" }),
   },
 });

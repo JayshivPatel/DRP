@@ -13,5 +13,13 @@ export default function PatientData(props: {
     ["Phone Number", props.patient.phoneNumber],
   ];
 
-  return <>{fields.map(([name, value]) => props.children(name, value))}</>;
+  return (
+    <>
+      {fields.map(([name, value], i) => {
+        const child = props.children(name, value);
+        child.key = i;
+        return child;
+      })}
+    </>
+  );
 }
