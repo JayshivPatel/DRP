@@ -81,8 +81,12 @@ export function useClinics(params?: { date?: string }) {
   );
 }
 
-export async function createClinic(date: string, title: string) {
-  await apiRequest("/api/clinics", "POST", { date, title });
+export async function createClinic(
+  date: string,
+  title: string
+): Promise<Clinic["id"]> {
+  const { id } = await apiRequest("/api/clinics", "POST", { date, title });
+  return id;
 }
 
 export async function deleteClinic(id: number) {
