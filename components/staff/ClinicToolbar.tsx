@@ -113,7 +113,7 @@ export default function ClinicToolbar(props: {
           Change date
         </Button>
         <Text variant="labelLarge" style={styles.text}>
-          Available clinics for {dateString} 
+          Available clinics for {dateString}
         </Text>
         {data?.map((clinic) => (
           <ClinicItem

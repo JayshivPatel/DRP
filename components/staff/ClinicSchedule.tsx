@@ -52,7 +52,7 @@ export default function ClinicSchedule(props: {
     }
   }, [calendarRef.current, props.selectionStart, props.selectionEnd]);
 
-  const events = props.appointments.map((appointment) => {
+  const events = props.appointments?.map((appointment) => {
     const patient = appointment.patient!;
     const fullName = `${patient.firstName} ${patient.lastName}`;
     const dateOfBirth = new Date(patient.dateOfBirth).toLocaleDateString();
