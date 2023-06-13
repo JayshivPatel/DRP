@@ -12,6 +12,7 @@ import PatientToolbar from "../components/PatientToolbar";
 import materialColors from "../material-colors.json";
 import ChangePatientDialog from "../components/ChangePatientDialog";
 import { DatePickerModal } from "react-native-paper-dates";
+import { SWRConfig } from "swr";
 
 export default function Receptionist() {
   const [changeDateVisible, setChangeDateVisible] = React.useState(false);
@@ -69,35 +70,41 @@ export default function Receptionist() {
         colors: materialColors.colors,
       }}
     >
-      <View style={styles.container}>
-        <ClinicToolbar
-          date={date}
-          selected={selectedClinics}
-          changeDate={openChangeDate}
-          onChangeSelected={onChangeSelected}
-        />
-        <DatePickerModal
-          locale="en-GB"
-          mode="single"
-          visible={changeDateVisible}
-          date={new Date(date)}
-          onConfirm={onConfirmDate as any}
-          onDismiss={closeChangeDate}
-        />
-        <PatientToolbar patient={patient} changePatient={openChangePatient} />
-        <ClinicViews
-          date={date}
-          selected={selectedClinics}
-          onChangeSelected={onChangeSelected}
-          patient={patient}
-          changePatient={openChangePatient}
-        />
-        <ChangePatientDialog
-          visible={changePatientVisible}
-          onChangePatient={onChangePatient}
-          onDismiss={closeChangePatient}
-        />
-      </View>
+      <SWRConfig
+        value={{
+          refreshInterval: 100,
+        }}
+      >
+        <View style={styles.container}>
+          <ClinicToolbar
+            date={date}
+            selected={selectedClinics}
+            changeDate={openChangeDate}
+            onChangeSelected={onChangeSelected}
+          />
+          <DatePickerModal
+            locale="en-GB"
+            mode="single"
+            visible={changeDateVisible}
+            date={new Date(date)}
+            onConfirm={onConfirmDate as any}
+            onDismiss={closeChangeDate}
+          />
+          <PatientToolbar patient={patient} changePatient={openChangePatient} />
+          <ClinicViews
+            date={date}
+            selected={selectedClinics}
+            onChangeSelected={onChangeSelected}
+            patient={patient}
+            changePatient={openChangePatient}
+          />
+          <ChangePatientDialog
+            visible={changePatientVisible}
+            onChangePatient={onChangePatient}
+            onDismiss={closeChangePatient}
+          />
+        </View>
+      </SWRConfig>
     </PaperProvider>
   );
 }

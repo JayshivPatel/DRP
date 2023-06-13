@@ -10,7 +10,7 @@ import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 
 import { Appointment, Clinic, useAppointments } from "../lib/api";
 import styled from "@emotion/styled";
-import { DateUnselectArg, EventClickArg } from "@fullcalendar/core";
+import { EventClickArg } from "@fullcalendar/core";
 
 const CalendarWrapper = styled.div<{ theme: MD3Theme }>(({ theme }) => ({
   backgroundColor: theme.colors.surface,

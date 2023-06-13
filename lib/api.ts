@@ -50,9 +50,7 @@ async function apiRequest(url: string, method = "GET", data?: object) {
 }
 
 export function useNotifications() {
-  return useSWR("/api/notifications", apiRequest, {
-    refreshInterval: 500,
-  });
+  return useSWR("/api/notifications", apiRequest);
 }
 
 export async function createNotification(lateness: number) {
