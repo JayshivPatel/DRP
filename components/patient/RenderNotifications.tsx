@@ -26,7 +26,9 @@ const renderNotifications = function (
     <FlatList
       data={data}
       renderItem={({ item }) => (
-        <Card>
+        <Card
+          onPress={() => item.isRead} // TODO: This should update the notification status in the database
+        >
           <Card.Content>
             <ComponentTest isRead={item.isRead} />
             <List.Item
