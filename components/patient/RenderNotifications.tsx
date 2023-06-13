@@ -1,7 +1,15 @@
 import { FlatList, View } from "react-native";
-import { Text, List } from "react-native-paper";
+import { Text, List, Card, Badge } from "react-native-paper";
 
-const renderNotifications = function (data: any, error: any, isLoading: any) {
+const ComponentTest = (props: {isRead: boolean}) => {
+  if (!props.isRead) {
+    return <Badge>!</Badge>
+  }
+  return <></>;
+}
+
+
+const renderNotifications = function (data: any, error: Error, isLoading: boolean) {
   if (error || isLoading) {
     return (
       <View>
@@ -13,11 +21,16 @@ const renderNotifications = function (data: any, error: any, isLoading: any) {
     <FlatList
       data={data}
       renderItem={({ item }) => (
-        <List.Item
-          title={"Message"}
-          description={item.message}
-          left={(props) => <List.Icon {...props} icon="email" />}
-        />
+        <Card>
+          <Card.Content>
+            <ComponentTest isRead={item.isRead} />
+            <List.Item
+              title={"Message"}
+              description={item.message}
+              left={(props) => <List.Icon {...props} icon="email" />}
+            />
+          </Card.Content>
+        </Card>
       )}
     />
   );
