@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import { SWRConfig } from "swr";
 
-export default function Config(props: PropsWithChildren<{}>) {
+export default function Config(props: PropsWithChildren<Record<never, never>>) {
   return (
     <SWRConfig
       value={{

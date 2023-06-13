@@ -6,7 +6,9 @@ function ToolbarText({ style, ...rest }: TextProps<string>) {
   return <Text variant="labelLarge" style={[styles.text, style]} {...rest} />;
 }
 
-export default function Toolbar(props: React.PropsWithChildren<{}>) {
+export default function Toolbar(
+  props: React.PropsWithChildren<Record<never, never>>
+) {
   return (
     <Surface mode="flat" elevation={1} style={styles.surface}>
       {props.children}
