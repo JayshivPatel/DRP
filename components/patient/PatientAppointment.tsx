@@ -2,11 +2,13 @@ import { Text, Card, Button, Portal, Dialog } from "react-native-paper";
 import {
   Clinic,
   Patient,
+  PatientFull,
   deleteAppointment,
   useAppointments,
+  usePatientFull,
 } from "../../lib/api";
 import { format } from "date-fns";
-import { mutate } from "swr";
+import { KeyedMutator, mutate } from "swr";
 import React from "react";
 
 export default function PatientAppointment(props: {
@@ -15,6 +17,8 @@ export default function PatientAppointment(props: {
   notes: string;
   id: number;
   clinic?: Clinic;
+  patient?: Patient;
+  mutate: KeyedMutator<PatientFull>;
 }) {
   const [visible, setVisible] = React.useState(false);
 
@@ -50,9 +54,10 @@ export default function PatientAppointment(props: {
             </Dialog.Content>
             <Dialog.Actions>
               <Button
-                onPress={() =>
+                onPress={async () =>
                   deleteAppointment(props.id)
                     .then(hideDialog)
+                    .then(() => props.mutate())
                     .catch((e) => console.error(e))
                 }
               >

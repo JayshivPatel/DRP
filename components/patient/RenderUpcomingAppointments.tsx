@@ -1,14 +1,16 @@
 import { View } from "react-native";
 import { Text, Card, Divider } from "react-native-paper";
-import { Patient } from "../../lib/api";
+import { Patient, PatientFull } from "../../lib/api";
 import PatientAppointment from "./PatientAppointment";
 import { filterAppointments } from "./SortAppointments";
+import { KeyedMutator } from "swr";
 
 const renderUpcomingAppointments = function (
   data: any,
   error: Error | undefined,
   isLoading: boolean,
-  patientId: Patient["id"]
+  patientId: Patient["id"],
+  mutate: KeyedMutator<PatientFull>
 ) {
   const appointments = filterAppointments(data, patientId, false);
   if (error || isLoading) {
@@ -27,7 +29,7 @@ const renderUpcomingAppointments = function (
   } else {
     return appointments.map((app) => (
       <>
-        <PatientAppointment {...app} />
+        <PatientAppointment {...app} mutate={mutate} />
         <Divider />
       </>
     ));
