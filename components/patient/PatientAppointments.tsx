@@ -2,30 +2,27 @@ import { Card, Divider, PaperProvider } from "react-native-paper";
 import Appointment from "./PatientAppointment";
 import { ScrollView } from "react-native";
 import { useEffect, useState } from "react";
-import { Appointment as App, useAppointments } from "../../lib/api";
+import {
+  Appointment as App,
+  useAppointments,
+  usePatientFull,
+} from "../../lib/api";
 import { Patient } from "../../lib/api";
 import renderUpcomingAppointments from "./RenderUpcomingAppointments";
 import renderPastAppointments from "./RenderPastAppointments";
 
 export default function Appointments(props: { patientId: Patient["id"] }) {
-  const {
-    data: apps,
-    error,
-    isLoading,
-  } = useAppointments({
-    includeClinic: true,
-    includePatient: true,
-  });
+  const { data: patient, error, isLoading } = usePatientFull(props.patientId);
 
   const upcomingAppointments = renderUpcomingAppointments(
-    apps,
+    patient?.appointments,
     error,
     isLoading,
     props.patientId
   );
 
   const pastAppointments = renderPastAppointments(
-    apps,
+    patient?.appointments,
     error,
     isLoading,
     props.patientId

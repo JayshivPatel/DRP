@@ -26,6 +26,7 @@ const postSchema = z
     path: ["endTime"],
   });
 
+/* TODO(saleem): move this into prisma */
 function timeToString(date: Date): string {
   return (
     date.getUTCHours().toString().padStart(2, "0") +
