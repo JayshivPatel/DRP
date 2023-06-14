@@ -29,4 +29,3 @@ export default function PatientMessages(props: { patientId: Patient["id"] }) {
     </PaperProvider>
   );
 }
-

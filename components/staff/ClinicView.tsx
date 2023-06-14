@@ -268,9 +268,9 @@ export default function ClinicView(props: {
         visible={endOfAppointmentAlert}
         onDismiss={() => setEndOfAppointmentAlert(false)}
         theme={theme}
-        style={{backgroundColor: theme.colors.tertiary}}
+        style={{ backgroundColor: theme.colors.tertiary }}
       >
-        <Text style={{color: theme.colors.onTertiary}}>
+        <Text style={{ color: theme.colors.onTertiary }}>
           Less than {appointmentEndAlertTime} minutes left for this appointment.
         </Text>
       </Snackbar>

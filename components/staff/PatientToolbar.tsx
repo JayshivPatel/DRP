@@ -32,7 +32,7 @@ export default function PatientToolbar(props: {
         </Button>
       );
     }
-    return <></>
+    return <></>;
   };
 
   const fields = props.patient && [
@@ -79,9 +79,7 @@ export default function PatientToolbar(props: {
       >
         Change patient
       </Button>
-      <>
-        {renderButton}
-      </>
+      <>{renderButton}</>
       <Chip mode="outlined" icon="clock">
         Suggested appointment length: 15 mins
       </Chip>
