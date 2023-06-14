@@ -36,11 +36,13 @@ function computeLateness(
 
   /* Find the last appointment marked as seen */
   const lastSeenIndex = appointments.findLastIndex(
-    ({ status }) => status == "SEEN"
+    ({ status }) => status === "SEEN"
   );
 
-  const [lastSeen, firstUnseen, ...lateAppointments] =
-    lastSeenIndex === -1 ? [] : appointments.slice(lastSeenIndex);
+  /* This works even if lastSeenIndex is -1 because it wasn't found */
+  const [firstUnseen, ...lateAppointments] = appointments.slice(
+    lastSeenIndex + 1
+  );
 
   if (!firstUnseen) {
     return clinic;
