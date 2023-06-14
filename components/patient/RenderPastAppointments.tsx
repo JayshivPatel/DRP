@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { Text, Card, Divider } from "react-native-paper";
 import { Patient } from "../../lib/api";
 import PatientAppointment from "./PatientAppointment";
-import { sortAppointments } from "./SortAppointments";
+import { filterAppointments } from "./SortAppointments";
 
 const renderPastAppointments = function (
   data: any,
@@ -10,6 +10,7 @@ const renderPastAppointments = function (
   isLoading: boolean,
   patientId: Patient["id"]
 ) {
+  const appointments = filterAppointments(data, patientId, true);
   if (error || isLoading) {
     return (
       <View>
@@ -17,29 +18,20 @@ const renderPastAppointments = function (
       </View>
     );
   }
-  return (
-    <Card>
-      <Card.Content>
-        {sortAppointments(data, true)
-          ?.filter((app) => {
-            const currentDate = new Date();
-            const appDate = new Date(app.clinic?.date ? app.clinic?.date : 0);
-
-            const [hrs, mins] = app.startTime.split(":").map(Number);
-            appDate.setHours(hrs);
-            appDate.setMinutes(mins);
-
-            return appDate.getTime() < currentDate.getTime();
-          })
-          .map((app) => (
-            <>
-              <PatientAppointment {...app} />
-              <Divider />
-            </>
-          ))}
-      </Card.Content>
-    </Card>
-  );
+  if (appointments.length == 0) {
+    return (
+      <View>
+        <Text>{"No previous appointments"}</Text>
+      </View>
+    );
+  } else {
+    return appointments.map((app) => (
+      <>
+        <PatientAppointment {...app} />
+        <Divider />
+      </>
+    ));
+  }
 };
 
 export default renderPastAppointments;

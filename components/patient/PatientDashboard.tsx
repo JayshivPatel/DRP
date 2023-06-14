@@ -1,51 +1,48 @@
-import { Card, PaperProvider } from "react-native-paper";
+import { Card, PaperProvider, DefaultTheme, Divider } from "react-native-paper";
 import { ScrollView } from "react-native";
-import * as api from "../../lib/api";
 import { Patient } from "../../lib/api";
 import renderNotifications from "./RenderNotifications";
 import renderUpcomingAppointments from "./RenderUpcomingAppointments";
-import { useAppointments } from "../../lib/api";
+import { usePatientFull } from "../../lib/api";
+import materialColors from "../../material-colors.json";
 
 export default function PatientDashboard(props: { patientId: Patient["id"] }) {
-  const {
-    data: apps,
-    error: appsError,
-    isLoading: appsIsLoading,
-  } = useAppointments({
-    includeClinic: true,
-    includePatient: true,
-  });
+  const { data: patient, error, isLoading } = usePatientFull(props.patientId);
 
   const upcomingAppointments = renderUpcomingAppointments(
-    apps,
-    appsError,
-    appsIsLoading,
+    patient?.appointments,
+    error,
+    isLoading,
     props.patientId
   );
 
-  const { data, error, isLoading, mutate } = api.useNotifications();
-
   const notifications = renderNotifications(
-    data,
+    patient?.notifications,
     error,
     isLoading,
     props.patientId
   );
 
   return (
-    <PaperProvider>
+    <PaperProvider
+      theme={{
+        ...DefaultTheme,
+        colors: materialColors.colors,
+      }}
+    >
       <ScrollView>
         <Card>
-          <Card.Title title="Dashboard" titleVariant="displayMedium" />
+          <Card.Title title="Dashboard" titleVariant="headlineLarge" />
           <Card.Content>
-            <Card>
+            <Card style={{ margin: 10 }}>
               <Card.Title
                 title="Upcoming Appointments:"
                 titleVariant="headlineMedium"
               />
               <Card.Content>{upcomingAppointments}</Card.Content>
             </Card>
-            <Card>
+            <Divider />
+            <Card style={{ margin: 10 }}>
               <Card.Title title="Messages" titleVariant="headlineMedium" />
               <Card.Content>{notifications}</Card.Content>
             </Card>

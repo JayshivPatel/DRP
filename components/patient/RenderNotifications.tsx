@@ -1,5 +1,5 @@
 import { FlatList, View } from "react-native";
-import { Text, List, Card, Badge } from "react-native-paper";
+import { Text, List, Card, Badge, Divider } from "react-native-paper";
 import { Patient } from "../../lib/api";
 
 const ComponentTest = (props: { isRead: boolean }) => {
@@ -11,7 +11,7 @@ const ComponentTest = (props: { isRead: boolean }) => {
 
 const renderNotifications = function (
   data: any,
-  error: Error,
+  error: Error | undefined,
   isLoading: boolean,
   patientId: Patient["id"]
 ) {
@@ -22,22 +22,34 @@ const renderNotifications = function (
       </View>
     );
   }
+  if (data.length == 0) {
+    return (
+      <View>
+        <Text>{"No messages"}</Text>
+      </View>
+    );
+  }
+
   return (
     <FlatList
       data={data}
       renderItem={({ item }) => (
-        <Card
-          onPress={() => item.isRead} // TODO: This should update the notification status in the database
-        >
-          <Card.Content>
-            <ComponentTest isRead={item.isRead} />
-            <List.Item
-              title={"Message"}
-              description={item.message}
-              left={(props) => <List.Icon {...props} icon="email" />}
-            />
-          </Card.Content>
-        </Card>
+        <>
+          <Card
+            style={{ margin: 10 }}
+            onPress={() => item.isRead} // TODO: This should update the notification status in the database
+          >
+            <Card.Content>
+              <ComponentTest isRead={item.isRead} />
+              <List.Item
+                title={"Message"}
+                description={item.message}
+                left={(props) => <List.Icon {...props} icon="email" />}
+              />
+            </Card.Content>
+          </Card>
+          <Divider />
+        </>
       )}
     />
   );

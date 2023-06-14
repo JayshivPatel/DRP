@@ -8,16 +8,15 @@ export default function PatientAppointment(props: {
   notes: string;
   id: number;
   clinic?: Clinic;
-  patient?: Patient;
 }) {
   const date = props.clinic?.date;
   const doctor = props.clinic?.title;
 
   return (
-    <Card>
+    <Card style={{ margin: 10 }}>
       <Card.Title
         title={date ? format(new Date(date), "MMMM d, yyyy") : ""}
-        subtitle={doctor}
+        subtitle={"Seeing: " + doctor}
         titleVariant="headlineMedium"
         style={{ marginTop: 20 }}
       />

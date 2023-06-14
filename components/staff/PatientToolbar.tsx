@@ -1,16 +1,9 @@
 import * as React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
-import {
-  ActivityIndicator,
-  Button,
-  Chip,
-  Surface,
-  Text,
-  useTheme,
-} from "react-native-paper";
+import { Button, Chip, Surface, Text, useTheme } from "react-native-paper";
 
 import type { Patient } from "../../lib/api";
 import PatientData from "./PatientData";
+import Toolbar from "./Toolbar";
 
 export default function PatientToolbar(props: {
   gp: boolean;
@@ -43,34 +36,23 @@ export default function PatientToolbar(props: {
   ];
 
   return (
-    <Surface mode="flat" elevation={1} style={styles.surface}>
-      <Text variant="labelLarge" style={styles.text}>
-        Patient information
-      </Text>
+    <Toolbar>
+      <Toolbar.Text>Patient information</Toolbar.Text>
       {props.patient ? (
         <PatientData patient={props.patient}>
           {(name, value) => (
             <>
-              <Text
-                variant="labelLarge"
-                style={{ color: theme.colors.primary }}
-              >
+              <Toolbar.Text style={{ color: theme.colors.primary }}>
                 {name}
-              </Text>
-              <Text variant="labelLarge">{value}</Text>
+              </Toolbar.Text>
+              <Toolbar.Text>{value}</Toolbar.Text>
             </>
           )}
         </PatientData>
       ) : (
-        <Text
-          variant="labelLarge"
-          style={{
-            color: theme.colors.secondary,
-            ...styles.text,
-          }}
-        >
+        <Toolbar.Text style={{ color: theme.colors.secondary }}>
           No patient selected
-        </Text>
+        </Toolbar.Text>
       )}
       <Button
         mode="outlined"
@@ -83,21 +65,6 @@ export default function PatientToolbar(props: {
       <Chip mode="outlined" icon="clock">
         Suggested appointment length: 15 mins
       </Chip>
-    </Surface>
+    </Toolbar>
   );
 }
-
-const styles = StyleSheet.create({
-  surface: {
-    height: 56,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 16,
-    alignItems: "center",
-  },
-  text: {
-    paddingHorizontal: 8,
-  },
-});
