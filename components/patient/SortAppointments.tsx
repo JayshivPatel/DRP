@@ -1,11 +1,15 @@
 import { Appointment, Patient } from "../../lib/api";
 
-export function filterAppointments(apps: Appointment[], patientId: Patient["id"], past: boolean): Appointment[] {
+export function filterAppointments(
+  apps: Appointment[],
+  patientId: Patient["id"],
+  past: boolean
+): Appointment[] {
   return sortAppointments(apps, false)
     ?.filter((app) => {
       const currentDate = new Date();
       const appDate = new Date(app.clinic?.date ? app.clinic?.date : 0);
-    
+
       const [hrs, mins] = app.startTime.split(":").map(Number);
       appDate.setHours(hrs);
       appDate.setMinutes(mins);
@@ -15,7 +19,7 @@ export function filterAppointments(apps: Appointment[], patientId: Patient["id"]
         return appDate.getTime() >= currentDate.getTime();
       }
     })
-    .filter((app) => app.patient?.id == patientId)
+    .filter((app) => app.patient?.id == patientId);
 }
 
 function sortAppointments(apps: Appointment[], reverse: boolean) {
@@ -41,5 +45,3 @@ function sortAppointments(apps: Appointment[], reverse: boolean) {
 
   return apps;
 }
-
-

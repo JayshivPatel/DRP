@@ -10,7 +10,7 @@ const renderUpcomingAppointments = function (
   isLoading: boolean,
   patientId: Patient["id"]
 ) {
-  const appointments = filterAppointments(data, patientId, false)
+  const appointments = filterAppointments(data, patientId, false);
   if (error || isLoading) {
     return (
       <View>
@@ -18,23 +18,20 @@ const renderUpcomingAppointments = function (
       </View>
     );
   }
-  console.log(patientId)
-  console.log(appointments)
   if (appointments.length == 0) {
     return (
       <View>
         <Text>{"No upcoming appointments"}</Text>
       </View>
-    )
+    );
   } else {
     return appointments.map((app) => (
       <>
         <PatientAppointment {...app} />
         <Divider />
       </>
-    ))
+    ));
   }
-
 };
 
 export default renderUpcomingAppointments;
