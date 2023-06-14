@@ -23,7 +23,11 @@ export default function PatientMessages(props: { patientId: Patient["id"] }) {
     >
       <ScrollView>
         <Card style={styles.cards}>
-          <Card.Title title="Your Messages" titleVariant="headlineMedium" titleNumberOfLines={5}/>
+          <Card.Title
+            title="Your Messages"
+            titleVariant="headlineMedium"
+            titleNumberOfLines={5}
+          />
           <Card.Content>{notifications}</Card.Content>
         </Card>
       </ScrollView>

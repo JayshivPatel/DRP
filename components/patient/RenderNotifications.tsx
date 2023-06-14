@@ -35,15 +35,15 @@ const renderNotifications = function (
 
   useEffect(() => {
     const handleResize = () => {
-      setShowIcon(window.innerWidth >= 285); 
+      setShowIcon(window.innerWidth >= 285);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     handleResize();
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -61,10 +61,14 @@ const renderNotifications = function (
               <List.Item
                 title={"Message"}
                 description={item.message}
-                left={showIcon ? ((props) => <List.Icon {...props} icon="email" />) : undefined}
+                left={
+                  showIcon
+                    ? (props) => <List.Icon {...props} icon="email" />
+                    : undefined
+                }
                 titleNumberOfLines={2}
                 descriptionNumberOfLines={100}
-                style={{flex:1}}
+                style={{ flex: 1 }}
               />
             </Card.Content>
           </Card>

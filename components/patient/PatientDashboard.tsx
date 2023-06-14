@@ -20,7 +20,7 @@ export default function PatientDashboard(props: { patientId: Patient["id"] }) {
     isLoading,
     props.patientId,
     mutate,
-    false,
+    false
   );
 
   const notifications = renderNotifications(
