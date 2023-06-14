@@ -43,8 +43,9 @@ export default function PatientDashboard(props: { patientId: Patient["id"] }) {
           <Card.Content>
             <Card style={{ margin: 10 }}>
               <Card.Title
-                title="Upcoming Appointments:"
+                title="Upcoming Appointments"
                 titleVariant="headlineMedium"
+                titleNumberOfLines={5}
               />
               <Card.Content>{upcomingAppointments}</Card.Content>
             </Card>

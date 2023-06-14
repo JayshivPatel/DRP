@@ -49,13 +49,14 @@ export default function Appointments(props: { patientId: Patient["id"] }) {
           <Card.Title
             title="Upcoming Appointments"
             titleVariant="headlineMedium"
+            titleNumberOfLines={5}
           />
           <Card.Content>{upcomingAppointments}</Card.Content>
         </Card>
 
         <Divider />
         <Card style={styles.cards}>
-          <Card.Title title="Past Appointments" titleVariant="headlineMedium" />
+          <Card.Title title="Past Appointments" titleVariant="headlineMedium" titleNumberOfLines={5}/>
           <Card.Content>{pastAppointments}</Card.Content>
         </Card>
       </ScrollView>
