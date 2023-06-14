@@ -113,6 +113,7 @@ export default function GP() {
             onChangeSelected={onChangeSelected}
             patient={patient}
             changePatient={openChangePatient}
+            gp={true}
           />
           <ChangePatientDialog
             visible={changePatientVisible}

@@ -12,6 +12,7 @@ export default function ClinicViews(props: {
   onChangeSelected: (selected: OrderedSet<Clinic["id"]>) => void;
   patient?: Patient;
   changePatient: () => void;
+  gp: boolean;
 }) {
   const [deletionFailed, setDeletionFailed] = React.useState(false);
 
@@ -55,6 +56,7 @@ export default function ClinicViews(props: {
               onHidePress={onHidePress}
               patient={props.patient}
               changePatient={props.changePatient}
+              gp={props.gp}
             />
           ))
         ) : (
