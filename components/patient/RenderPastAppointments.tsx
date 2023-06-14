@@ -22,7 +22,7 @@ const renderPastAppointments = function (
   if (appointments.length == 0) {
     return (
       <View>
-        <Text>{"No upcoming appointments"}</Text>
+        <Text>{"No previous appointments"}</Text>
       </View>
     );
   } else {

@@ -8,30 +8,42 @@ import PatientMessages from "../components/patient/PatientMessages";
 import PatientAppointments from "../components/patient/PatientAppointments";
 import PatientDashBoard from "../components/patient/PatientDashboard";
 import React from "react";
+import { useLocalSearchParams } from "expo-router";
 import materialColors from "../material-colors.json";
 
-const patientId = 2;
+const routes = [
+  {
+    key: "dashboard",
+    title: "Home",
+    focusedIcon: "home",
+    unfocusedIcon: "home-outline",
+  },
+  {
+    key: "messages",
+    title: "Messages",
+    focusedIcon: "android-messages",
+  },
+  {
+    key: "appointments",
+    title: "Appointments",
+    focusedIcon: "calendar",
+  },
+];
+
+function useParams(...keys: string[]): (string | undefined)[] {
+  const params = useLocalSearchParams();
+  return keys
+    .map((key) => params[key])
+    .map((value) =>
+      typeof value === "object" ? value[value.length - 1] : value
+    );
+}
 
 export default function PatientApp() {
+  const [idStr] = useParams("id");
   const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    {
-      key: "dashboard",
-      title: "Home",
-      focusedIcon: "home",
-      unfocusedIcon: "home-outline",
-    },
-    {
-      key: "messages",
-      title: "Messages",
-      focusedIcon: "android-messages",
-    },
-    {
-      key: "appointments",
-      title: "Appointments",
-      focusedIcon: "calendar",
-    },
-  ]);
+
+  const patientId = parseInt(idStr ?? "");
 
   const renderScene = BottomNavigation.SceneMap({
     dashboard: () => PatientDashBoard({ patientId }),
