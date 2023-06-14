@@ -1,12 +1,11 @@
-import { Card, PaperProvider, Divider, Text, List } from "react-native-paper";
-import { FlatList, View } from "react-native";
-import Message from "./PatientMessage";
+import { Card, PaperProvider, DefaultTheme } from "react-native-paper";
 import { ScrollView } from "react-native";
 import * as api from "../../lib/api";
 import { Patient } from "../../lib/api";
 import renderNotifications from "./RenderNotifications";
 import renderUpcomingAppointments from "./RenderUpcomingAppointments";
 import { useAppointments } from "../../lib/api";
+import materialColors from "../../material-colors.json";
 
 export default function PatientDashboard(props: { patientId: Patient["id"] }) {
   const {
@@ -35,7 +34,12 @@ export default function PatientDashboard(props: { patientId: Patient["id"] }) {
   );
 
   return (
-    <PaperProvider>
+    <PaperProvider
+      theme={{
+        ...DefaultTheme,
+        colors: materialColors.colors,
+      }}
+    >
       <ScrollView>
         <Card>
           <Card.Title title="Dashboard" titleVariant="displayMedium" />

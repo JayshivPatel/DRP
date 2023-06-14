@@ -1,8 +1,14 @@
-import { BottomNavigation, PaperProvider, Appbar } from "react-native-paper";
+import {
+  BottomNavigation,
+  PaperProvider,
+  Appbar,
+  DefaultTheme,
+} from "react-native-paper";
 import PatientMessages from "../components/patient/PatientMessages";
 import PatientAppointments from "../components/patient/PatientAppointments";
 import PatientDashBoard from "../components/patient/PatientDashboard";
 import React from "react";
+import materialColors from "../material-colors.json";
 
 const patientId = 2;
 
@@ -34,7 +40,12 @@ export default function PatientApp() {
   });
 
   return (
-    <PaperProvider>
+    <PaperProvider
+      theme={{
+        ...DefaultTheme,
+        colors: materialColors.colors,
+      }}
+    >
       <Appbar.Header>
         <Appbar.Content title="Patient Applet" />
       </Appbar.Header>

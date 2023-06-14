@@ -1,8 +1,9 @@
-import { Card, PaperProvider, Button } from "react-native-paper";
+import { Card, PaperProvider, DefaultTheme } from "react-native-paper";
 import renderNotifications from "./RenderNotifications";
 import { ScrollView, StyleSheet } from "react-native";
 import * as api from "../../lib/api";
 import { Patient } from "../../lib/api";
+import materialColors from "../../material-colors.json";
 
 export default function PatientMessages(props: { patientId: Patient["id"] }) {
   const { data, error, isLoading, mutate } = api.useNotifications();
@@ -14,7 +15,12 @@ export default function PatientMessages(props: { patientId: Patient["id"] }) {
     props.patientId
   );
   return (
-    <PaperProvider>
+    <PaperProvider
+      theme={{
+        ...DefaultTheme,
+        colors: materialColors.colors,
+      }}
+    >
       <ScrollView>
         <Card>
           <Card.Title title="Your Messages" titleVariant="displayMedium" />

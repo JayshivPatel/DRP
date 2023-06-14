@@ -1,11 +1,10 @@
-import { Card, Divider, PaperProvider } from "react-native-paper";
-import Appointment from "./PatientAppointment";
+import { Card, Divider, PaperProvider, DefaultTheme } from "react-native-paper";
 import { ScrollView } from "react-native";
-import { useEffect, useState } from "react";
 import { Appointment as App, useAppointments } from "../../lib/api";
 import { Patient } from "../../lib/api";
 import renderUpcomingAppointments from "./RenderUpcomingAppointments";
 import renderPastAppointments from "./RenderPastAppointments";
+import materialColors from "../../material-colors.json";
 
 export default function Appointments(props: { patientId: Patient["id"] }) {
   const {
@@ -32,7 +31,12 @@ export default function Appointments(props: { patientId: Patient["id"] }) {
   );
 
   return (
-    <PaperProvider>
+    <PaperProvider
+      theme={{
+        ...DefaultTheme,
+        colors: materialColors.colors,
+      }}
+    >
       <Divider />
       <ScrollView>
         <Card style={{ margin: 10 }}>
