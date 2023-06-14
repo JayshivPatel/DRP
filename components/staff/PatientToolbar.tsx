@@ -13,8 +13,8 @@ export default function PatientToolbar(props: {
 }) {
   const theme = useTheme();
 
-  const renderButton = () => {
-    if (props.gp == true) {
+  const RenderButton = () => {
+    if (props.gp) {
       return (
         <Button
           mode="outlined"
@@ -61,7 +61,7 @@ export default function PatientToolbar(props: {
       >
         Change patient
       </Button>
-      <>{renderButton}</>
+      <RenderButton />
       <Chip mode="outlined" icon="clock">
         Suggested appointment length: 15 mins
       </Chip>
