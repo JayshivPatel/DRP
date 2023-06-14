@@ -11,7 +11,7 @@ const renderPastAppointments = function (
   error: Error | undefined,
   isLoading: boolean,
   patientId: Patient["id"],
-  mutate: KeyedMutator<PatientFull>,
+  mutate: KeyedMutator<PatientFull>
 ) {
   const appointments = filterAppointments(data, patientId, true);
   if (error || isLoading) {

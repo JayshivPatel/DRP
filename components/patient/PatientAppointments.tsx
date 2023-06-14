@@ -12,7 +12,12 @@ import renderPastAppointments from "./RenderPastAppointments";
 import materialColors from "../../material-colors.json";
 
 export default function Appointments(props: { patientId: Patient["id"] }) {
-  const { data: patient, error, isLoading, mutate } = usePatientFull(props.patientId);
+  const {
+    data: patient,
+    error,
+    isLoading,
+    mutate,
+  } = usePatientFull(props.patientId);
 
   const upcomingAppointments = renderUpcomingAppointments(
     patient?.appointments,
@@ -26,7 +31,7 @@ export default function Appointments(props: { patientId: Patient["id"] }) {
     patient?.appointments,
     error,
     isLoading,
-    props.patientId, 
+    props.patientId,
     mutate
   );
 

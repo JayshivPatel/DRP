@@ -7,7 +7,12 @@ import { usePatientFull } from "../../lib/api";
 import materialColors from "../../material-colors.json";
 
 export default function PatientDashboard(props: { patientId: Patient["id"] }) {
-  const { data: patient, error, isLoading, mutate } = usePatientFull(props.patientId);
+  const {
+    data: patient,
+    error,
+    isLoading,
+    mutate,
+  } = usePatientFull(props.patientId);
 
   const upcomingAppointments = renderUpcomingAppointments(
     patient?.appointments,
