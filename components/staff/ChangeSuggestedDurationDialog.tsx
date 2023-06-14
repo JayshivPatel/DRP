@@ -1,8 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
-import { Button, Dialog, Portal, TextInput } from "react-native-paper";
+import { Button, Dialog, Portal } from "react-native-paper";
 import DurationPicker from "./DurationPicker";
-import { Patient } from "../../lib/api";
 
 export default function ChangeSuggestedDurationDialog(props: {
   visible: boolean;

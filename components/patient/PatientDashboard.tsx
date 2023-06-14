@@ -1,6 +1,4 @@
-import { Card, PaperProvider, Divider, Text, List } from "react-native-paper";
-import { FlatList, View } from "react-native";
-import Message from "./PatientMessage";
+import { Card, PaperProvider } from "react-native-paper";
 import { ScrollView } from "react-native";
 import * as api from "../../lib/api";
 import { Patient } from "../../lib/api";

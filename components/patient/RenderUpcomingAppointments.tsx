@@ -1,7 +1,6 @@
-import { FlatList, View } from "react-native";
-import { Text, List, Card, Divider } from "react-native-paper";
+import { View } from "react-native";
+import { Text, Card, Divider } from "react-native-paper";
 import { Patient } from "../../lib/api";
-import { Appointment } from "../../lib/api";
 import PatientAppointment from "./PatientAppointment";
 import { sortAppointments } from "./SortAppointments";
 

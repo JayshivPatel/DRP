@@ -1,7 +1,6 @@
 import * as React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { Button, Card, MD3Theme, useTheme } from "react-native-paper";
-import { Collection } from "immutable";
+import { StyleSheet } from "react-native";
+import { MD3Theme, useTheme } from "react-native-paper";
 
 import FullCalendar from "@fullcalendar/react";
 

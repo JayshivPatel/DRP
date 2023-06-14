@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import { Snackbar, Text } from "react-native-paper";
+import { Snackbar, Text, useTheme } from "react-native-paper";
 import { OrderedSet } from "immutable";
 
 import { Clinic, Patient, deleteClinic, useClinics } from "../../lib/api";

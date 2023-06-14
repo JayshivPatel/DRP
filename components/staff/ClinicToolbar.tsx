@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   ActivityIndicator,
   Button,
@@ -9,7 +9,7 @@ import {
   Text,
   useTheme,
 } from "react-native-paper";
-import { Collection, OrderedSet } from "immutable";
+import { OrderedSet } from "immutable";
 
 import { Clinic, createClinic, useClinics } from "../../lib/api";
 import CreateClinicDialog from "./CreateClinicDialog";

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, StyleSheet } from "react-native";
 import {
   ActivityIndicator,
   Button,
@@ -267,8 +267,10 @@ export default function ClinicView(props: {
       <Snackbar
         visible={endOfAppointmentAlert}
         onDismiss={() => setEndOfAppointmentAlert(false)}
+        theme={theme}
+        style={{backgroundColor: theme.colors.tertiary}}
       >
-        <Text>
+        <Text style={{color: theme.colors.onTertiary}}>
           Less than {appointmentEndAlertTime} minutes left for this appointment.
         </Text>
       </Snackbar>

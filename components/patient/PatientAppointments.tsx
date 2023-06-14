@@ -1,8 +1,6 @@
 import { Card, Divider, PaperProvider } from "react-native-paper";
-import Appointment from "./PatientAppointment";
 import { ScrollView } from "react-native";
-import { useEffect, useState } from "react";
-import { Appointment as App, useAppointments } from "../../lib/api";
+import { useAppointments } from "../../lib/api";
 import { Patient } from "../../lib/api";
 import renderUpcomingAppointments from "./RenderUpcomingAppointments";
 import renderPastAppointments from "./RenderPastAppointments";

@@ -1,4 +1,4 @@
-import { Card, PaperProvider, Button } from "react-native-paper";
+import { Card, PaperProvider } from "react-native-paper";
 import renderNotifications from "./RenderNotifications";
 import { ScrollView, StyleSheet } from "react-native";
 import * as api from "../../lib/api";
@@ -30,9 +30,3 @@ export default function PatientMessages(props: { patientId: Patient["id"] }) {
   );
 }
 
-const styles = StyleSheet.create({
-  messagebuttons: {
-    justifyContent: "space-evenly",
-    flexDirection: "row",
-  },
-});

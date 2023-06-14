@@ -1,6 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import { Button, Card, Dialog, Menu, TextInput } from "react-native-paper";
+import { Button, Dialog, Menu, TextInput } from "react-native-paper";
 import { Patient } from "../../lib/api";
 import DurationPicker from "./DurationPicker";
 
