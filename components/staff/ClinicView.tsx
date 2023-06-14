@@ -121,6 +121,10 @@ export default function ClinicView(props: {
   creationEnd?.setMinutes(creationEnd.getMinutes() + creationDuration);
 
   function checkAppointmentTimings() {
+    if (!props.gp) {
+      return;
+    }
+
     const currentTime = new Date().toTimeString().substring(0, 5);
     const currentAppointments = data?.filter(
       (appointment) =>
@@ -160,9 +164,7 @@ export default function ClinicView(props: {
     }
   }
 
-  if (props.gp) {
-    useInterval(() => checkAppointmentTimings(), 10000);
-  }
+  useInterval(() => checkAppointmentTimings(), 5000);
 
   let content;
   if (error) {
@@ -266,7 +268,9 @@ export default function ClinicView(props: {
         visible={endOfAppointmentAlert}
         onDismiss={() => setEndOfAppointmentAlert(false)}
       >
-        Less than {appointmentEndAlertTime} minutes left for this appointment.
+        <Text>
+          Less than {appointmentEndAlertTime} minutes left for this appointment.
+        </Text>
       </Snackbar>
     </>
   );
