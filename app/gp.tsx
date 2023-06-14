@@ -13,10 +13,13 @@ import materialColors from "../material-colors.json";
 import ChangePatientDialog from "../components/staff/ChangePatientDialog";
 import { DatePickerModal } from "react-native-paper-dates";
 import { SWRConfig } from "swr";
+import ChangeSuggestedDurationDialog from "../components/staff/ChangeSuggestedDurationDialog";
 
 export default function GP() {
   const [changeDateVisible, setChangeDateVisible] = React.useState(false);
   const [changePatientVisible, setChangePatientVisible] = React.useState(false);
+  const [changeSuggestedDurationVisible, setChangeSuggestedDurationVisible] =
+    React.useState(false);
 
   function formatDate(date: Date): string {
     /* TODO(saleem): Change to date library */
@@ -28,6 +31,14 @@ export default function GP() {
     OrderedSet<Clinic["id"]>()
   );
   const [patient, setPatient] = React.useState<Patient | undefined>(undefined);
+
+  function openSuggestedDuration() {
+    setChangeSuggestedDurationVisible(true);
+  }
+
+  function closeSuggestedDuration() {
+    setChangeSuggestedDurationVisible(false);
+  }
 
   function openChangeDate() {
     setChangeDateVisible(true);
@@ -90,18 +101,28 @@ export default function GP() {
             onConfirm={onConfirmDate as any}
             onDismiss={closeChangeDate}
           />
-          <PatientToolbar patient={patient} changePatient={openChangePatient} />
+          <PatientToolbar
+            patient={patient}
+            changePatient={openChangePatient}
+            changeSuggestedDuration={openSuggestedDuration}
+            gp={true}
+          />
           <ClinicViews
             date={date}
             selected={selectedClinics}
             onChangeSelected={onChangeSelected}
             patient={patient}
             changePatient={openChangePatient}
+            gp={true}
           />
           <ChangePatientDialog
             visible={changePatientVisible}
             onChangePatient={onChangePatient}
             onDismiss={closeChangePatient}
+          />
+          <ChangeSuggestedDurationDialog
+            visible={changeSuggestedDurationVisible}
+            onDismiss={closeSuggestedDuration}
           />
         </View>
       </SWRConfig>

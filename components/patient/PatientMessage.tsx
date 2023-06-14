@@ -1,4 +1,4 @@
-import { Text, Card, Button, List, PaperProvider } from "react-native-paper";
+import { Text, Card, PaperProvider } from "react-native-paper";
 
 export default function Message() {
   return (

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, StyleSheet } from "react-native";
 import {
   ActivityIndicator,
   Button,
@@ -21,6 +21,8 @@ import ClinicSchedule from "./ClinicSchedule";
 import CreateAppointmentMenu from "./CreateAppointmentMenu";
 import AppointmentDetailsMenu from "./AppointmentDetailsMenu";
 import ConfirmDialog from "./ConfirmDialog";
+import { useInterval } from "../utils";
+import { subtractTimeString } from "../patient/SortAppointments";
 
 export function formatTime(date: Date): string {
   /* TODO(saleem): Change to date library */
@@ -33,6 +35,7 @@ export default function ClinicView(props: {
   onDelete: (clinic: Clinic) => void;
   patient?: Patient;
   changePatient: () => void;
+  gp: boolean;
 }) {
   const theme = useTheme();
 
@@ -52,6 +55,15 @@ export default function ClinicView(props: {
   const [cancelFailed, setCancelFailed] = React.useState(false);
 
   const [confirmVisible, setConfirmVisible] = React.useState(false);
+
+  const [currentAppointment, setCurrentAppointment] = React.useState<
+    Appointment | undefined
+  >();
+  const [sendAlert, setSendAlert] = React.useState(true);
+  const [endOfAppointmentAlert, setEndOfAppointmentAlert] =
+    React.useState(false);
+
+  const appointmentEndAlertTime = 5;
 
   function onPressDate(date: Date, x: number, y: number) {
     setAnchor({ x, y });
@@ -107,6 +119,52 @@ export default function ClinicView(props: {
 
   const creationEnd = creationStart && new Date(creationStart);
   creationEnd?.setMinutes(creationEnd.getMinutes() + creationDuration);
+
+  function checkAppointmentTimings() {
+    if (!props.gp) {
+      return;
+    }
+
+    const currentTime = new Date().toTimeString().substring(0, 5);
+    const currentAppointments = data?.filter(
+      (appointment) =>
+        appointment.startTime <= currentTime &&
+        appointment.endTime >= currentTime
+    );
+
+    if (
+      typeof currentAppointments == undefined ||
+      currentAppointments == undefined ||
+      currentAppointments?.length == 0
+    ) {
+      return;
+    }
+
+    // Check if appointment changes
+    if (currentAppointment != currentAppointments[0]) {
+      setSendAlert(true);
+    }
+
+    // Only take the first of current appointments
+    // (there should only be 1 concurrent appointment per clinic)
+    setCurrentAppointment(currentAppointments[0]);
+
+    // Appointment cannot be undefined at this point
+    if (currentAppointment === undefined) {
+      return;
+    }
+
+    const timeDiff =
+      subtractTimeString(currentAppointment.endTime, currentTime) / 60000;
+
+    // This alert should only happen once per appointment
+    if (sendAlert && timeDiff <= appointmentEndAlertTime) {
+      setEndOfAppointmentAlert(true);
+      setSendAlert(false);
+    }
+  }
+
+  useInterval(() => checkAppointmentTimings(), 5000);
 
   let content;
   if (error) {
@@ -205,6 +263,16 @@ export default function ClinicView(props: {
       </Snackbar>
       <Snackbar visible={cancelFailed} onDismiss={() => setCancelFailed(false)}>
         Failed to cancel appointment
+      </Snackbar>
+      <Snackbar
+        visible={endOfAppointmentAlert}
+        onDismiss={() => setEndOfAppointmentAlert(false)}
+        theme={theme}
+        style={{ backgroundColor: theme.colors.tertiary }}
+      >
+        <Text style={{ color: theme.colors.onTertiary }}>
+          Less than {appointmentEndAlertTime} minutes left for this appointment.
+        </Text>
       </Snackbar>
     </>
   );
