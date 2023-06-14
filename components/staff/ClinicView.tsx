@@ -60,6 +60,8 @@ export default function ClinicView(props: {
     Appointment | undefined
   >();
   const [sendAlert, setSendAlert] = React.useState(true);
+  const [endOfAppointmentAlert, setEndOfAppointmentAlert] =
+    React.useState(false);
 
   const appointmentEndAlertTime = 5;
 
@@ -153,8 +155,7 @@ export default function ClinicView(props: {
 
     // This alert should only happen once per appointment
     if (sendAlert && timeDiff <= appointmentEndAlertTime) {
-      // TODO: Change this from alert to pop-up
-      alert("Less than 5 minutes left for this appointment.");
+      setEndOfAppointmentAlert(true);
       setSendAlert(false);
     }
   }
@@ -260,6 +261,12 @@ export default function ClinicView(props: {
       </Snackbar>
       <Snackbar visible={cancelFailed} onDismiss={() => setCancelFailed(false)}>
         Failed to cancel appointment
+      </Snackbar>
+      <Snackbar
+        visible={endOfAppointmentAlert}
+        onDismiss={() => setEndOfAppointmentAlert(false)}
+      >
+        Less than {appointmentEndAlertTime} minutes left for this appointment.
       </Snackbar>
     </>
   );
