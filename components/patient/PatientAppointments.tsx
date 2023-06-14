@@ -7,9 +7,8 @@ import {
   usePatientFull,
 } from "../../lib/api";
 import { Patient } from "../../lib/api";
-import renderUpcomingAppointments from "./RenderUpcomingAppointments";
-import renderPastAppointments from "./RenderPastAppointments";
 import materialColors from "../../material-colors.json";
+import { renderAppointments } from "./RenderAppointments";
 
 export default function Appointments(props: { patientId: Patient["id"] }) {
   const {
@@ -19,20 +18,22 @@ export default function Appointments(props: { patientId: Patient["id"] }) {
     mutate,
   } = usePatientFull(props.patientId);
 
-  const upcomingAppointments = renderUpcomingAppointments(
+  const upcomingAppointments = renderAppointments(
     patient?.appointments,
     error,
     isLoading,
     props.patientId,
-    mutate
+    mutate,
+    false
   );
 
-  const pastAppointments = renderPastAppointments(
+  const pastAppointments = renderAppointments(
     patient?.appointments,
     error,
     isLoading,
     props.patientId,
-    mutate
+    mutate,
+    true
   );
 
   return (
