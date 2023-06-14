@@ -161,7 +161,7 @@ export default function ClinicView(props: {
   }
 
   if (props.gp) {
-    useInterval(() => checkAppointmentTimings(), 1000);
+    useInterval(() => checkAppointmentTimings(), 10000);
   }
 
   let content;
