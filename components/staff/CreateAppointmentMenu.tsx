@@ -1,35 +1,7 @@
 import { StyleSheet, View } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import { Button, Card, Dialog, Menu, TextInput } from "react-native-paper";
+import { Button, Dialog, Menu, TextInput } from "react-native-paper";
 import { Patient } from "../../lib/api";
-
-function DurationPicker(props: {
-  value: number;
-  onChange: (value: number) => void;
-}) {
-  const DURATIONS = [5, 10, 15, 20, 25, 30];
-  return (
-    <TextInput
-      label="Appointment Length"
-      value={props.value.toString()}
-      render={(renderProps) => (
-        <Picker
-          style={renderProps.style}
-          selectedValue={props.value.toString()}
-          onValueChange={(value) => props.onChange(parseInt(value))}
-        >
-          {DURATIONS.map((duration) => (
-            <Picker.Item
-              key={duration}
-              label={`${duration} minutes`}
-              value={duration.toString()}
-            />
-          ))}
-        </Picker>
-      )}
-    />
-  );
-}
+import DurationPicker from "./DurationPicker";
 
 export default function CreateAppointmentMenu(props: {
   anchor: { x: number; y: number };

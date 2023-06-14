@@ -6,10 +6,27 @@ import PatientData from "./PatientData";
 import Toolbar from "./Toolbar";
 
 export default function PatientToolbar(props: {
+  gp: boolean;
   patient?: Patient;
+  changeSuggestedDuration?: () => void;
   changePatient: () => void;
 }) {
   const theme = useTheme();
+
+  const RenderButton = () => {
+    if (props.gp) {
+      return (
+        <Button
+          mode="outlined"
+          icon="account-clock"
+          onPress={props.changeSuggestedDuration}
+        >
+          Change suggested length
+        </Button>
+      );
+    }
+    return <></>;
+  };
 
   const fields = props.patient && [
     ["Name", `${props.patient.firstName} ${props.patient.lastName}`],
@@ -44,10 +61,7 @@ export default function PatientToolbar(props: {
       >
         Change patient
       </Button>
-      <Button mode="outlined" icon="account-clock">
-        Change suggested length
-      </Button>
-
+      <RenderButton />
       <Chip mode="outlined" icon="clock">
         Suggested appointment length: 15 mins
       </Chip>

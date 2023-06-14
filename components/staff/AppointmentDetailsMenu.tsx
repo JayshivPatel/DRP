@@ -1,6 +1,6 @@
 import * as React from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, DataTable, Dialog, Menu, Text } from "react-native-paper";
+import { StyleSheet } from "react-native";
+import { Button, DataTable, Dialog, Menu } from "react-native-paper";
 import { Appointment } from "../../lib/api";
 import PatientData from "./PatientData";
 import ConfirmDialog from "./ConfirmDialog";
