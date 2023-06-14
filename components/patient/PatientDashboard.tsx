@@ -2,33 +2,23 @@ import { Card, PaperProvider, Divider, Text, List } from "react-native-paper";
 import { FlatList, View } from "react-native";
 import Message from "./PatientMessage";
 import { ScrollView } from "react-native";
-import * as api from "../../lib/api";
 import { Patient } from "../../lib/api";
 import renderNotifications from "./RenderNotifications";
 import renderUpcomingAppointments from "./RenderUpcomingAppointments";
-import { useAppointments } from "../../lib/api";
+import { usePatientFull } from "../../lib/api";
 
 export default function PatientDashboard(props: { patientId: Patient["id"] }) {
-  const {
-    data: apps,
-    error: appsError,
-    isLoading: appsIsLoading,
-  } = useAppointments({
-    includeClinic: true,
-    includePatient: true,
-  });
+  const { data: patient, error, isLoading } = usePatientFull(props.patientId);
 
   const upcomingAppointments = renderUpcomingAppointments(
-    apps,
-    appsError,
-    appsIsLoading,
+    patient?.appointments,
+    error,
+    isLoading,
     props.patientId
   );
 
-  const { data, error, isLoading, mutate } = api.useNotifications();
-
   const notifications = renderNotifications(
-    data,
+    patient?.notifications,
     error,
     isLoading,
     props.patientId

@@ -12,6 +12,11 @@ export declare type Patient = {
   phoneNumber: string;
 };
 
+export declare type PatientFull = Patient & {
+  appointments: Appointment[];
+  notifications: Notification[];
+};
+
 export declare type Clinic = {
   id: number;
   title: string;
@@ -49,18 +54,6 @@ async function apiRequest(url: string, method = "GET", data?: object) {
   return result;
 }
 
-export function useNotifications() {
-  return useSWR("/api/notifications", apiRequest);
-}
-
-export async function createNotification(lateness: number) {
-  await apiRequest("/api/notifications", "POST", { lateness });
-}
-
-export async function deleteNotification(id: number) {
-  await apiRequest(`/api/notifications/${id}`, "DELETE");
-}
-
 export async function notifySMS(recipient: string, lateness: number) {
   await apiRequest("/api/send", "POST", { recipient, lateness });
 }
@@ -70,6 +63,10 @@ export function usePatients(params?: { dateOfBirth?: string }) {
     "/api/patients?" + new URLSearchParams(params),
     apiRequest
   );
+}
+
+export function usePatientFull(id: Patient["id"]) {
+  return useSWR<PatientFull, Error>(`/api/patients/${id}`, apiRequest);
 }
 
 export function useClinics(params?: { date?: string }) {

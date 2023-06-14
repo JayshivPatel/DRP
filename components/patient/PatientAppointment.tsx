@@ -8,7 +8,6 @@ export default function PatientAppointment(props: {
   notes: string;
   id: number;
   clinic?: Clinic;
-  patient?: Patient;
 }) {
   const date = props.clinic?.date;
   const doctor = props.clinic?.title;

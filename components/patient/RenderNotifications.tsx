@@ -11,7 +11,7 @@ const ComponentTest = (props: { isRead: boolean }) => {
 
 const renderNotifications = function (
   data: any,
-  error: Error,
+  error: Error | undefined,
   isLoading: boolean,
   patientId: Patient["id"]
 ) {
