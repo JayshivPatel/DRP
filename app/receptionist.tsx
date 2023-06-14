@@ -101,6 +101,7 @@ export default function Receptionist() {
             onChangeSelected={onChangeSelected}
             patient={patient}
             changePatient={openChangePatient}
+            gp={false}
           />
           <ChangePatientDialog
             visible={changePatientVisible}
