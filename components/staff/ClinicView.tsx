@@ -233,11 +233,16 @@ export default function ClinicView(props: {
     );
   }
 
+  const subtitle =
+    props.clinic.minutesLate &&
+    `Running ${props.clinic.minutesLate} minutes late`;
+
   return (
     <>
       <Card mode="elevated" style={styles.card}>
         <Card.Title
           title={props.clinic.title}
+          subtitle={subtitle}
           titleVariant="titleLarge"
           right={(rightProps) => (
             <Card.Actions {...rightProps}>

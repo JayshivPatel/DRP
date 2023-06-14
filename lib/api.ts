@@ -21,6 +21,7 @@ export declare type Clinic = {
   id: number;
   title: string;
   date: string;
+  minutesLate?: number;
 };
 
 export declare type AppointmentStatus = "UNSEEN" | "SEEN";
