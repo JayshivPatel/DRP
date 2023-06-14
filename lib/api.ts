@@ -23,11 +23,14 @@ export declare type Clinic = {
   date: string;
 };
 
+export declare type AppointmentStatus = "UNSEEN" | "SEEN";
+
 export declare type Appointment = {
   id: number;
   startTime: string;
   endTime: string;
   notes: string;
+  status: AppointmentStatus;
   patient?: Patient;
   clinic?: Clinic;
 };
@@ -121,5 +124,12 @@ export async function createAppointment(options: {
 }
 
 export async function deleteAppointment(id: number) {
-  await apiRequest("/api/appointments/" + id, "DELETE");
+  await apiRequest(`/api/appointments/${id}`, "DELETE");
+}
+
+export async function updateAppointment(
+  id: number,
+  data: Partial<Pick<Appointment, "status">> = {}
+) {
+  await apiRequest(`/api/appointments/${id}`, "PUT", data);
 }

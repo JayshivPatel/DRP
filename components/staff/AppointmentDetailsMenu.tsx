@@ -1,9 +1,16 @@
 import * as React from "react";
-import { StyleSheet } from "react-native";
-import { Button, DataTable, Dialog, Menu } from "react-native-paper";
-import { Appointment } from "../../lib/api";
+import { StyleSheet, View } from "react-native";
+import { Button, DataTable, Dialog, Menu, Text } from "react-native-paper";
+import { Appointment, AppointmentStatus } from "../../lib/api";
 import PatientData from "./PatientData";
 import ConfirmDialog from "./ConfirmDialog";
+
+function useInterval(handler: () => void, timeout: number) {
+  React.useEffect(() => {
+    const id = setInterval(handler, timeout);
+    return () => clearInterval(id);
+  });
+}
 
 function Row(props: { name: string; value: string }) {
   return (
@@ -20,11 +27,17 @@ export default function AppointmentDetailsMenu(props: {
   onDismiss: () => void;
   appointment?: Appointment;
   onCancel: (id: Appointment["id"]) => void;
+  onChangeStatus: (id: Appointment["id"], status: AppointmentStatus) => void;
 }) {
   const [confirmVisible, setConfirmVisible] = React.useState(false);
 
   function onPressCancel() {
     setConfirmVisible(true);
+  }
+
+  function onToggleSeen() {
+    const newStatus = props.appointment!.status == "SEEN" ? "UNSEEN" : "SEEN";
+    props.onChangeStatus(props.appointment!.id, newStatus);
   }
 
   function onDismissCancel() {
@@ -56,6 +69,11 @@ export default function AppointmentDetailsMenu(props: {
           )}
         </Dialog.Content>
         <Dialog.Actions>
+          <Button onPress={onToggleSeen}>
+            {props.appointment?.status == "UNSEEN"
+              ? "Mark as seen"
+              : "Mark as unseen"}
+          </Button>
           <Button onPress={onPressCancel}>Cancel appointment</Button>
         </Dialog.Actions>
       </Menu>

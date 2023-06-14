@@ -31,14 +31,20 @@ model Patient {
   @@index([nhsNumber])
 }
 
+enum AppointmentStatus {
+  UNSEEN
+  SEEN
+}
+
 model Appointment {
-  id        Int      @id @default(autoincrement())
-  startTime DateTime @db.Time
-  endTime   DateTime @db.Time
+  id        Int               @id @default(autoincrement())
+  startTime DateTime          @db.Time
+  endTime   DateTime          @db.Time
   notes     String
-  clinic    Clinic   @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  status    AppointmentStatus @default(UNSEEN)
+  clinic    Clinic            @relation(fields: [clinicId], references: [id], onDelete: Cascade)
   clinicId  Int
-  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patient   Patient           @relation(fields: [patientId], references: [id], onDelete: Cascade)
   patientId Int
 }
 

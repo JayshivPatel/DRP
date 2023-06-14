@@ -4,7 +4,7 @@ import { parse as parseDate } from "date-fns";
 
 type ApiHandler = (req: NextApiRequest, res: NextApiResponse) => Promise<void>;
 
-const apiMethods = ["GET", "POST", "DELETE"] as const;
+const apiMethods = ["GET", "POST", "DELETE", "PUT"] as const;
 type ApiMethod = (typeof apiMethods)[number];
 
 function isApiMethod(method?: string): method is ApiMethod {
