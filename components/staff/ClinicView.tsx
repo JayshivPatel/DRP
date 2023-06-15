@@ -269,6 +269,14 @@ export default function ClinicView(props: {
         onDismiss={() => setEndOfAppointmentAlert(false)}
         theme={theme}
         style={{ backgroundColor: theme.colors.tertiary }}
+        duration={50000}
+        action = {{
+          label: "Dismiss",
+          onPress: () => {
+            setEndOfAppointmentAlert(false)
+          }
+        }
+        }
       >
         <Text style={{ color: theme.colors.onTertiary }}>
           Less than {appointmentEndAlertTime} minutes left for this appointment.
