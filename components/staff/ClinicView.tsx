@@ -26,6 +26,7 @@ import { useInterval } from "../utils";
 import { subtractTimeString } from "../patient/SortAppointments";
 import { List } from "immutable";
 import { Audio } from "expo-av";
+import notificationSound from "../../assets/notification-sound.mp3";
 
 export function formatTime(date: Date): string {
   /* TODO(saleem): Change to date library */
@@ -149,9 +150,7 @@ export default function ClinicView(props: {
   }
 
   async function playNotificationSound() {
-    const { sound } = await Audio.Sound.createAsync(
-      require("../../assets/notification-sound.mp3")
-    );
+    const { sound } = await Audio.Sound.createAsync(notificationSound);
     setSound(sound);
     await sound.playAsync();
   }
