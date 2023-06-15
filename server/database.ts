@@ -50,7 +50,7 @@ const MinutesLateExtension = Prisma.defineExtension((client) =>
             const millisLate = firstUnseenEndTime
               ? Math.max(localTime - firstUnseenEndTime.getTime(), 0)
               : 0;
-            const minutesLate = Math.round(millisLate / MILLIS_PER_MINUTE)
+            const minutesLate = Math.round(millisLate / MILLIS_PER_MINUTE);
 
             return minutesLate;
           },
