@@ -5,7 +5,7 @@ export function filterAppointments(
   patientId: Patient["id"],
   past: boolean
 ): Appointment[] {
-  return sortAppointments(apps, false)?.filter((app) => {
+  return sortAppointments(apps, past)?.filter((app) => {
     const currentDate = new Date();
     const appDate = new Date(app.clinic?.date ? app.clinic?.date : 0);
 
