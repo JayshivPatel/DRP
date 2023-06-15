@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { routeHandler, timeOnly } from "../../server/handlers";
-import { prisma } from "../../server/database";
+import { prisma, updateClinic } from "../../server/database";
 import * as z from "zod";
 import { sendSms } from "../../server/sms";
 
@@ -64,18 +64,22 @@ export default routeHandler({
     const { clinicId, patientId, startTime, endTime, notes, notifySms } =
       postSchema.parse(req.body);
 
-    const { id, clinic, patient } = await prisma.appointment.create({
-      data: {
-        startTime,
-        endTime,
-        notes,
-        clinic: { connect: { id: clinicId } },
-        patient: { connect: { id: patientId } },
-      },
-      include: {
-        clinic: notifySms,
-        patient: notifySms,
-      },
+    const { id, clinic, patient } = await prisma.$transaction(async (tx) => {
+      const appointment = await tx.appointment.create({
+        data: {
+          startTime,
+          endTime,
+          notes,
+          clinic: { connect: { id: clinicId } },
+          patient: { connect: { id: patientId } },
+        },
+        include: {
+          clinic: notifySms,
+          patient: notifySms,
+        },
+      });
+      await updateClinic(tx, clinicId);
+      return appointment;
     });
 
     if (notifySms) {
