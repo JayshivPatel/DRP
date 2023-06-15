@@ -24,6 +24,7 @@
     "@react-native-picker/picker": "^2.4.10",
     "date-fns": "^2.30.0",
     "expo": "^48.0.18",
+    "expo-av": "^13.2.1",
     "expo-constants": "~14.2.1",
     "expo-linking": "~4.0.1",
     "expo-router": "^1.5.3",

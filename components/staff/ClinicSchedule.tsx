@@ -9,7 +9,7 @@ import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 
 import { Appointment, Clinic, useAppointments } from "../../lib/api";
 import styled from "@emotion/styled";
-import { EventClickArg } from "@fullcalendar/core";
+import { EventClickArg, EventInput } from "@fullcalendar/core";
 
 const CalendarWrapper = styled.div<{ theme: MD3Theme }>(({ theme }) => ({
   backgroundColor: theme.colors.surface,
@@ -51,18 +51,32 @@ export default function ClinicSchedule(props: {
     }
   }, [calendarRef.current, props.selectionStart, props.selectionEnd]);
 
-  const events = props.appointments?.map((appointment) => {
-    const patient = appointment.patient!;
-    const fullName = `${patient.firstName} ${patient.lastName}`;
-    const dateOfBirth = new Date(patient.dateOfBirth).toLocaleDateString();
+  const events = React.useMemo(
+    () =>
+      props.appointments?.map((appointment) => {
+        const patient = appointment.patient!;
+        const fullName = `${patient.firstName} ${patient.lastName}`;
+        const dateOfBirth = new Date(patient.dateOfBirth).toLocaleDateString();
+        const isSeen = appointment.status == "SEEN";
+        const seenPrefix = isSeen ? "✅ " : "";
 
-    return {
-      title: `${fullName} - ${dateOfBirth}\n${appointment.notes}`,
-      startTime: appointment.startTime,
-      endTime: appointment.endTime,
-      extendedProps: { appointment },
-    };
-  });
+        const event: EventInput = {
+          title: `${seenPrefix}${fullName} - ${dateOfBirth}\n${appointment.notes}`,
+          startTime: appointment.startTime,
+          endTime: appointment.endTime,
+          backgroundColor: isSeen
+            ? theme.colors.tertiaryContainer
+            : theme.colors.tertiary,
+          textColor: isSeen
+            ? theme.colors.onTertiaryContainer
+            : theme.colors.onTertiary,
+          extendedProps: { appointment },
+        };
+
+        return event;
+      }),
+    [theme, props.appointments]
+  );
 
   function dateClick({ date, jsEvent }: DateClickArg) {
     props.onPressDate(date, jsEvent.pageX, jsEvent.pageY);
