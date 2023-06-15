@@ -32,9 +32,13 @@ export default function PatientAppointment(props: {
 
   const date = props.clinic?.date;
   const doctor = props.clinic?.title;
-  const status = props.clinic?.minutesLate
+  let status = props.clinic?.minutesLate
     ? "Running " + props.clinic?.minutesLate + " minutes late"
     : "On Time";
+
+  if (!props.cancellable) {
+    status = "Appointment Finished";
+  }
 
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
