@@ -25,6 +25,7 @@ import ConfirmDialog from "./ConfirmDialog";
 import { useInterval } from "../utils";
 import { subtractTimeString } from "../patient/SortAppointments";
 import { List } from "immutable";
+import { Audio } from "expo-av";
 
 export function formatTime(date: Date): string {
   /* TODO(saleem): Change to date library */
@@ -63,6 +64,8 @@ export default function ClinicView(props: {
   const [sendAlert, setSendAlert] = React.useState(true);
   const [endOfAppointmentAlert, setEndOfAppointmentAlert] =
     React.useState(false);
+
+  const [sound, setSound] = React.useState<Audio.Sound>();
 
   const { data, error, isLoading, mutate } = useAppointments({
     clinicId: props.clinic.id,
@@ -145,6 +148,14 @@ export default function ClinicView(props: {
       });
   }
 
+  async function playNotificationSound() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../../assets/notification-sound.mp3")
+    );
+    setSound(sound);
+    await sound.playAsync();
+  }
+
   const creationEnd = creationStart && new Date(creationStart);
   creationEnd?.setMinutes(creationEnd.getMinutes() + creationDuration);
 
@@ -188,6 +199,7 @@ export default function ClinicView(props: {
     // This alert should only happen once per appointment
     if (sendAlert && timeDiff <= appointmentEndAlertTime) {
       setEndOfAppointmentAlert(true);
+      playNotificationSound();
       setSendAlert(false);
     }
   }
