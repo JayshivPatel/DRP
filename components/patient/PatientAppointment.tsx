@@ -25,12 +25,10 @@ export default function PatientAppointment(props: {
 
   const RenderCancelButton = () => {
     if (props.cancellable) {
-      return (
-        <Button onPress={showDialog}>Cancel</Button>
-      )
+      return <Button onPress={showDialog}>Cancel</Button>;
     }
     return <></>;
-  }
+  };
 
   const date = props.clinic?.date;
   const doctor = props.clinic?.title;
@@ -53,7 +51,7 @@ export default function PatientAppointment(props: {
         <Text variant="bodyLarge">Reason: {props.notes}</Text>
       </Card.Content>
       <Card.Actions>
-      <RenderCancelButton />
+        <RenderCancelButton />
         <Portal>
           <Dialog visible={visible} onDismiss={hideDialog}>
             <Dialog.Title>Cancel Appointment?</Dialog.Title>

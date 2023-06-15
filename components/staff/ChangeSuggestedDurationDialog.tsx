@@ -24,7 +24,9 @@ export default function ChangeSuggestedDurationDialog(props: {
           />
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={() => props.updateSuggestedDuration(selectedValue)}>Confirm</Button>
+          <Button onPress={() => props.updateSuggestedDuration(selectedValue)}>
+            Confirm
+          </Button>
           <Button onPress={props.onDismiss}>Cancel</Button>
         </Dialog.Actions>
       </Dialog>
