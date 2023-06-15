@@ -1,19 +1,18 @@
 import { Card, PaperProvider, DefaultTheme } from "react-native-paper";
-import renderNotifications from "./RenderNotifications";
 import { ScrollView, StyleSheet } from "react-native";
 import { usePatientFull } from "../../lib/api";
 import { Patient } from "../../lib/api";
 import materialColors from "../../material-colors.json";
+import PatientNotifications from "./PatientNotifications";
 
 export default function PatientMessages(props: { patientId: Patient["id"] }) {
-  const { data: patient, error, isLoading } = usePatientFull(props.patientId);
-
-  const notifications = renderNotifications(
-    patient?.notifications,
+  const {
+    data: patient,
     error,
     isLoading,
-    props.patientId
-  );
+    mutate,
+  } = usePatientFull(props.patientId);
+
   return (
     <PaperProvider
       theme={{
@@ -28,7 +27,14 @@ export default function PatientMessages(props: { patientId: Patient["id"] }) {
             titleVariant="headlineMedium"
             titleNumberOfLines={5}
           />
-          <Card.Content>{notifications}</Card.Content>
+          <Card.Content>
+            <PatientNotifications
+              notifications={patient?.notifications}
+              error={error}
+              isLoading={isLoading}
+              mutate={mutate}
+            />
+          </Card.Content>
         </Card>
       </ScrollView>
     </PaperProvider>
