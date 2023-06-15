@@ -3,6 +3,7 @@ import {
   PaperProvider,
   Appbar,
   DefaultTheme,
+  Text,
 } from "react-native-paper";
 import PatientMessages from "../components/patient/PatientMessages";
 import PatientAppointments from "../components/patient/PatientAppointments";
@@ -10,6 +11,8 @@ import PatientDashBoard from "../components/patient/PatientDashboard";
 import React from "react";
 import { useLocalSearchParams } from "expo-router";
 import materialColors from "../material-colors.json";
+import { usePatientFull } from "../lib/api";
+import { View } from "react-native";
 
 const routes = [
   {
@@ -45,11 +48,20 @@ export default function PatientApp() {
 
   const patientId = parseInt(idStr ?? "");
 
+  const { data: patient, error, isLoading, mutate } = usePatientFull(patientId);
+
   const renderScene = BottomNavigation.SceneMap({
     dashboard: () => PatientDashBoard({ patientId }),
     messages: () => PatientMessages({ patientId }),
     appointments: () => PatientAppointments({ patientId }),
   });
+
+  const name = () => {
+    if (error || isLoading) {
+      return error ? "Failed to load" : "Loading";
+    }
+    return "Welcome " + patient?.firstName + " " + patient?.lastName;
+  };
 
   return (
     <PaperProvider
@@ -59,7 +71,7 @@ export default function PatientApp() {
       }}
     >
       <Appbar.Header>
-        <Appbar.Content title="Patient Applet" />
+        <Appbar.Content title={name()} />
       </Appbar.Header>
       <BottomNavigation
         navigationState={{ index, routes }}
