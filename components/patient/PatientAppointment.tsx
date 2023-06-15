@@ -37,7 +37,7 @@ export default function PatientAppointment(props: {
     : "On Time";
 
   if (!props.cancellable) {
-    status = "Appointment Finished"
+    status = "Appointment Finished";
   }
 
   const showDialog = () => setVisible(true);
