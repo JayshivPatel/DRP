@@ -29,7 +29,11 @@ export default routeHandler({
             clinic: true,
           },
         },
-        notifications: true,
+        notifications: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
     });
 

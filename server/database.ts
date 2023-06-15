@@ -5,11 +5,15 @@ import {
   PrismaPromise,
 } from "@prisma/client";
 import { dateOnly } from "./handlers";
+import { sendLateNotifications } from "./notifications";
 
 const TIMEZONE = "Europe/London";
 
 const MILLIS_PER_MINUTE = 60 * 1000;
+/* How large a change in the lateness should trigger another notification */
 const NOTIFY_THRESHOLD_MINUTES = 30;
+/* The fuzziness of a notification */
+const NOTIFY_FUZZINESS_MINUTES = 5;
 
 function getLocalDate(timeZone: string): Date {
   return new Date(new Date().toLocaleString("en-US", { timeZone }));
@@ -62,7 +66,10 @@ const MinutesLateExtension = Prisma.defineExtension((client) =>
 
 export const prisma = new PrismaClient().$extends(MinutesLateExtension);
 
-type TransactionClient = Pick<typeof prisma, keyof Prisma.TransactionClient>;
+export type TransactionClient = Pick<
+  typeof prisma,
+  keyof Prisma.TransactionClient
+>;
 
 type Clinic = Prisma.PromiseReturnType<typeof prisma.clinic.findFirstOrThrow>;
 
@@ -154,18 +161,10 @@ export async function maybeNotifyClinic(tx: TransactionClient, clinic: Clinic) {
     })
   ).map(({ patientId }) => patientId);
 
-  /* TODO: Fix notification order */
-  const roundedMinutesLate = Math.round(clinic.minutesLate / 5) * 5;
-  const message = `The clinic is running ${
-    roundedMinutesLate ? `about ${roundedMinutesLate} minutes late` : "on time"
-  }.`;
-
-  await tx.notification.createMany({
-    data: patientIds.map((patientId) => ({
-      patientId,
-      message,
-    })),
-  });
+  const fuzzyMinutesLate =
+    Math.round(clinic.minutesLate / NOTIFY_FUZZINESS_MINUTES) *
+    NOTIFY_FUZZINESS_MINUTES;
+  await sendLateNotifications(tx, patientIds, fuzzyMinutesLate);
 }
 
 export async function getClinicsWithLateness(date: Date): Promise<Clinic[]> {

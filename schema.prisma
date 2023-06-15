@@ -51,8 +51,9 @@ model Appointment {
 }
 
 model Notification {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   message   String
-  patient   Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
   patientId Int
 }
