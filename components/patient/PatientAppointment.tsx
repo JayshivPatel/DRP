@@ -32,7 +32,7 @@ export default function PatientAppointment(props: {
 
   const date = props.clinic?.date;
   const doctor = props.clinic?.title;
-  var status = props.clinic?.minutesLate
+  let status = props.clinic?.minutesLate
     ? "Running " + props.clinic?.minutesLate + " minutes late"
     : "On Time";
 
