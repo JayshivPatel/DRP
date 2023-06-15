@@ -10,12 +10,13 @@ import {
 } from "react-native-paper";
 import {
   Appointment,
+  AppointmentStatus,
   Clinic,
   Patient,
   deleteAppointment,
   useAppointments,
 } from "../../lib/api";
-import { createAppointment } from "../../lib/api";
+import { createAppointment, updateAppointment } from "../../lib/api";
 import { styles } from "./ClinicViews";
 import ClinicSchedule from "./ClinicSchedule";
 import CreateAppointmentMenu from "./CreateAppointmentMenu";
@@ -23,6 +24,9 @@ import AppointmentDetailsMenu from "./AppointmentDetailsMenu";
 import ConfirmDialog from "./ConfirmDialog";
 import { useInterval } from "../utils";
 import { subtractTimeString } from "../patient/SortAppointments";
+import { List } from "immutable";
+import { Audio } from "expo-av";
+import notificationSound from "../../assets/notification-sound.mp3";
 
 export function formatTime(date: Date): string {
   /* TODO(saleem): Change to date library */
@@ -47,12 +51,11 @@ export default function ClinicView(props: {
   const [creationDuration, setCreationDuration] = React.useState(5);
   const [creationNotes, setCreationNotes] = React.useState("");
 
-  const [selectedAppointment, setSelectedAppointment] = React.useState<
-    Appointment | undefined
+  const [selectedAppointmentId, setSelectedAppointmentId] = React.useState<
+    Appointment["id"] | undefined
   >();
 
-  const [creationFailed, setCreationFailed] = React.useState(false);
-  const [cancelFailed, setCancelFailed] = React.useState(false);
+  const [failures, setFailures] = React.useState(List<string>());
 
   const [confirmVisible, setConfirmVisible] = React.useState(false);
 
@@ -63,7 +66,30 @@ export default function ClinicView(props: {
   const [endOfAppointmentAlert, setEndOfAppointmentAlert] =
     React.useState(false);
 
+  const [sound, setSound] = React.useState<Audio.Sound>();
+
+  const { data, error, isLoading, mutate } = useAppointments({
+    clinicId: props.clinic.id,
+    includePatient: true,
+  });
+
+  const selectedAppointment = React.useMemo(() => {
+    if (selectedAppointmentId === undefined) {
+      return;
+    }
+
+    return data?.find(({ id }) => id == selectedAppointmentId);
+  }, [data, selectedAppointmentId]);
+
   const appointmentEndAlertTime = 5;
+
+  function addFailure(error: string) {
+    setFailures(failures.push(error));
+  }
+
+  function removeFailure(index: number) {
+    setFailures(failures.remove(index));
+  }
 
   function onPressDate(date: Date, x: number, y: number) {
     setAnchor({ x, y });
@@ -72,8 +98,7 @@ export default function ClinicView(props: {
 
   function onPressEvent(appointment: Appointment, x: number, y: number) {
     setAnchor({ x, y });
-    console.log(appointment);
-    setSelectedAppointment(appointment);
+    setSelectedAppointmentId(appointment.id);
   }
 
   function closeCreateMenu() {
@@ -81,13 +106,8 @@ export default function ClinicView(props: {
   }
 
   function closeAppointmentDetails() {
-    setSelectedAppointment(undefined);
+    setSelectedAppointmentId(undefined);
   }
-
-  const { data, error, isLoading, mutate } = useAppointments({
-    clinicId: props.clinic.id,
-    includePatient: true,
-  });
 
   function onCreateAppointment() {
     createAppointment({
@@ -100,7 +120,7 @@ export default function ClinicView(props: {
       .then(() => mutate())
       .catch((e) => {
         console.error(e);
-        setCreationFailed(true);
+        addFailure("Failed to create appointment");
       });
 
     closeCreateMenu();
@@ -111,10 +131,28 @@ export default function ClinicView(props: {
       .then(() => mutate())
       .catch((e) => {
         console.error(e);
-        setCancelFailed(true);
+        addFailure("Failed to cancel appointment");
       });
 
     closeAppointmentDetails();
+  }
+
+  function onChangeAppointmentStatus(
+    id: Appointment["id"],
+    status: AppointmentStatus
+  ) {
+    updateAppointment(id, { status })
+      .then(() => mutate())
+      .catch((e) => {
+        console.error(e);
+        addFailure("Failed to change appointment status");
+      });
+  }
+
+  async function playNotificationSound() {
+    const { sound } = await Audio.Sound.createAsync(notificationSound);
+    setSound(sound);
+    await sound.playAsync();
   }
 
   const creationEnd = creationStart && new Date(creationStart);
@@ -160,6 +198,7 @@ export default function ClinicView(props: {
     // This alert should only happen once per appointment
     if (sendAlert && timeDiff <= appointmentEndAlertTime) {
       setEndOfAppointmentAlert(true);
+      playNotificationSound();
       setSendAlert(false);
     }
   }
@@ -205,11 +244,16 @@ export default function ClinicView(props: {
     );
   }
 
+  const subtitle = props.clinic.minutesLate
+    ? `Running ${props.clinic.minutesLate} minutes late`
+    : undefined;
+
   return (
     <>
       <Card mode="elevated" style={styles.card}>
         <Card.Title
           title={props.clinic.title}
+          subtitle={subtitle}
           titleVariant="titleLarge"
           right={(rightProps) => (
             <Card.Actions {...rightProps}>
@@ -243,6 +287,7 @@ export default function ClinicView(props: {
         onDismiss={closeAppointmentDetails}
         appointment={selectedAppointment}
         onCancel={onCancelAppointment}
+        onChangeStatus={onChangeAppointmentStatus}
       />
       <ConfirmDialog
         visible={confirmVisible}
@@ -255,15 +300,11 @@ export default function ClinicView(props: {
       >
         Are you sure you want to cancel this clinic and all its appointments?
       </ConfirmDialog>
-      <Snackbar
-        visible={creationFailed}
-        onDismiss={() => setCreationFailed(false)}
-      >
-        Failed to create appointment
-      </Snackbar>
-      <Snackbar visible={cancelFailed} onDismiss={() => setCancelFailed(false)}>
-        Failed to cancel appointment
-      </Snackbar>
+      {failures.map((error, i) => (
+        <Snackbar key={i} visible onDismiss={() => removeFailure(i)}>
+          {error}
+        </Snackbar>
+      ))}
       <Snackbar
         visible={endOfAppointmentAlert}
         onDismiss={() => setEndOfAppointmentAlert(false)}
