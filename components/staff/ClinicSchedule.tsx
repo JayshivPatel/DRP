@@ -25,7 +25,7 @@ const CalendarWrapper = styled.div<{ theme: MD3Theme }>(({ theme }) => ({
   ["--fc-event-text-color"]: theme.colors.onTertiary,
   ["--fc-highlight-color"]: theme.colors.tertiaryContainer,
   ["--fc-today-bg-color"]: "auto",
-  ["--fc-now-indicator-color"]: theme.colors.primary,
+  ["--fc-now-indicator-color"]: theme.colors.secondary,
 }));
 
 export default function ClinicSchedule(props: {
