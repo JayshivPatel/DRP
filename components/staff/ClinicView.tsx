@@ -233,9 +233,9 @@ export default function ClinicView(props: {
     );
   }
 
-  const subtitle =
-    props.clinic.minutesLate &&
-    `Running ${props.clinic.minutesLate} minutes late`;
+  const subtitle = props.clinic.minutesLate
+    ? `Running ${props.clinic.minutesLate} minutes late`
+    : undefined;
 
   return (
     <>

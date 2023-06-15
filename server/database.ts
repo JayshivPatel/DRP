@@ -1,7 +1,15 @@
-import { Clinic, PrismaClient, Prisma, Appointment } from "@prisma/client";
+import {
+  Clinic,
+  PrismaClient,
+  Prisma,
+  Appointment,
+  PrismaPromise,
+} from "@prisma/client";
 
 const TIMEZONE = "Europe/London";
+
 const MILLIS_PER_MINUTE = 60 * 1000;
+const NOTIFY_THRESHOLD_MINUTES = 30;
 
 export const prisma: PrismaClient = new PrismaClient();
 
@@ -44,17 +52,10 @@ function computeLateness(
     lastSeenIndex + 1
   );
 
-  if (!firstUnseen) {
-    return clinic;
-  }
-
-  const lateness = localTime - firstUnseen.endTime.getTime();
-
-  if (lateness <= 0) {
-    return clinic;
-  }
-
-  const minutesLate = Math.round(lateness / MILLIS_PER_MINUTE);
+  const millisLate = firstUnseen
+    ? Math.max(localTime - firstUnseen.endTime.getTime(), 0)
+    : 0;
+  const minutesLate = Math.round(millisLate / MILLIS_PER_MINUTE);
 
   return { ...clinic, minutesLate };
 }
@@ -83,7 +84,7 @@ export async function getClinicsWithLateness(
     Date.UTC(
       1970,
       0,
-      1,
+      2,
       localDate.getHours(),
       localDate.getMinutes(),
       localDate.getSeconds(),
@@ -91,14 +92,43 @@ export async function getClinicsWithLateness(
     )
   ).getTime();
 
-  const clinics = await prisma.clinic.findMany({
-    where,
-    include: {
-      appointments: true,
-    },
+  const clinics = await prisma.$transaction(async (tx) => {
+    const clinics = (
+      await tx.clinic.findMany({
+        where,
+        include: {
+          appointments: true,
+        },
+      })
+    ).map(({ appointments, ...clinic }) =>
+      computeLateness(clinic, appointments, localTime)
+    );
+
+    for (const { id, minutesLate, minutesLateNotified, title } of clinics) {
+      const minutesChange =
+        minutesLate !== undefined
+          ? Math.abs(minutesLate - minutesLateNotified)
+          : 0;
+
+      if (minutesChange < NOTIFY_THRESHOLD_MINUTES) {
+        continue;
+      }
+
+      /* TODO: Send notifications */
+      console.log(
+        `${JSON.stringify(
+          title
+        )} changed from ${minutesLateNotified} to ${minutesLate} (${minutesChange})`
+      );
+
+      await tx.clinic.update({
+        where: { id },
+        data: { minutesLateNotified: minutesLate },
+      });
+    }
+
+    return clinics;
   });
 
-  return clinics.map(({ appointments, ...clinic }) =>
-    computeLateness(clinic, appointments, localTime)
-  );
+  return clinics;
 }
