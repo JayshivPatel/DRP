@@ -24,7 +24,7 @@ export default function Appointments(props: { patientId: Patient["id"] }) {
     isLoading,
     props.patientId,
     mutate,
-    false
+    false,
   );
 
   const pastAppointments = renderAppointments(
@@ -33,7 +33,7 @@ export default function Appointments(props: { patientId: Patient["id"] }) {
     isLoading,
     props.patientId,
     mutate,
-    true
+    true,
   );
 
   return (

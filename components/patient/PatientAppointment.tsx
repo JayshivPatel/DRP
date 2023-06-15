@@ -19,8 +19,18 @@ export default function PatientAppointment(props: {
   clinic?: Clinic;
   patient?: Patient;
   mutate: KeyedMutator<PatientFull>;
+  cancellable: boolean;
 }) {
   const [visible, setVisible] = React.useState(false);
+
+  const RenderCancelButton = () => {
+    if (props.cancellable) {
+      return (
+        <Button onPress={showDialog}>Cancel</Button>
+      )
+    }
+    return <></>;
+  }
 
   const date = props.clinic?.date;
   const doctor = props.clinic?.title;
@@ -43,7 +53,7 @@ export default function PatientAppointment(props: {
         <Text variant="bodyLarge">Reason: {props.notes}</Text>
       </Card.Content>
       <Card.Actions>
-        <Button onPress={showDialog}>Cancel</Button>
+      <RenderCancelButton />
         <Portal>
           <Dialog visible={visible} onDismiss={hideDialog}>
             <Dialog.Title>Cancel Appointment?</Dialog.Title>
