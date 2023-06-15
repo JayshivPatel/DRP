@@ -48,8 +48,17 @@ export default function ClinicView(props: {
   const [creationStart, setCreationStart] = React.useState<Date | undefined>(
     undefined
   );
-  const [creationDuration, setCreationDuration] = React.useState(5);
+  const [creationDuration, setCreationDuration] = React.useState<
+    number | undefined
+  >(undefined);
   const [creationNotes, setCreationNotes] = React.useState("");
+
+  /* Clear duration when patient is changed, so we can use the suggested duration */
+  React.useEffect(() => {
+    if (props.patient && !creationStart) {
+      setCreationDuration(props.patient.suggestedDuration);
+    }
+  }, [props.patient]);
 
   const [selectedAppointmentId, setSelectedAppointmentId] = React.useState<
     Appointment["id"] | undefined
@@ -156,7 +165,7 @@ export default function ClinicView(props: {
   }
 
   const creationEnd = creationStart && new Date(creationStart);
-  creationEnd?.setMinutes(creationEnd.getMinutes() + creationDuration);
+  creationEnd?.setMinutes(creationEnd.getMinutes() + (creationDuration ?? 0));
 
   function checkAppointmentTimings() {
     if (!props.gp) {

@@ -13,42 +13,37 @@ export default function PatientToolbar(props: {
 }) {
   const theme = useTheme();
 
-  const RenderButton = () => {
-    if (props.gp) {
-      return (
-        <Button
-          mode="outlined"
-          icon="account-clock"
-          onPress={props.changeSuggestedDuration}
-        >
-          Change suggested length
-        </Button>
-      );
-    }
-    return <></>;
-  };
-
-  const fields = props.patient && [
-    ["Name", `${props.patient.firstName} ${props.patient.lastName}`],
-    ["Date of birth", new Date(props.patient.dateOfBirth).toLocaleDateString()],
-    ["NHS Number", props.patient.nhsNumber],
-    ["Phone Number", props.patient.phoneNumber],
-  ];
+  const suggestedDurationButton = props.gp && (
+    <Button
+      mode="outlined"
+      icon="account-clock"
+      onPress={props.changeSuggestedDuration}
+    >
+      Change suggested length
+    </Button>
+  );
 
   return (
     <Toolbar>
       <Toolbar.Text>Patient information</Toolbar.Text>
       {props.patient ? (
-        <PatientData patient={props.patient}>
-          {(name, value) => (
-            <>
-              <Toolbar.Text style={{ color: theme.colors.primary }}>
-                {name}
-              </Toolbar.Text>
-              <Toolbar.Text>{value}</Toolbar.Text>
-            </>
-          )}
-        </PatientData>
+        <>
+          <PatientData patient={props.patient}>
+            {(name, value) => (
+              <>
+                <Toolbar.Text style={{ color: theme.colors.primary }}>
+                  {name}
+                </Toolbar.Text>
+                <Toolbar.Text>{value}</Toolbar.Text>
+              </>
+            )}
+          </PatientData>
+          <Chip mode="outlined" icon="clock">
+            Suggested appointment length: {props.patient.suggestedDuration}{" "}
+            minutes
+          </Chip>
+          {suggestedDurationButton}
+        </>
       ) : (
         <Toolbar.Text style={{ color: theme.colors.secondary }}>
           No patient selected
@@ -61,10 +56,6 @@ export default function PatientToolbar(props: {
       >
         Change patient
       </Button>
-      <RenderButton />
-      <Chip mode="outlined" icon="clock">
-        Suggested appointment length: 15 mins
-      </Chip>
     </Toolbar>
   );
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { OrderedSet } from "immutable";
 
-import type { Clinic, Patient } from "../lib/api";
+import { Clinic, Patient, updatePatient } from "../lib/api";
 
 import Container from "../components/staff/Container";
 import ClinicToolbar from "../components/staff/ClinicToolbar";
@@ -71,8 +71,11 @@ export default function GP() {
     closeChangePatient();
   }
 
-  function updateSuggestedDuration(duration: number) {
-    alert("new duration " + duration);
+  function updateSuggestedDuration(suggestedDuration: number) {
+    updatePatient(patient!.id, { suggestedDuration }).then(() =>
+      setPatient({ ...patient!, suggestedDuration })
+    );
+    closeSuggestedDuration();
   }
 
   return (
@@ -111,6 +114,7 @@ export default function GP() {
         onDismiss={closeChangePatient}
       />
       <ChangeSuggestedDurationDialog
+        initialValue={patient?.suggestedDuration}
         visible={changeSuggestedDurationVisible}
         onDismiss={closeSuggestedDuration}
         updateSuggestedDuration={updateSuggestedDuration}

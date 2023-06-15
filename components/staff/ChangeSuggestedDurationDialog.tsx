@@ -4,11 +4,17 @@ import { Button, Dialog, Portal } from "react-native-paper";
 import DurationPicker from "./DurationPicker";
 
 export default function ChangeSuggestedDurationDialog(props: {
+  initialValue?: number;
   visible: boolean;
   onDismiss: () => void;
   updateSuggestedDuration: (duration: number) => void;
 }) {
-  const [selectedValue, setSelectedValue] = useState(15);
+  const [selectedValue, setSelectedValue] = useState(props.initialValue);
+
+  React.useEffect(() => {
+    setSelectedValue(props.initialValue);
+  }, [props.initialValue]);
+
   return (
     <Portal>
       <Dialog
@@ -24,7 +30,7 @@ export default function ChangeSuggestedDurationDialog(props: {
           />
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={() => props.updateSuggestedDuration(selectedValue)}>
+          <Button onPress={() => props.updateSuggestedDuration(selectedValue!)}>
             Confirm
           </Button>
           <Button onPress={props.onDismiss}>Cancel</Button>
