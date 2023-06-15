@@ -36,6 +36,13 @@ export declare type Appointment = {
   clinic?: Clinic;
 };
 
+export declare type Notification = {
+  id: number;
+  createdAt: Date;
+  message: string;
+  isRead: boolean;
+};
+
 async function apiRequest(url: string, method = "GET", data?: object) {
   const options: RequestInit = {
     method,
@@ -133,4 +140,11 @@ export async function updateAppointment(
   data: Partial<Pick<Appointment, "status">> = {}
 ) {
   await apiRequest(`/api/appointments/${id}`, "PUT", data);
+}
+
+export async function updateNotification(
+  id: number,
+  data: Partial<Pick<Notification, "isRead">> = {}
+) {
+  await apiRequest(`/api/notifications/${id}`, "PUT", data);
 }

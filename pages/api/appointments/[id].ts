@@ -9,7 +9,7 @@ const querySchema = z.object({
 });
 
 const putSchema = z.object({
-  status: z.union([z.literal("UNSEEN"), z.literal("SEEN")]),
+  status: z.union([z.literal("UNSEEN"), z.literal("SEEN")]).optional(),
 });
 
 export default routeHandler({

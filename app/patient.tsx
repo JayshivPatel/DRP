@@ -13,6 +13,7 @@ import { useLocalSearchParams } from "expo-router";
 import materialColors from "../material-colors.json";
 import { usePatientFull } from "../lib/api";
 import { View } from "react-native";
+import Config from "../components/Config";
 
 const routes = [
   {
@@ -64,20 +65,22 @@ export default function PatientApp() {
   };
 
   return (
-    <PaperProvider
-      theme={{
-        ...DefaultTheme,
-        colors: materialColors.colors,
-      }}
-    >
-      <Appbar.Header>
-        <Appbar.Content title={name()} />
-      </Appbar.Header>
-      <BottomNavigation
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-      />
-    </PaperProvider>
+    <Config>
+      <PaperProvider
+        theme={{
+          ...DefaultTheme,
+          colors: materialColors.colors,
+        }}
+      >
+        <Appbar.Header>
+          <Appbar.Content title={name()} />
+        </Appbar.Header>
+        <BottomNavigation
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+        />
+      </PaperProvider>
+    </Config>
   );
 }
