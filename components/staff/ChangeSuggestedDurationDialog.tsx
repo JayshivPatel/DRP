@@ -6,6 +6,7 @@ import DurationPicker from "./DurationPicker";
 export default function ChangeSuggestedDurationDialog(props: {
   visible: boolean;
   onDismiss: () => void;
+  updateSuggestedDuration: (duration: number) => void;
 }) {
   const [selectedValue, setSelectedValue] = useState(15);
   return (
@@ -23,6 +24,7 @@ export default function ChangeSuggestedDurationDialog(props: {
           />
         </Dialog.Content>
         <Dialog.Actions>
+          <Button onPress={() => props.updateSuggestedDuration(selectedValue)}>Confirm</Button>
           <Button onPress={props.onDismiss}>Cancel</Button>
         </Dialog.Actions>
       </Dialog>

@@ -74,6 +74,10 @@ export default function GP() {
     closeChangePatient();
   }
 
+  function updateSuggestedDuration(duration: number) {
+    alert("new duration " + duration);
+  }
+
   return (
     <PaperProvider
       theme={{
@@ -123,6 +127,7 @@ export default function GP() {
           <ChangeSuggestedDurationDialog
             visible={changeSuggestedDurationVisible}
             onDismiss={closeSuggestedDuration}
+            updateSuggestedDuration={updateSuggestedDuration}
           />
         </View>
       </SWRConfig>
