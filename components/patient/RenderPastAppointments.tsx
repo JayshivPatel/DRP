@@ -30,7 +30,7 @@ const renderPastAppointments = function (
   } else {
     return appointments.map((app) => (
       <>
-        <PatientAppointment {...app} mutate={mutate} />
+        <PatientAppointment {...app} mutate={mutate} cancellable={false} />
         <Divider />
       </>
     ));
