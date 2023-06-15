@@ -10,7 +10,7 @@ export default function CreateAppointmentMenu(props: {
   patient?: Patient;
   changePatient: () => void;
   startTime?: string;
-  duration: number;
+  duration?: number;
   onChangeDuration: (duration: number) => void;
   notes: string;
   onChangeNotes: (notes: string) => void;
@@ -56,6 +56,7 @@ export default function CreateAppointmentMenu(props: {
         />
         <DurationPicker
           value={props.duration}
+          suggested={props.patient?.suggestedDuration}
           onChange={props.onChangeDuration}
         />
         <TextInput

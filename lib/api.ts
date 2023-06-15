@@ -10,6 +10,7 @@ export declare type Patient = {
   dateOfBirth: string;
   nhsNumber: string;
   phoneNumber: string;
+  suggestedDuration: number;
 };
 
 export declare type PatientFull = Patient & {
@@ -140,6 +141,13 @@ export async function updateAppointment(
   data: Partial<Pick<Appointment, "status">> = {}
 ) {
   await apiRequest(`/api/appointments/${id}`, "PUT", data);
+}
+
+export async function updatePatient(
+  id: number,
+  data: Partial<Pick<Patient, "suggestedDuration">> = {}
+) {
+  await apiRequest(`/api/patients/${id}`, "PUT", data);
 }
 
 export async function updateNotification(

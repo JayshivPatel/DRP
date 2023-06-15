@@ -26,6 +26,7 @@ model Patient {
   dateOfBirth   DateTime       @db.Date
   nhsNumber     String         @unique
   phoneNumber   String
+  suggestedDuration Int            @default(10)
   appointments  Appointment[]
   notifications Notification[]
 
