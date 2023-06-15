@@ -2,9 +2,9 @@ import { Card, PaperProvider, DefaultTheme, Divider } from "react-native-paper";
 import { ScrollView } from "react-native";
 import { Patient } from "../../lib/api";
 import renderNotifications from "./RenderNotifications";
-import renderUpcomingAppointments from "./RenderUpcomingAppointments";
 import { usePatientFull } from "../../lib/api";
 import materialColors from "../../material-colors.json";
+import { renderAppointments } from "./RenderAppointments";
 
 export default function PatientDashboard(props: { patientId: Patient["id"] }) {
   const {
@@ -14,12 +14,13 @@ export default function PatientDashboard(props: { patientId: Patient["id"] }) {
     mutate,
   } = usePatientFull(props.patientId);
 
-  const upcomingAppointments = renderUpcomingAppointments(
+  const upcomingAppointments = renderAppointments(
     patient?.appointments,
     error,
     isLoading,
     props.patientId,
-    mutate
+    mutate,
+    false
   );
 
   const notifications = renderNotifications(
@@ -42,8 +43,9 @@ export default function PatientDashboard(props: { patientId: Patient["id"] }) {
           <Card.Content>
             <Card style={{ margin: 10 }}>
               <Card.Title
-                title="Upcoming Appointments:"
+                title="Upcoming Appointments"
                 titleVariant="headlineMedium"
+                titleNumberOfLines={5}
               />
               <Card.Content>{upcomingAppointments}</Card.Content>
             </Card>

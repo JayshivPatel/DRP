@@ -32,6 +32,9 @@ export default function PatientAppointment(props: {
 
   const date = props.clinic?.date;
   const doctor = props.clinic?.title;
+  const status = props.clinic?.minutesLate
+    ? "Running " + props.clinic?.minutesLate + " minutes late"
+    : "On Time";
 
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
@@ -43,12 +46,16 @@ export default function PatientAppointment(props: {
         subtitle={"Seeing: " + doctor}
         titleVariant="headlineMedium"
         style={{ marginTop: 20 }}
+        titleNumberOfLines={5}
+        subtitleNumberOfLines={3}
       />
       <Card.Content>
         <Text variant="bodyLarge">Start Time: {props.startTime}</Text>
         <Text variant="bodyLarge">End Time: {props.endTime}</Text>
-        <Text variant="bodyLarge">Current Status: {"On time"}</Text>
-        <Text variant="bodyLarge">Reason: {props.notes}</Text>
+        <Text variant="bodyLarge">Current Status: {status}</Text>
+        <Text variant="bodyLarge" numberOfLines={100}>
+          Reason: {props.notes}
+        </Text>
       </Card.Content>
       <Card.Actions>
         <RenderCancelButton />

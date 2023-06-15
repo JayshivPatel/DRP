@@ -1,6 +1,7 @@
 import { FlatList, View } from "react-native";
 import { Text, List, Card, Badge, Divider } from "react-native-paper";
 import { Patient } from "../../lib/api";
+import { useEffect, useState } from "react";
 
 const ComponentTest = (props: { isRead: boolean }) => {
   if (!props.isRead) {
@@ -44,7 +45,9 @@ const renderNotifications = function (
               <List.Item
                 title={"Message"}
                 description={item.message}
-                left={(props) => <List.Icon {...props} icon="email" />}
+                titleNumberOfLines={2}
+                descriptionNumberOfLines={100}
+                style={{ flex: 1 }}
               />
             </Card.Content>
           </Card>

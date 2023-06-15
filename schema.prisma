@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["jsonProtocol"]
+  previewFeatures = ["clientExtensions", "jsonProtocol"]
   binaryTargets   = ["native", "rhel-openssl-1.0.x"]
 }
 
@@ -14,6 +14,7 @@ model Clinic {
   id                  Int           @id @default(autoincrement())
   title               String
   date                DateTime      @db.Date
+  firstUnseenEndTime  DateTime?     @db.Time
   minutesLateNotified Int           @default(0)
   appointments        Appointment[]
 }
