@@ -9,15 +9,34 @@ export function filterAppointments(
     const currentDate = new Date();
     const appDate = new Date(app.clinic?.date ? app.clinic?.date : 0);
 
-    const [hrs, mins] = app.startTime.split(":").map(Number);
-    appDate.setHours(hrs);
-    appDate.setMinutes(mins);
     if (past) {
-      return appDate.getTime() < currentDate.getTime();
+      return (
+        (!isToday(appDate, currentDate) && !isFuture(appDate, currentDate)) ||
+        (isToday(appDate, currentDate) && app.status == "SEEN")
+      );
     } else {
-      return appDate.getTime() >= currentDate.getTime();
+      return (
+        isFuture(appDate, currentDate) ||
+        (isToday(appDate, currentDate) && app.status == "UNSEEN")
+      );
     }
   });
+}
+
+function isToday(date1: Date, date2: Date) {
+  return (
+    date1.getFullYear() == date2.getFullYear() &&
+    date1.getMonth() == date2.getMonth() &&
+    date1.getDate() == date2.getDate()
+  );
+}
+
+function isFuture(date1: Date, date2: Date) {
+  return (
+    date1.getFullYear() > date2.getFullYear() ||
+    date1.getMonth() > date2.getMonth() ||
+    date1.getDate() > date2.getDate()
+  );
 }
 
 function sortAppointments(apps: Appointment[], reverse: boolean) {
