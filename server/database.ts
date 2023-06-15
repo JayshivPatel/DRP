@@ -17,6 +17,10 @@ export type ClinicWithMinutesLate = Clinic & {
   minutesLate?: number;
 };
 
+type ClinicWithLateAppointments = ClinicWithMinutesLate & {
+  lateAppointments?: Appointment[];
+};
+
 export function filterDateOnly(date: Date): Prisma.DateTimeFilter {
   const startDate = new Date(date);
   startDate.setUTCHours(0, 0, 0, 0);
@@ -38,7 +42,7 @@ function computeLateness(
   clinic: Clinic,
   appointments: Appointment[],
   localTime: number
-): ClinicWithMinutesLate {
+): ClinicWithLateAppointments {
   /* Sort appointments by end time */
   appointments.sort((a, b) => a.endTime.getTime() - b.endTime.getTime());
 
@@ -57,7 +61,7 @@ function computeLateness(
     : 0;
   const minutesLate = Math.round(millisLate / MILLIS_PER_MINUTE);
 
-  return { ...clinic, minutesLate };
+  return { ...clinic, minutesLate, lateAppointments };
 }
 
 export async function getClinicsWithLateness(
@@ -84,7 +88,7 @@ export async function getClinicsWithLateness(
     Date.UTC(
       1970,
       0,
-      2,
+      1,
       localDate.getHours(),
       localDate.getMinutes(),
       localDate.getSeconds(),
@@ -104,30 +108,44 @@ export async function getClinicsWithLateness(
       computeLateness(clinic, appointments, localTime)
     );
 
-    for (const { id, minutesLate, minutesLateNotified, title } of clinics) {
-      const minutesChange =
-        minutesLate !== undefined
-          ? Math.abs(minutesLate - minutesLateNotified)
-          : 0;
+    return await Promise.all(
+      clinics.map(async ({ lateAppointments, ...clinic }) => {
+        if (clinic.minutesLate === undefined) {
+          return clinic;
+        }
 
-      if (minutesChange < NOTIFY_THRESHOLD_MINUTES) {
-        continue;
-      }
+        const minutesChange = Math.abs(
+          clinic.minutesLate - clinic.minutesLateNotified
+        );
 
-      /* TODO: Send notifications */
-      console.log(
-        `${JSON.stringify(
-          title
-        )} changed from ${minutesLateNotified} to ${minutesLate} (${minutesChange})`
-      );
+        if (minutesChange < NOTIFY_THRESHOLD_MINUTES) {
+          return clinic;
+        }
 
-      await tx.clinic.update({
-        where: { id },
-        data: { minutesLateNotified: minutesLate },
-      });
-    }
+        /* Use a set to deduplicate patients */
+        const patientIds = Array.from(
+          new Set(lateAppointments?.map(({ patientId }) => patientId))
+        );
 
-    return clinics;
+        /* TODO: Move this elsewhere? */
+        const roundedMinutesLate = Math.round(clinic.minutesLate / 5) * 5;
+        const message = `The clinic is running about ${roundedMinutesLate} minutes late`;
+
+        await tx.notification.createMany({
+          data: patientIds.map((patientId) => ({
+            patientId,
+            message,
+          })),
+        });
+
+        await tx.clinic.update({
+          where: { id: clinic.id },
+          data: { minutesLateNotified: clinic.minutesLate },
+        });
+
+        return clinic;
+      })
+    );
   });
 
   return clinics;
