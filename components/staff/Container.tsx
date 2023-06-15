@@ -5,7 +5,9 @@ import Config from "../Config";
 
 import MaterialColors from "../../material-colors.json";
 
-export default function Container(props: React.PropsWithChildren<Record<never, never>>) {
+export default function Container(
+  props: React.PropsWithChildren<Record<never, never>>
+) {
   return (
     <Config>
       <View style={styles.container}>
