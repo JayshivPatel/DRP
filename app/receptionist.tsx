@@ -1,18 +1,15 @@
 import * as React from "react";
-import { Platform, StyleSheet, View } from "react-native";
-import { DefaultTheme, PaperProvider, Surface } from "react-native-paper";
 import { OrderedSet } from "immutable";
 
 import type { Clinic, Patient } from "../lib/api";
 
+import Container from "../components/staff/Container";
 import ClinicToolbar from "../components/staff/ClinicToolbar";
 import ClinicViews from "../components/staff/ClinicViews";
 import PatientToolbar from "../components/staff/PatientToolbar";
 
-import materialColors from "../material-colors.json";
 import ChangePatientDialog from "../components/staff/ChangePatientDialog";
 import { DatePickerModal } from "react-native-paper-dates";
-import Config from "../components/Config";
 
 export default function Receptionist() {
   const [changeDateVisible, setChangeDateVisible] = React.useState(false);
@@ -64,55 +61,39 @@ export default function Receptionist() {
   }
 
   return (
-    <Config>
-      <View style={styles.container}>
-        <PaperProvider
-          theme={{
-            ...DefaultTheme,
-            colors: materialColors.colors,
-          }}
-        >
-          <ClinicToolbar
-            date={date}
-            selected={selectedClinics}
-            changeDate={openChangeDate}
-            onChangeSelected={onChangeSelected}
-          />
-          <DatePickerModal
-            locale="en-GB"
-            mode="single"
-            visible={changeDateVisible}
-            date={new Date(date)}
-            onConfirm={onConfirmDate as any}
-            onDismiss={closeChangeDate}
-          />
-          <PatientToolbar
-            patient={patient}
-            changePatient={openChangePatient}
-            gp={false}
-          />
-          <ClinicViews
-            date={date}
-            selected={selectedClinics}
-            onChangeSelected={onChangeSelected}
-            patient={patient}
-            changePatient={openChangePatient}
-            gp={false}
-          />
-          <ChangePatientDialog
-            visible={changePatientVisible}
-            onChangePatient={onChangePatient}
-            onDismiss={closeChangePatient}
-          />
-        </PaperProvider>
-      </View>
-    </Config>
+    <Container>
+      <ClinicToolbar
+        date={date}
+        selected={selectedClinics}
+        changeDate={openChangeDate}
+        onChangeSelected={onChangeSelected}
+      />
+      <DatePickerModal
+        locale="en-GB"
+        mode="single"
+        visible={changeDateVisible}
+        date={new Date(date)}
+        onConfirm={onConfirmDate as any}
+        onDismiss={closeChangeDate}
+      />
+      <PatientToolbar
+        patient={patient}
+        changePatient={openChangePatient}
+        gp={false}
+      />
+      <ClinicViews
+        date={date}
+        selected={selectedClinics}
+        onChangeSelected={onChangeSelected}
+        patient={patient}
+        changePatient={openChangePatient}
+        gp={false}
+      />
+      <ChangePatientDialog
+        visible={changePatientVisible}
+        onChangePatient={onChangePatient}
+        onDismiss={closeChangePatient}
+      />
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    overflow: "hidden",
-    ...(Platform.OS == "web" && { height: "100vh" }),
-  },
-});

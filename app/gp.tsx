@@ -1,18 +1,15 @@
 import * as React from "react";
-import { Platform, StyleSheet, View } from "react-native";
-import { DefaultTheme, PaperProvider, Surface } from "react-native-paper";
 import { OrderedSet } from "immutable";
 
 import type { Clinic, Patient } from "../lib/api";
 
+import Container from "../components/staff/Container";
 import ClinicToolbar from "../components/staff/ClinicToolbar";
 import ClinicViews from "../components/staff/ClinicViews";
 import PatientToolbar from "../components/staff/PatientToolbar";
 
-import materialColors from "../material-colors.json";
 import ChangePatientDialog from "../components/staff/ChangePatientDialog";
 import { DatePickerModal } from "react-native-paper-dates";
-import { SWRConfig } from "swr";
 import ChangeSuggestedDurationDialog from "../components/staff/ChangeSuggestedDurationDialog";
 
 export default function GP() {
@@ -79,64 +76,45 @@ export default function GP() {
   }
 
   return (
-    <PaperProvider
-      theme={{
-        ...DefaultTheme,
-        colors: materialColors.colors,
-      }}
-    >
-      <SWRConfig
-        value={{
-          refreshInterval: 100,
-        }}
-      >
-        <View style={styles.container}>
-          <ClinicToolbar
-            date={date}
-            selected={selectedClinics}
-            changeDate={openChangeDate}
-            onChangeSelected={onChangeSelected}
-          />
-          <DatePickerModal
-            locale="en-GB"
-            mode="single"
-            visible={changeDateVisible}
-            date={new Date(date)}
-            onConfirm={onConfirmDate as any}
-            onDismiss={closeChangeDate}
-          />
-          <PatientToolbar
-            patient={patient}
-            changePatient={openChangePatient}
-            changeSuggestedDuration={openSuggestedDuration}
-            gp={true}
-          />
-          <ClinicViews
-            date={date}
-            selected={selectedClinics}
-            onChangeSelected={onChangeSelected}
-            patient={patient}
-            changePatient={openChangePatient}
-            gp={true}
-          />
-          <ChangePatientDialog
-            visible={changePatientVisible}
-            onChangePatient={onChangePatient}
-            onDismiss={closeChangePatient}
-          />
-          <ChangeSuggestedDurationDialog
-            visible={changeSuggestedDurationVisible}
-            onDismiss={closeSuggestedDuration}
-            updateSuggestedDuration={updateSuggestedDuration}
-          />
-        </View>
-      </SWRConfig>
-    </PaperProvider>
+    <Container>
+      <ClinicToolbar
+        date={date}
+        selected={selectedClinics}
+        changeDate={openChangeDate}
+        onChangeSelected={onChangeSelected}
+      />
+      <DatePickerModal
+        locale="en-GB"
+        mode="single"
+        visible={changeDateVisible}
+        date={new Date(date)}
+        onConfirm={onConfirmDate as any}
+        onDismiss={closeChangeDate}
+      />
+      <PatientToolbar
+        patient={patient}
+        changePatient={openChangePatient}
+        changeSuggestedDuration={openSuggestedDuration}
+        gp={true}
+      />
+      <ClinicViews
+        date={date}
+        selected={selectedClinics}
+        onChangeSelected={onChangeSelected}
+        patient={patient}
+        changePatient={openChangePatient}
+        gp={true}
+      />
+      <ChangePatientDialog
+        visible={changePatientVisible}
+        onChangePatient={onChangePatient}
+        onDismiss={closeChangePatient}
+      />
+      <ChangeSuggestedDurationDialog
+        visible={changeSuggestedDurationVisible}
+        onDismiss={closeSuggestedDuration}
+        updateSuggestedDuration={updateSuggestedDuration}
+      />
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    ...(Platform.OS == "web" ? { height: "100vh" } : {}),
-  },
-});
