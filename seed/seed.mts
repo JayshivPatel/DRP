@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import { randomInt } from "node:crypto";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient, Prisma, Patient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -13,7 +13,11 @@ async function loadNames(filename: string): Promise<string[]> {
 const firstNames = await loadNames("names-first.json");
 const lastNames = await loadNames("names-surnames.json");
 
-function time(hour: number, minute: number): Date {
+function makeDate(year: number, month: number, day: number): Date {
+  return new Date(Date.UTC(year, month - 1, day));
+}
+
+function makeTime(hour: number, minute: number): Date {
   if (hour < 0 || hour > 23) {
     throw new RangeError("Hour must be between 0 and 23");
   }
@@ -23,8 +27,8 @@ function time(hour: number, minute: number): Date {
   return new Date(Date.UTC(1970, 0, 1, hour, minute));
 }
 
-const START_TIME = time(8, 0);
-const END_TIME = time(19, 0);
+const START_TIME = makeTime(8, 0);
+const END_TIME = makeTime(19, 0);
 const SLOT_MILLIS = 5 * 60 * 1000;
 const MAX_SLOTS = 6;
 
@@ -163,12 +167,78 @@ function randomAppointments(
   return appointments;
 }
 
-const date = new Date(Date.UTC(2023, 5, 17));
-const patientIds = [2, 3, 4, 5];
+const defaultPatients: Pick<
+  Patient,
+  "firstName" | "lastName" | "dateOfBirth"
+>[] = [
+  {
+    firstName: "Mickey",
+    lastName: "Mouse",
+    dateOfBirth: makeDate(2009, 2, 23),
+  },
+  {
+    firstName: "Minnie",
+    lastName: "Mouse",
+    dateOfBirth: makeDate(2009, 3, 29),
+  },
+  {
+    firstName: "John",
+    lastName: "Smith",
+    dateOfBirth: makeDate(2000, 1, 1),
+  },
+  {
+    firstName: "Jane",
+    lastName: "Smith",
+    dateOfBirth: makeDate(2000, 1, 1),
+  },
+];
+
+const existing = await prisma.patient.findMany({
+  where: {
+    OR: defaultPatients,
+  },
+});
+
+const newPatients: Prisma.PatientCreateManyInput[] = defaultPatients
+  .filter(
+    (a) =>
+      !existing.some(
+        (b) =>
+          a.firstName == b.firstName &&
+          a.lastName == b.lastName &&
+          a.dateOfBirth.getTime() == b.dateOfBirth.getTime()
+      )
+  )
+  .map((patient) => ({
+    ...patient,
+    nhsNumber: randomInt(1e9, 1e10).toString(),
+    phoneNumber: "+447770160480",
+  }));
+
+let label = `Creating ${newPatients.length} patients`;
+console.time(label);
+await prisma.patient.createMany({ data: newPatients });
+console.timeEnd(label);
+
+const date = makeDate(2023, 6, 16);
+
+label = "Fetching patients";
+console.time(label);
+const patients = await prisma.patient.findMany();
+console.timeEnd(label);
+
+const patientIds = patients.map(({ id }) => id);
 
 for (let i = 0; i < 1; i++) {
+  label = "Creating clinic";
+  console.time(label);
   const clinic = await prisma.clinic.create({ data: randomClinic(date) });
+  console.timeEnd(label);
+
+  label = "Creating appointments";
+  console.time(label);
   await prisma.appointment.createMany({
     data: randomAppointments(clinic.id, patientIds, 40),
   });
+  console.timeEnd(label);
 }
