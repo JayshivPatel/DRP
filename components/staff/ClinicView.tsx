@@ -7,6 +7,7 @@ import {
   Snackbar,
   Text,
   useTheme,
+  Portal
 } from "react-native-paper";
 import {
   Appointment,
@@ -314,23 +315,25 @@ export default function ClinicView(props: {
           {error}
         </Snackbar>
       ))}
-      <Snackbar
-        visible={endOfAppointmentAlert}
-        onDismiss={() => setEndOfAppointmentAlert(false)}
-        theme={theme}
-        style={{ backgroundColor: theme.colors.tertiary }}
-        duration={50000}
-        action={{
-          label: "Dismiss",
-          onPress: () => {
-            setEndOfAppointmentAlert(false);
-          },
-        }}
-      >
+      <Portal>
+        <Snackbar
+          visible={endOfAppointmentAlert}
+          onDismiss={() => setEndOfAppointmentAlert(false)}
+          theme={theme}
+          style={{ backgroundColor: theme.colors.tertiary }}
+          duration={50000}
+          action={{
+            label: "Dismiss",
+            onPress: () => {
+              setEndOfAppointmentAlert(false);
+            },
+          }}
+        >
         <Text style={{ color: theme.colors.onTertiary }}>
           Less than {appointmentEndAlertTime} minutes left for this appointment.
         </Text>
       </Snackbar>
+      </Portal>
     </>
   );
 }
