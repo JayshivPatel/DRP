@@ -7,7 +7,7 @@ import {
   Snackbar,
   Text,
   useTheme,
-  Portal
+  Portal,
 } from "react-native-paper";
 import {
   Appointment,
@@ -329,10 +329,11 @@ export default function ClinicView(props: {
             },
           }}
         >
-        <Text style={{ color: theme.colors.onTertiary }}>
-          Less than {appointmentEndAlertTime} minutes left for this appointment.
-        </Text>
-      </Snackbar>
+          <Text style={{ color: theme.colors.onTertiary }}>
+            Less than {appointmentEndAlertTime} minutes left for this
+            appointment.
+          </Text>
+        </Snackbar>
       </Portal>
     </>
   );
