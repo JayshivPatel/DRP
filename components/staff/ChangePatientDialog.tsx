@@ -59,9 +59,11 @@ export default function ChangePatientDialog(props: {
   });
 
   const canonicalQuery = query.toLocaleLowerCase();
-  const results = data?.filter((patient) =>
-    getPatientFullName(patient).toLocaleLowerCase().includes(canonicalQuery)
-  );
+  const results = data
+    ?.filter((patient) =>
+      getPatientFullName(patient).toLocaleLowerCase().includes(canonicalQuery)
+    )
+    .sort((a, b) => a.nhsNumber.localeCompare(b.nhsNumber));
 
   let content;
   if (error) {
@@ -96,6 +98,7 @@ export default function ChangePatientDialog(props: {
           renderItem={({ item }) => (
             <Result patient={item} onPress={props.onChangePatient} />
           )}
+          style={{ maxHeight: 300 }}
         />
       </>
     );
